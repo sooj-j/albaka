@@ -1,11 +1,26 @@
+
+var user_info; //user information struct => key:  id, pw, name, workplace,img
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[0].classList.add("nav-item-active");
     });
 
+    findUser();
+
     initializeTimeTableHeader();
     initializeTimeTable();
 });
+
+function findUser() {
+    global_params = window.location.href.split('?')[1];
+
+    id = global_params.split('uid=')[1];
+
+    firebase.database().ref("userpool").child(id).once("value", function (snap) {
+        user_info = snap.val();
+    });
+    console.log(user_info);
+}
 
 function initializeTimeTable() {
     console.log("intialize");

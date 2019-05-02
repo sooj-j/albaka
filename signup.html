@@ -13,12 +13,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-
-
     <title>Albaka</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-
 </head>
 
 <body>
@@ -45,30 +41,54 @@
     </nav>
 
     <div class="container container-view ">
-        <div class="textbox" style="border: none">
-            You need to login to use <b>ALBAKA</b> <br />
+        <div class="textbox">
+            <b>SIGN UP FORM</b> <br />
 
-            <table class="login">
-                <tr>
-                    <td><b>Id</b></td>
-                    <td><input type="text" placeholder="Id" id="uid" required></td>
+                           <table class="login">
+                               <tr>
+                                   <td><b>Id</b></td>
+                                   <td><input type="text" placeholder="Id" id="uid" required></td>
 
-                </tr>
-                <tr>
-                    <td><b>Password</b></td>
-                    <td><input type="password" placeholder="Password" id="psw" required></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="button" value="LOGIN" class="btn button" onclick="login()" />
-                        <a class="btn button" href="signup.html">SIGN UP</a>
+                               </tr>
+                               <tr>
+                                   <td><b>Full Name</b></td>
+                                   <td><input type="text" placeholder="Your real name" id="uname" required></td>
 
-                    </td>
-                </tr>
+                               </tr>
+                               <tr>
+                                   <td><b>Password</b></td>
+                                   <td><input type="password" placeholder="Password" id="psw" required></td>
+                               </tr>
+                               <tr>
+                                   <td><b>Face Image</b></td>
+                                   <td><label class="fileSubmit">Select Image<input type="file" id="getimg" accept="image/*" required></label></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2">
+                                       <img id="pre_img" style="height:50px; width: 50px;">
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><b>Work Place</b></td>
+                                   <td><select id="workplace" >
+                                        <option value="">Choose your work place.</option>
+                                        <option value="KAIST Lotteria">KAIST Lotteria</option>
+                                        <option value="KAIST Library">KAIST Library</option>
+                                        <option value="KAIST Swimming Pool">KAIST Swimming Pool</option>
+                                    </select></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2">
+                                       <input type="button" value="SIGNUP" class="btn button" onclick="register()" />
+                                       <a class="btn button" href="index.html">GO BACK TO LOGIN</a>
 
-            </table>
+                                   </td>
+                               </tr>
+
+                           </table>
         </div>
         
+
 
     </div>
     <!-- Optional JavaScript -->
@@ -94,17 +114,22 @@
         firebase.initializeApp(firebaseConfig);
     </script>
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+
+
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-
 
 </body>
 

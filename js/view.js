@@ -18,8 +18,9 @@ function findUser() {
 
     firebase.database().ref("userpool").child(id).once("value", function (snap) {
         user_info = snap.val();
+        console.log(user_info);
     });
-    console.log(user_info);
+   
 }
 
 function initializeTimeTable() {

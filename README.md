@@ -9,15 +9,19 @@ albaka is a weekly scheduling system for part-timers
 
         js
         │
-        ├── constant.js                 timeAxis and day
+        ├── constant.js                 define timeAxis and day array
         ├── login.js                    login and signup functions
-        ├── submit.js                   ?
-        ├── view.js                     ?
+        ├── submit.js                   submit for next week timetable.. tab......
+        ├── view.js                     view this week timetable
         ├── wage.js                     ?
 
         pages
         │
-        ├──
+        ├── page 다 여기에 옮기는게 어떨까욤?.?
+
+        css
+        │
+        ├── submit.css                  submit page 및 js에서 사용하는 css
 
 
         docs
@@ -86,7 +90,7 @@ albaka is a weekly scheduling system for part-timers
                 │       │       ├──  id : test1   
                 │       │       └──  id : test2  
                 │       │   
-                │       └──  timetable  
+                │       └──  timetable  (요부분.. user id랑 같이 넣으려는 건가??)
                 │               │
                 │               ├──  190401_0407
                 │               │       ├──  0 : mon_arr

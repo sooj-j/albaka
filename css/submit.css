@@ -12,7 +12,7 @@
 .tabbox {
   position: fixed;
   width: 75%;
-  margin-top: 109px;
+  margin-top: 60px;
   padding: 6.5px;
   left:16%;
   background-color: var(--tab-border-color);
@@ -20,11 +20,11 @@
 }
 
 .smtable_container {
-    padding-top: 91px;
+    padding-top: 42px;
 }
 
 .smtable_contentcontainer {
-    padding-top: 200px; /* 109*/
+    padding-top: 151px; /* 109*/
 }
 
 /* time table */

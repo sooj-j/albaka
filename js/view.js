@@ -18,9 +18,10 @@ function findUser() {
 
     firebase.database().ref("userpool").child(id).once("value", function (snap) {
         user_info = snap.val();
-        console.log(user_info);
+        console.log("user_info: ")
+        console.log(user_info); //user_info.id
     });
-   
+
 }
 
 function initializeTimeTable() {
@@ -49,7 +50,7 @@ function initializeTimeTable() {
             }
 
             // TODO: firebase의 user 시간표 정보와 대조해서 coloring
-            // TODO: remove dummy data 
+            // TODO: remove dummy data
             if ((3 <= i && i <= 6) && j == 1) {
                 newCell.classList.add("timetable-submit-slot");
             }
@@ -77,3 +78,5 @@ function initializeTimeTableHeader() {
         newCell.innerHTML = dates[i] + "<br/><span class='timetable-header-dates'>" + days[i] + "</span>";
     }
 }
+
+console.log(window.location.href);

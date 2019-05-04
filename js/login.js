@@ -7,7 +7,6 @@ function putuser(user) {
     firebase.database().ref('userpool/').child(user.id).set(user).then(function () {
         window.location = "view.html?" + "uid=" + user.id;
     });
-
 }
 
 function login() {
@@ -25,10 +24,7 @@ function login() {
             alert("No Id exists.");
             window.location = "index.html";
         }
-
     });
-   
-
 }
 
 function register() {
@@ -37,7 +33,6 @@ function register() {
     var pw = $('#psw').val();
     var wp = $('#workplace').val();
     var uimg = $("#pre_img").attr('src');
-
 
     var newuser = {
         "id": id,
@@ -55,13 +50,7 @@ function register() {
             console.log("add new user");
             putuser(newuser);
         }
-
     });
-
-      
-
-    
-
 };
 
 
@@ -78,8 +67,7 @@ function preview() {
         task.then(snap => storageRef.child(id).getDownloadURL())
             .then((url) => {
                 $("#pre_img").attr('src', url);
-            })
-            .catch(console.error);
+            }).catch(console.error);
     }
 };
 
@@ -88,4 +76,3 @@ $(document).ready(function () {
         preview();
     })
 });
-

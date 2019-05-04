@@ -32,33 +32,33 @@ function initializeTimeTable() {
 
     for (var i = 0; i < 2 * numTimeAxis; i++) {
         var newRow = timeTable.insertRow(i + 1);
-        newRow.className = "timetable-row";
+        newRow.className = "smtimetable-row";
         var newCell = newRow.insertCell(0);
 
         if (i % 2 == 0) {
             newCell.innerHTML = timeAxis[i / 2];
-            newCell.className = "timetable-axis-entry";
+            newCell.className = "smtimetable-axis-entry";
         }
 
         for (var j = 0; j < numDayofWeek; j++) {
             newCell = newRow.insertCell(j + 1);
 
             if (i % 2 == 0) {
-                newCell.className = "timetable-hour-entry";
+                newCell.className = "smtimetable-hour-entry";
             } else {
-                newCell.className = "timetable-half-entry";
+                newCell.className = "smtimetable-half-entry";
             }
 
             // TODO: firebase의 user 시간표 정보와 대조해서 coloring
             // TODO: remove dummy data
             if ((3 <= i && i <= 6) && j == 1) { //화 9:30-11:30
-                newCell.classList.add("timetable-submit-slot");
+                newCell.classList.add("smtimetable-submit-slot");
             }
             if ((10 <= i && i <= 15) && j == 4) { //금 13:00-16:00
-                newCell.classList.add("timetable-view-slot");
+                newCell.classList.add("smtimetable-view-slot");
             }
-            if ((10 <= i && i <= 15) && j == 5) {
-                newCell.classList.add("timetable-view-drag-slot");
+            if ((10 <= i && i <= 15) && j == 5) { //토 13:00-16:00
+                newCell.classList.add("smtimetable-view-drag-slot");
             }
         }
     }
@@ -74,8 +74,8 @@ function initializeTimeTableHeader() {
 
     for (var i = 0; i < 7; i++) {
         newCell = newRow.insertCell(i + 1);
-        newCell.className = "timetable-header";
-        newCell.innerHTML = dates[i] + "<br/><span class='timetable-header-dates'>" + days[i] + "</span>";
+        newCell.className = "smtimetable-header";
+        newCell.innerHTML = dates[i] + "<br/><span class='smtimetable-header-dates'>" + days[i] + "</span>";
     }
 }
 

@@ -1,8 +1,92 @@
+/* view page */
 
-.container-view {
-    padding-top: 109px;
+.outbox {
+  width: 100%;
+  text-align: center;
+ }
+.inbox {
+  /* border-style: dashed;
+  display: inline-block; */
+ }
+
+.tabbox {
+  position: fixed;
+  width: 75%;
+  margin-top: 109px;
+  padding: 6.5px;
+  left:16%;
+  background-color: var(--tab-border-color);
+  z-index: 6;
 }
 
-.nextweek_container {
-  
+.smtable_container {
+    padding-top: 91px;
+}
+
+.smtable_contentcontainer {
+    padding-top: 200px; /* 109*/
+}
+
+/* time table */
+.table {
+    table-layout: fixed;
+}
+
+.table thead th {
+    text-align: center;
+    border: none;
+}
+
+.table td {
+    border-top: none;
+    font-size: 11px;
+    padding: 5px;
+}
+
+.smtimetable-header {
+    height: 55px;
+    text-align: center;
+    border-bottom: 2px solid var(--table-border-color);
+    background-color: white;
+    z-index: 5;
+}
+
+.smtimetable-header-dates {
+    font-size: 14px;
+    font-weight: bold; /* bold */
+}
+
+.smtimetable-row {
+    height: 25px;
+}
+
+.smtimetable-axis-entry {
+    text-align: right;
+}
+
+.smtimetable-hour-entry {
+    border-bottom: 1px dashed var(--table-border-color);
+    border-left: 1px solid var(--table-border-color);
+    border-right: 1px solid var(--table-border-color);
+}
+
+.smtimetable-half-entry {
+    border-bottom: 1px solid var(--table-border-color);
+    border-left: 1px solid var(--table-border-color);
+    border-right: 1px solid var(--table-border-color);
+}
+
+.smtimetable-submit-slot {
+    background-color: var(--submit-slot-color);
+    border-bottom: var(--submit-slot-color);
+}
+
+.smtimetable-view-slot {
+    background-color: var(--view-slot-color);
+    border-bottom: var(--view-slot-color);
+}
+
+.smtimetable-view-drag-slot {
+    background-color: var(--view-drag-slot-color);
+    border-bottom: var(--view-drag-slot-color);
 }

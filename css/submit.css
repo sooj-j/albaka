@@ -15,7 +15,8 @@
   margin-top: 60px;
   padding: 6.5px;
   left:16%;
-  background-color: var(--tab-border-color);
+  background-color: var(--table-border-color);
+  border-color: var(--tab-color);
   z-index: 6;
 }
 
@@ -27,66 +28,42 @@
     padding-top: 151px; /* 109*/
 }
 
-/* time table */
-.table {
-    table-layout: fixed;
-}
-
-.table thead th {
+.tabbutton {
+    border: solid 1px;
+    background-color: var(--table-border-color);
+    padding: 2px 10px;
+    color: black;
     text-align: center;
-    border: none;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
-.table td {
-    border-top: none;
-    font-size: 11px;
-    padding: 5px;
+.tabbutton:hover{
+    background-color: var(--tab-slot-color);
+    color: black;
 }
 
-.smtimetable-header {
-    height: 55px;
+.tabsubmitbutton {
+    border: solid 1px;
+    background-color: var(--table-border-color);
+    padding: 2px 10px;
+    color: black;
     text-align: center;
-    border-bottom: 2px solid var(--table-border-color);
-    background-color: white;
-    z-index: 5;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
-.smtimetable-header-dates {
-    font-size: 14px;
-    font-weight: bold; /* bold */
-}
-
-.smtimetable-row {
-    height: 25px;
-}
-
-.smtimetable-axis-entry {
-    text-align: right;
-}
-
-.smtimetable-hour-entry {
-    border-bottom: 1px dashed var(--table-border-color);
-    border-left: 1px solid var(--table-border-color);
-    border-right: 1px solid var(--table-border-color);
-}
-
-.smtimetable-half-entry {
-    border-bottom: 1px solid var(--table-border-color);
-    border-left: 1px solid var(--table-border-color);
-    border-right: 1px solid var(--table-border-color);
-}
-
-.smtimetable-submit-slot {
+.tabsubmitbutton:hover{
     background-color: var(--submit-slot-color);
-    border-bottom: var(--submit-slot-color);
-}
-
-.smtimetable-view-slot {
-    background-color: var(--view-slot-color);
-    border-bottom: var(--view-slot-color);
-}
-
-.smtimetable-view-drag-slot {
-    background-color: var(--view-drag-slot-color);
-    border-bottom: var(--view-drag-slot-color);
+    color: black;
 }

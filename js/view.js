@@ -1,5 +1,6 @@
 
 var user_info; //user information struct => key:  id, pw, name, workplace,img
+var user_id;
 var timeArray;
 var timeTable = document.getElementById('timetable');
 
@@ -9,17 +10,14 @@ $(document).ready(function () {
     });
 
     findUser();
-
     initializeTimeTableHeader();
     initializeTimeTable();
 });
 
 function findUser() {
     global_params = window.location.href.split('?')[1];
-
-    id = global_params.split('uid=')[1];
-
-    firebase.database().ref("userpool").child(id).once("value", function (snap) {
+    user_id = global_params.split('uid=')[1];
+    firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
         user_info = snap.val();
         console.log("user_info: ")
         console.log(user_info); //user_info.id
@@ -72,7 +70,9 @@ function initializeTimeTable() {
 
 function readFromDatabase(){
   var thisweekValue;
-  firebase.database().ref('/userpool/test1/thisweek/').once('value', function(snapshot) {
+  var dbDIR = '/userpool/'+user_id+'/thisweek/';
+  console.log("dbDIR", dbDIR);
+  firebase.database().ref(dbDIR).once('value', function(snapshot) {
     thisweekValue = snapshot.val();
     //timeArray = Array(thisweekValue);
     console.log(thisweekValue);

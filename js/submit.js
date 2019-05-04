@@ -1,5 +1,7 @@
 
 var user_info; //user information struct => key:  id, pw, name, workplace,img
+var tab_id = "tab1";
+
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
@@ -57,7 +59,7 @@ function initializeTimeTable() {
             if ((10 <= i && i <= 15) && j == 4) { //금 13:00-16:00
                 newCell.classList.add("smtimetable-view-slot");
             }
-            if ((10 <= i && i <= 15) && j == 5) { //토 13:00-16:00
+            if ((10 <= i && i <= 15) && j == 5) { //토
                 newCell.classList.add("smtimetable-view-drag-slot");
             }
         }

@@ -1,5 +1,8 @@
 
 var user_info; //user information struct => key:  id, pw, name, workplace,img
+var timeArray;
+var timeTable = document.getElementById('timetable');
+
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[0].classList.add("nav-item-active");
@@ -26,7 +29,7 @@ function findUser() {
 
 function initializeTimeTable() {
     console.log("intialize");
-    var timeTable = document.getElementById('timetable');
+
     var numTimeAxis = timeAxis.length
     var numDayofWeek = 7
 
@@ -50,18 +53,57 @@ function initializeTimeTable() {
             }
 
             // TODO: firebase의 user 시간표 정보와 대조해서 coloring
-            // TODO: remove dummy data
-            if ((3 <= i && i <= 6) && j == 1) {
-                newCell.classList.add("timetable-submit-slot");
-            }
-            if ((10 <= i && i <= 15) && j == 4) {
-                newCell.classList.add("timetable-view-slot");
-            }
-            if ((10 <= i && i <= 15) && j == 5) {
-                newCell.classList.add("timetable-view-drag-slot");
-            }
+            // TODO: remove dummy datareadFromDatabase();
+            // if ((3 <= i && i <= 6) && j == 1) {
+            //     newCell.classList.add("timetable-submit-slot");
+            // }
+            // if ((10 <= i && i <= 15) && j == 4) {
+            //     newCell.classList.add("timetable-view-slot");
+            // }
+            // if ((10 <= i && i <= 15) && j == 5) {
+            //     newCell.classList.add("timetable-view-drag-slot");
+            // }
         }
     }
+    readFromDatabase();
+
+}
+
+
+function readFromDatabase(){
+  var thisweekValue;
+  firebase.database().ref('/userpool/test1/thisweek/').once('value', function(snapshot) {
+    thisweekValue = snapshot.val();
+    //timeArray = Array(thisweekValue);
+    console.log(thisweekValue);
+    if (thisweekValue == null) {
+       console.log("Empty this week");
+    }
+    else{
+      var keyList = Object.keys(thisweekValue);
+      // console.log("keyList: ", keyList);
+      // console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
+      for(var j=0; j<keyList.length; j++) {
+        var myKey = keyList[j];
+        if (thisweekValue[myKey]=="null"){
+          console.log("Empty day: ", myKey);
+        }
+        else {
+          for (var l=0; l<thisweekValue[myKey].length; l++){
+            var start=thisweekValue[myKey][l][0];
+            var end=thisweekValue[myKey][l][1];
+            // console.log("day: ", myKey, ", start: ", start, ", end: ", end);
+            for (var i=start; i<=end; i++){
+              var row = i+1;
+              var day = j+1;
+              //console.log(timeTable.rows[row].cells[day]);
+              timeTable.rows[row].cells[day].classList.add("timetable-view-slot");
+            }
+          }
+        }
+      }
+    }
+  });
 }
 
 function initializeTimeTableHeader() {

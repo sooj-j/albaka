@@ -9,23 +9,167 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/wage.css" />
     <title>Albaka</title>
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="javascript:makeURL('view.html')">ALBAKA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:makeURL('view.html')" >view this week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:makeURL('submit.html')">submit next week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:makeURL('wage.html')">my wage</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script type="text/javascript">
+  var id;
+  $(document).ready(function () {
+    global_params = window.location.href.split('?')[1];
+    id = global_params.split('uid=')[1];
+  });
+  console.log("id: ",id);
+
+  function makeURL(str) {
+      urlseg = str+"?uid="+id;
+      console.log("urlseg: ",urlseg);
+      location.href=urlseg
+  }
+</script>
+
 </head>
 
 <body>
-    <div id="nav-placeholder"></div>
+
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="css/wage.css" />
+<!------ Include the above in your HEAD tag ---------->
+
+ <br>
+      <div class="col-md-12 col-sm-12 well pull-right-lg pt-5" style="border:0px solid">
+          <div class = "row">
+            <div class="col-md-7"></div>
+              <div class = "col-md-3">
+                  <div class = "d-flex justify-content-center"><p>40$/400$ </div>
+              </div>
+            <div class="col-md-2"></div>
+          </div>
+
+      </div>
+
+      <div class="col-md-12 col-sm-12 well pull-right-lg" style="border:0px solid">
+          <div class = "row">
+            <div class="col-md-7"></div>
+              <div class = "col-md-3">
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">10%</div>
+                </div>
+              </div>
+            <div class="col-md-2"></div>
+          </div>
+
+      </div>
+<br>
+
+  <div class="col-md-12 col-sm-12 well pull-right-lg" style="border:0px solid">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="table-responsive col-md-8 border" style="padding:0px;">
+            <table class="table table-style">
+              <tr>
+                <th colspan="8"><p class="text-dark mb-0">MAY-2019</p></th>
+              </tr>
+              <tr>
+                <th ><p class="text-dark mb-0">Mon</p></th>
+                <th ><p class="text-dark mb-0">Tue</p></th>
+                <th ><p class="text-dark mb-0">Wed</p></th>
+                <th ><p class="text-dark mb-0">Thu</p></th>
+                <th ><p class="text-dark mb-0">Fri</p></th>
+                <th ><p class="text-dark mb-0">Sat</p></th>
+                <th ><p class="text-dark mb-0">Sun</p></th>
+                <th ><p class="font-weight-bold small text-dark mb-0">Total Wage</p></th>
+              </tr>
+              <tr style = "height: 80px;">
+                <th ><p class="small text-dark mb-0 align-items-start" ></p> <p class="small text-info mb-3 m-5"> </p></th>
+                <th ><p class="small text-dark mb-0 align-items-start"></p> <p class="small text-info mb-3 m-5"> </p></th>
+                <th ><p class="small text-dark mb-0">1</p> <p class="small text-info m-2" id="m1">$12 </p></th>
+                <th ><p class="small text-dark mb-0">2</p> <p class="small text-info m-2" id="m2"> </p></th>
+                <th ><p class="small text-dark mb-0">3</p> <p class="small text-info m-2" id="m3">$16</p></th>
+                <th ><p class="small text-dark mb-0">4</p> <p class="small text-info m-2" id="m4">$8</p></th>
+                <th ><p class="small text-dark mb-0">5</p> <p class="small text-info m-2" id="m5"> </p></th>
+                <th ><br><p class="text-info small p-0">$40</p></th>
+              </tr>
+              <tr style = "height: 80px;">
+                <th ><p class="small text-dark mb-0">6</p><p class="small text-info m-1" id="m6"> </p></th>
+                <th ><p class="small text-dark mb-0">7</p><p class="small text-info m-1" id="m7"> </p></th>
+                <th ><p class="small text-dark mb-0">8</p><p class="small text-info m-1" id="m8"> </p></th>
+                <th ><p class="small text-dark mb-0">9</p><p class="small text-info m-1" id="m9"> </p></th>
+                <th ><p class="small text-dark mb-0">10</p><p class="small text-info m-1" id="m10"> </p></th>
+                <th ><p class="small text-dark mb-0">11</p><p class="small text-info m-1" id="m11"> </p></th>
+                <th ><p class="small text-dark mb-0">12</p><p class="small text-info m-1" id="m12"> </p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+
+              </tr>
+              <tr style = "height: 80px;">
+                <th ><p class="small text-dark mb-0">13</p><p class="small text-info m-1" id="m13"> </p></th>
+                <th ><p class="small text-dark mb-0">14</p><p class="small text-info m-1" id="m14"> </p></th>
+                <th ><p class="small text-dark mb-0">15</p><p class="small text-info m-1" id="m15"> </p></th>
+                <th ><p class="small text-dark mb-0">16</p><p class="small text-info m-1" id="m16"> </p></th>
+                <th ><p class="small text-dark mb-0">17</p><p class="small text-info m-1" id="m17"> </p></th>
+                <th ><p class="small text-dark mb-0">18</p><p class="small text-info m-1" id="m18"> </p></th>
+                <th ><p class="small text-dark mb-0">19</p><p class="small text-info m-1" id="m19"> </p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+              </tr>
+               <tr style = "height: 80px;">
+                <th ><p class="small text-dark mb-0">20</p><p class="small text-info m-1" id="m20"> </p></th>
+                <th ><p class="small text-dark mb-0">21</p><p class="small text-info m-1" id="m21"> </p></th>
+                <th ><p class="small text-dark mb-0">22</p><p class="small text-info m-1" id="m22"> </p></th>
+                <th ><p class="small text-dark mb-0">23</p><p class="small text-info m-1" id="m23"> </p></th>
+                <th ><p class="small text-dark mb-0">24</p><p class="small text-info m-1" id="m24"> </p></th>
+                <th ><p class="small text-dark mb-0">25</p><p class="small text-info m-1" id="m25"> </p></th>
+                <th ><p class="small text-dark mb-0">26</p><p class="small text-info m-1" id="m26"> </p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+              </tr>
+                <tr style = "height: 80px;">
+                <th ><p class="small text-dark mb-0">27</p><p class="small text-info m-1" id="m27"> </p></th>
+                <th ><p class="small text-dark mb-0">28</p><p class="small text-info m-1" id="m28"> </p></th>
+                <th ><p class="small text-dark mb-0">29</p><p class="small text-info m-1" id="m29"> </p></th>
+                <th ><p class="small text-dark mb-0">30</p><p class="small text-info m-1" id="m30"> </p></th>
+                <th ><p class="small text-dark mb-0">31</p><p class="small text-info m-1" id="m31"> </p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+                <th ><p class="small text-dark mb-0"></p></th>
+              </tr>
+
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+  </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+
 
     <script src="js/wage.js"></script>
 </body>

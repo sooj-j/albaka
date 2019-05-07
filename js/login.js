@@ -39,7 +39,10 @@ function register() {
         "name": name,
         "pw": pw,
         "workplace": wp,
-        "img": uimg
+        "img": uimg,
+        "thisweek": "null",
+        "nextweek": "null",
+
     };
 
     firebase.database().ref("userpool").child(id).once("value", function (snap) {
@@ -67,6 +70,7 @@ function preview() {
         task.then(snap => storageRef.child(id).getDownloadURL())
             .then((url) => {
                 $("#pre_img").attr('src', url);
+                console.log("ready to register");
             }).catch(console.error);
     }
 };

@@ -96,21 +96,25 @@
 .timetable-tab-slot {
     background-color: var(--tab-slot-color);
     border-bottom: var(--tab-slot-color);
+    text-align: center;
 }
 
 .timetable-submit-slot {
     background-color: var(--submit-slot-color);
     border-bottom: var(--submit-slot-color);
+    text-align: center;
 }
 
 .timetable-view-slot {
     background-color: var(--view-slot-color);
     border-bottom: var(--view-slot-color);
+    text-align: center;
 }
 
 .timetable-view-drag-slot {
     background-color: var(--view-drag-slot-color);
     border-bottom: var(--view-drag-slot-color);
+    text-align: center;
 }
 
 /* login */

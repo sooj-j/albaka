@@ -7,11 +7,12 @@ var tab_id = "tab1";
 var cellList = [];
 var dragged = [];
 
+
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
-    tab_id = "tab1";
+    cellList = [];
     findUser();
     initializeTimeTableHeader();
     initializeTimeTable();
@@ -22,8 +23,10 @@ $(function () {
   var isMouseDown = false;
   $(".timetable-entry")
     .mousedown(function () {
+      console.log("mousedown");
       dragged=[]
       isMouseDown = true;
+      console.log(isMouseDown);
       if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
         dragged.push(this);
         console.log("mousedown: ", this); //cell
@@ -45,14 +48,15 @@ $(function () {
   $(document)
     .mouseup(function () {
       isMouseDown = false;
+      console.log("mouseup");
       if (tab_id != "submitted" && dragged.length > 1){
         console.log(dragged);
         for(var i=0;i<dragged.length;i++) {
           $(dragged[i]).toggleClass("timetable-tab-drag-slot");
         }
         pushToDatabase(dragged);
+        initializeTimeTable();
       }
-      dragged = [];
     });
 });
 
@@ -78,7 +82,6 @@ function pushToDatabase(dragged) {
       });
     }
     dragged = [];
-    initializeTimeTable();
   }
 }
 
@@ -127,6 +130,7 @@ function initializeTimeTable() {
     console.log("intialize");
     var numRows = timeTable.rows.length;
     for(var i=0;i<numRows-1;i++) { timeTable.deleteRow(1); }
+    cellList = [];
 
     var numTimeAxis = timeAxis.length;
     var numDayofWeek = 7;
@@ -148,8 +152,10 @@ function initializeTimeTable() {
         for (var j = 0; j < numDayofWeek; j++) {
             newCell = newRow.insertCell(j + 1);
             if (i % 2 == 0) {
-                newCell.className = "timetable-hour-entry";
-                newCell.classList.add("timetable-entry");
+              newCell.className = "timetable-entry";
+              newCell.classList.add("timetable-hour-entry");
+                // newCell.className = "timetable-hour-entry";
+                // newCell.classList.add("timetable-entry");
             } else {
                 newCell.className = "timetable-half-entry";
                 newCell.classList.add("timetable-entry");
@@ -163,7 +169,6 @@ function readFromDatabase(){
   var tabValue;
   var dbDIR = '/userpool/'+user_id+'/nextweek/';
   var colorValue;
-  cellList =[];
   if (tab_id == "submitted"){
     dbDIR = dbDIR + 'submitted/';
     colorValue = "timetable-submit-slot";
@@ -176,7 +181,6 @@ function readFromDatabase(){
   }
   firebase.database().ref(dbDIR).once('value', function(snapshot) {
     tabValue = snapshot.val();
-    console.log(tabValue);
     if (tabValue == null) {
        console.log("Empty this week");
     }
@@ -187,13 +191,13 @@ function readFromDatabase(){
       for(var j=0; j<keyList.length; j++) {
         var myKey = keyList[j];
         var dayblock = [];
-        console.log(tabValue[myKey]);
+        console.log("in readFromDatabase, myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
         if (tabValue[myKey]=="null"){
           console.log("Empty day: ", myKey);
         }
         else {
           for (var l=0; l<tabValue[myKey].length; l++){
-            var cellblock=[]
+            var cellblock = [];
             var start=tabValue[myKey][l][0];
             var end=tabValue[myKey][l][1];
             // console.log("day: ", myKey, ", start: ", start, ", end: ", end);
@@ -214,7 +218,7 @@ function readFromDatabase(){
             if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
           }
         }
-        cellList.push(dayblock);
+        cellList[myKey]=dayblock;
       }
       console.log("cellList: ", cellList);
     }
@@ -238,16 +242,19 @@ function initializeTimeTableHeader() {
 
 function tabsubmit() {
   tab_id = "submitted";
+  cellList = [];
   initializeTimeTable();
 }
 
 function tab1() {
   tab_id = "tab1";
+  cellList = [];
   initializeTimeTable();
 }
 
 function tab2() {
   tab_id = "tab2";
+  cellList = [];
   initializeTimeTable();
 }
 
@@ -263,6 +270,7 @@ function tabAdd() {
       5: "null",
       6: "null"
   });
+  cellList = [];
   initializeTimeTable();
 }
 

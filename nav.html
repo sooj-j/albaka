@@ -1,6 +1,8 @@
+
+
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
     <div class="container">
-        <a class="navbar-brand" href="view.html">ALBAKA</a>
+        <a class="navbar-brand" href="javascript:makeURL('view.html')">ALBAKA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,15 +10,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="view.html">view this week</a>
+                    <a class="nav-link" href="javascript:makeURL('view.html')" >view this week</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="submit.html">submit next week</a>
+                    <a class="nav-link" href="javascript:makeURL('submit.html')">submit next week</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="wage.html">my wage</a>
+                    <a class="nav-link" href="javascript:makeURL('wage.html')">my wage</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script type="text/javascript">
+  var id;
+  $(document).ready(function () {
+    global_params = window.location.href.split('?')[1];
+    id = global_params.split('uid=')[1];
+  });
+  console.log("id: ",id);
+
+  function makeURL(str) {
+      urlseg = str+"?uid="+id;
+      console.log("urlseg: ",urlseg);
+      location.href=urlseg
+  }
+</script>

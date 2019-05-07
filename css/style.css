@@ -1,6 +1,7 @@
 :root {
     --table-border-color: #dee2e6;
-    --tab-slot-color:#BAF0A1;
+    --tab-slot-color:#BEF5A4;
+    --tab-drag-color:#D5F5C6;
     --submit-slot-color:#7BE19A;
     --view-slot-color:#FFA473;
     --view-drag-slot-color:#FF825C;
@@ -96,6 +97,12 @@
 .timetable-tab-slot {
     background-color: var(--tab-slot-color);
     border-bottom: var(--tab-slot-color);
+    text-align: center;
+}
+
+.timetable-tab-drag-slot {
+    background-color: var(--tab-drag-color);
+    border-bottom: var(--tab-drag-color);
     text-align: center;
 }
 

@@ -1,11 +1,9 @@
-
 var user_info; //user information struct => key:  id, pw, name, workplace,img
 var user_id;
 var timeArray;
 var timeTable = document.getElementById('timetable');
 var tab_id = "tab1";
 var cellList = [];
-var dragged = [];
 
 
 $(document).ready(function () {
@@ -21,10 +19,11 @@ $(document).ready(function () {
 
 $(function () {
   var isMouseDown = false;
+  var dragged = [];
   $(".timetable-entry")
     .mousedown(function () {
       console.log("mousedown");
-      dragged=[]
+      dragged=[];
       isMouseDown = true;
       console.log(isMouseDown);
       if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
@@ -55,38 +54,38 @@ $(function () {
           $(dragged[i]).toggleClass("timetable-tab-drag-slot");
         }
         pushToDatabase(dragged);
+        dragged=[];
         initializeTimeTable();
       }
     });
 });
 
-function pushToDatabase(dragged) {
+function pushToDatabase(drag) {
   console.log("pushToDatabase")
-  startCell = dragged[0];
-  endCell = dragged[dragged.length-1];
+  startCell = drag[0];
+  endCell = drag[drag.length-1];
   if (startCell == endCell){
     console.log("1 cell");
   }
   else {
     //day: startCell.cellIndex
     //time: time2Row($(startCell).parent())[0].cells[0].id) ~ time2Row($(endCell).parent())[0].cells[0].id)
-    var day = startCell.cellIndex;
+    var day = startCell.cellIndex-1;
     s_row = time2Row(($(startCell).parent())[0].cells[0].id);
     e_row = time2Row(($(endCell).parent())[0].cells[0].id);
-    pushTocellList(day-1, s_row, e_row, dragged);
-    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+(startCell.cellIndex-1);
-    for(var i=0; i<cellList[day-1].length; i++) {
+    pushTocellList(day, s_row, e_row, drag);
+    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
+    for(var i=0; i<cellList[day].length; i++) {
       firebase.database().ref(dbDIR+'/'+i).set({
-        0: cellList[day-1][i][0],
-        1: cellList[day-1][i][1]
+        0: cellList[day][i][0],
+        1: cellList[day][i][1]
       });
     }
-    dragged = [];
   }
 }
 
-function pushTocellList(day, startRow, endRow, dragged){
-  cellList[day].push([startRow, endRow, dragged]);
+function pushTocellList(day, startRow, endRow, drag){
+  cellList[day].push([startRow, endRow, drag]);
   cellList[day].sort(function (a, b) {
     if (a[0] > b[0]) {return 1;}
     if (a[0] < b[0]) {return -1;}

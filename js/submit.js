@@ -29,6 +29,11 @@ function findUser() {
 
 function initializeTimeTable() {
     console.log("intialize");
+    var numRows = timeTable.rows.length;
+    for(var i=0;i<numRows-1;i++) {
+      timeTable.deleteRow(1);
+    }
+
     var numTimeAxis = timeAxis.length
     var numDayofWeek = 7
 

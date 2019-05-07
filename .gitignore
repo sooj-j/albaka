@@ -1,2 +1,5 @@
-# OSX
-.DS_Store
+
+.vs/albaka/v15/.suo
+.vs/slnx.sqlite
+*.sqlite
+.vs/albaka/v15/.suo

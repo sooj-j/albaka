@@ -12,6 +12,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/view.css" />
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <title>Albaka</title>
@@ -36,9 +37,30 @@
         </table>
     </div>
 
+    <div id="replacement-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">GET REPLACEMENT</h5>
+                <button id="btn-close-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This is modal test
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">SEND ALL REQUESTS</button>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <script src="js/view.js"></script>
     <script src="js/constants.js"></script>
+    <script src="js/common.js"></script>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>

@@ -1,19 +1,115 @@
-
 var user_info; //user information struct => key:  id, pw, name, workplace,img
 var user_id;
 var timeArray;
 var timeTable = document.getElementById('timetable');
-var tab_id="tab1";
+var tab_id = "tab1";
+var cellList = [];
+
 
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
-
+    cellList = [];
     findUser();
     initializeTimeTableHeader();
     initializeTimeTable();
+    //sleep(1);
 });
+
+$(function () {
+  var isMouseDown = false;
+  var dragged = [];
+  $(document).on('mousedown','.timetable-entry',function() {
+  console.log("mousedown");
+    dragged=[];
+    isMouseDown = true;
+    console.log(isMouseDown);
+    if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
+      dragged.push(this);
+      console.log("mousedown: ", this); //cell
+      $(this).toggleClass("timetable-tab-drag-slot");
+      return false; // prevent text selection
+    }
+  });
+
+  $(document).on('mouseover','.timetable-entry',function() {
+    if (isMouseDown) {
+      if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
+        console.log("mouseover: ", this);
+        dragged.push(this);
+        $(this).toggleClass("timetable-tab-drag-slot");
+      }
+    }
+  });
+
+  $(document).on('mouseup','.timetable-entry',function() {
+    isMouseDown = false;
+    console.log("mouseup");
+    if (tab_id != "submitted" && dragged.length > 1){
+      console.log(dragged);
+      for(var i=0;i<dragged.length;i++) {
+        $(dragged[i]).toggleClass("timetable-tab-drag-slot");
+      }
+      pushToDatabase(dragged);
+      dragged=[];
+      initializeTimeTable();
+    }
+  });
+});
+
+function pushToDatabase(drag) {
+  console.log("pushToDatabase")
+  startCell = drag[0];
+  endCell = drag[drag.length-1];
+  if (startCell == endCell){
+    console.log("1 cell");
+  }
+  else {
+    //day: startCell.cellIndex
+    //time: time2Row($(startCell).parent())[0].cells[0].id) ~ time2Row($(endCell).parent())[0].cells[0].id)
+    var day = startCell.cellIndex-1;
+    s_row = time2Row(($(startCell).parent())[0].cells[0].id);
+    e_row = time2Row(($(endCell).parent())[0].cells[0].id);
+    pushTocellList(day, s_row, e_row, drag);
+    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
+    for(var i=0; i<cellList[day].length; i++) {
+      firebase.database().ref(dbDIR+'/'+i).set({
+        0: cellList[day][i][0],
+        1: cellList[day][i][1]
+      });
+    }
+  }
+}
+
+function pushTocellList(day, startRow, endRow, drag){
+  cellList[day].push([startRow, endRow, drag]);
+  cellList[day].sort(function (a, b) {
+    if (a[0] > b[0]) {return 1;}
+    if (a[0] < b[0]) {return -1;}
+    return 0;
+  });
+  console.log(cellList[day]);
+  var newIndex = cellList[day].findIndex(function (a) {
+    return (a[0] == startRow && a[1] == endRow);
+  });
+  if (newIndex != cellList[day].length -1){ //not the last element
+    if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
+      cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
+      cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
+      cellList[day].splice(newIndex+1,1);
+      console.log("merge1 cellList: ", cellList[day]);
+    }
+  }
+  if (newIndex != 0){
+    if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
+      cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
+      cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
+      cellList[day].splice(newIndex,1);
+      console.log("merge2 cellList: ", cellList[day]);
+    }
+  }
+}
 
 function findUser() {
     global_params = window.location.href.split('?')[1];
@@ -29,8 +125,12 @@ function findUser() {
 
 function initializeTimeTable() {
     console.log("intialize");
-    var numTimeAxis = timeAxis.length
-    var numDayofWeek = 7
+    var numRows = timeTable.rows.length;
+    for(var i=0;i<numRows-1;i++) { timeTable.deleteRow(1); }
+    cellList = [];
+
+    var numTimeAxis = timeAxis.length;
+    var numDayofWeek = 7;
 
     for (var i = 0; i < 2 * numTimeAxis; i++) {
         var newRow = timeTable.insertRow(i + 1);
@@ -40,15 +140,22 @@ function initializeTimeTable() {
         if (i % 2 == 0) {
             newCell.innerHTML = timeAxis[i / 2];
             newCell.className = "timetable-axis-entry";
+            newCell.id = timeAxis[i / 2];
+        }
+        else{
+            newCell.id = time30Axis[(i-1) / 2];
         }
 
         for (var j = 0; j < numDayofWeek; j++) {
             newCell = newRow.insertCell(j + 1);
-
             if (i % 2 == 0) {
-                newCell.className = "timetable-hour-entry";
+              newCell.className = "timetable-entry";
+              newCell.classList.add("timetable-hour-entry");
+                // newCell.className = "timetable-hour-entry";
+                // newCell.classList.add("timetable-entry");
             } else {
                 newCell.className = "timetable-half-entry";
+                newCell.classList.add("timetable-entry");
             }
         }
     }
@@ -71,7 +178,6 @@ function readFromDatabase(){
   }
   firebase.database().ref(dbDIR).once('value', function(snapshot) {
     tabValue = snapshot.val();
-    console.log(tabValue);
     if (tabValue == null) {
        console.log("Empty this week");
     }
@@ -81,12 +187,14 @@ function readFromDatabase(){
       //console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
       for(var j=0; j<keyList.length; j++) {
         var myKey = keyList[j];
-        console.log(tabValue[myKey]);
+        var dayblock = [];
+        console.log("in readFromDatabase, myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
         if (tabValue[myKey]=="null"){
           console.log("Empty day: ", myKey);
         }
         else {
           for (var l=0; l<tabValue[myKey].length; l++){
+            var cellblock = [];
             var start=tabValue[myKey][l][0];
             var end=tabValue[myKey][l][1];
             // console.log("day: ", myKey, ", start: ", start, ", end: ", end);
@@ -95,10 +203,21 @@ function readFromDatabase(){
               var day = j+1;
               //console.log(timeTable.rows[row].cells[day]);
               timeTable.rows[row].cells[day].classList.add(colorValue);
+              cellblock.push(timeTable.rows[row].cells[day]);
+              if (i == start){
+                if (start % 2 == 0){s_time = timeAxis[start/2];}
+                else {s_time = time30Axis[(start-1) / 2];}
+                if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
+                else {e_time = time30Axis[end / 2];}
+                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time;
+              }
             }
+            if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
           }
         }
+        cellList[myKey]=dayblock;
       }
+      console.log("cellList: ", cellList);
     }
   });
 }
@@ -109,7 +228,7 @@ function initializeTimeTableHeader() {
     var newCell = newRow.insertCell(0);
 
     // TODO: current dates
-    var dates = ['4/1', '4/2', '4/3', '4/4', '4/5', '4/6', '4/7'];
+    var dates = ['4/8', '4/9', '4/10', '4/11', '4/12', '4/13', '4/14'];
 
     for (var i = 0; i < 7; i++) {
         newCell = newRow.insertCell(i + 1);
@@ -120,16 +239,19 @@ function initializeTimeTableHeader() {
 
 function tabsubmit() {
   tab_id = "submitted";
+  cellList = [];
   initializeTimeTable();
 }
 
 function tab1() {
   tab_id = "tab1";
+  cellList = [];
   initializeTimeTable();
 }
 
 function tab2() {
   tab_id = "tab2";
+  cellList = [];
   initializeTimeTable();
 }
 
@@ -145,6 +267,7 @@ function tabAdd() {
       5: "null",
       6: "null"
   });
+  cellList = [];
   initializeTimeTable();
 }
 

@@ -13,7 +13,8 @@ albaka is a weekly scheduling system for part-timers
         ├── login.js                    login and signup functions
         ├── submit.js                   submit for next week timetable.. tab......
         ├── view.js                     view this week timetable
-        ├── wage.js                     ?
+        ├── wage.js                     @
+        └── common.js                   submit과 view에서 동시에 사용 가능한.... 것들... 말고도...괜츈....
 
         pages
         │
@@ -21,7 +22,9 @@ albaka is a weekly scheduling system for part-timers
 
         css
         │
+        ├── style.css                   기본
         ├── submit.css                  submit page 및 js에서 사용하는 css
+        └── wage.css                    @
 
 
         docs

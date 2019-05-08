@@ -41,6 +41,11 @@ function register() {
         "pw": pw,
         "workplace": wp,
         "img": uimg,
+<<<<<<< HEAD
+=======
+        "thisweek": "null",
+        "nextweek": "null",
+>>>>>>> bd26eeffea09988291f67a85c77e9fd5c95358b3
 
     };
 
@@ -69,6 +74,7 @@ function preview() {
         task.then(snap => storageRef.child(id).getDownloadURL())
             .then((url) => {
                 $("#pre_img").attr('src', url);
+                console.log("ready to register");
             }).catch(console.error);
     }
 };

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 .vs/albaka/v15/.suo
 .vs/slnx.sqlite
@@ -9,3 +10,13 @@
 .DS_Store
 >>>>>>> 1759766dfa143c67823a9c11de379ff99a0ac116
 .vs/albaka/v15/.suo
+=======
+# OSX
+.DS_Store
+
+# Visual studio
+.vs/
+js/.vs/
+
+*.sqlite
+>>>>>>> bd26eeffea09988291f67a85c77e9fd5c95358b3

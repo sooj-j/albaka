@@ -20,44 +20,42 @@ $(document).ready(function () {
 $(function () {
   var isMouseDown = false;
   var dragged = [];
-  $(".timetable-entry")
-    .mousedown(function () {
-      console.log("mousedown");
-      dragged=[];
-      isMouseDown = true;
-      console.log(isMouseDown);
-      if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
+  $(document).on('mousedown','.timetable-entry',function() {
+  console.log("mousedown");
+    dragged=[];
+    isMouseDown = true;
+    console.log(isMouseDown);
+    if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
+      dragged.push(this);
+      console.log("mousedown: ", this); //cell
+      $(this).toggleClass("timetable-tab-drag-slot");
+      return false; // prevent text selection
+    }
+  });
+
+  $(document).on('mouseover','.timetable-entry',function() {
+    if (isMouseDown) {
+      if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
+        console.log("mouseover: ", this);
         dragged.push(this);
-        console.log("mousedown: ", this); //cell
         $(this).toggleClass("timetable-tab-drag-slot");
-        return false; // prevent text selection
       }
+    }
+  });
 
-    })
-    .mouseover(function () {
-      if (isMouseDown) {
-        if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
-          console.log("mouseover: ", this);
-          dragged.push(this);
-          $(this).toggleClass("timetable-tab-drag-slot");
-        }
+  $(document).on('mouseup','.timetable-entry',function() {
+    isMouseDown = false;
+    console.log("mouseup");
+    if (tab_id != "submitted" && dragged.length > 1){
+      console.log(dragged);
+      for(var i=0;i<dragged.length;i++) {
+        $(dragged[i]).toggleClass("timetable-tab-drag-slot");
       }
-    });
-
-  $(document)
-    .mouseup(function () {
-      isMouseDown = false;
-      console.log("mouseup");
-      if (tab_id != "submitted" && dragged.length > 1){
-        console.log(dragged);
-        for(var i=0;i<dragged.length;i++) {
-          $(dragged[i]).toggleClass("timetable-tab-drag-slot");
-        }
-        pushToDatabase(dragged);
-        dragged=[];
-        initializeTimeTable();
-      }
-    });
+      pushToDatabase(dragged);
+      dragged=[];
+      initializeTimeTable();
+    }
+  });
 });
 
 function pushToDatabase(drag) {

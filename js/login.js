@@ -33,6 +33,7 @@ function register() {
     var pw = $('#psw').val();
     var wp = $('#workplace').val();
     var uimg = $("#pre_img").attr('src');
+    
 
     var newuser = {
         "id": id,
@@ -40,8 +41,11 @@ function register() {
         "pw": pw,
         "workplace": wp,
         "img": uimg,
+<<<<<<< HEAD
+=======
         "thisweek": "null",
         "nextweek": "null",
+>>>>>>> bd26eeffea09988291f67a85c77e9fd5c95358b3
 
     };
 

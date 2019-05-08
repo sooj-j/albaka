@@ -13,6 +13,12 @@ $(document).ready(function () {
     findUser();
     initializeTimeTableHeader();
     initializeTimeTable();
+
+    setDraggingSelector();
+
+    $('#btn-close-replacement-modal').click(function() {
+      $("#replacement-modal").css("display", "none");
+    });
 });
 
 function findUser() {
@@ -142,3 +148,46 @@ function initializeTimeTableHeader() {
 }
 
 console.log(window.location.href);
+
+function setDraggingSelector() {
+  var isMouseDown = false;
+  var dragged = [];
+
+  $(document).on('mousedown','.timetable-entry',function() {
+    dragged=[];
+    isMouseDown = true;
+    if (this.classList.contains("timetable-view-slot")){
+      dragged.push(this);
+      $(this).toggleClass("timetable-view-drag-slot");
+      return false; // prevent text selection
+    }
+  });
+
+  $(document).on('mouseover','.timetable-entry',function() {
+    if (isMouseDown) {
+      if (this.classList.contains("timetable-view-slot")){
+        dragged.push(this);
+        $(this).toggleClass("timetable-view-drag-slot");
+      }
+    }
+  });
+
+  $(document).on('mouseup','.timetable-entry',function(e) {
+    isMouseDown = false;
+    if (dragged.length > 1){
+      openReplacementModal(dragged, e.pageX, e.pageY);
+      // initializeTimeTable();
+      // TODO: push to DB
+      dragged=[];
+    }
+  });
+}
+
+/* When user drags the assigned time component, open the modal */
+function openReplacementModal(timeComponent, x, y) {
+  $("#replacement-modal").css({
+    "display": "block",
+    "left": x+"px",
+    "top": y+"px"
+  });
+}

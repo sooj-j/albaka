@@ -33,13 +33,15 @@ function register() {
     var pw = $('#psw').val();
     var wp = $('#workplace').val();
     var uimg = $("#pre_img").attr('src');
+    
 
     var newuser = {
         "id": id,
         "name": name,
         "pw": pw,
         "workplace": wp,
-        "img": uimg
+        "img": uimg,
+
     };
 
     firebase.database().ref("userpool").child(id).once("value", function (snap) {

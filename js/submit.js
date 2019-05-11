@@ -10,11 +10,15 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
-    cellList = [];
     findUser();
+    cellList=[];
+
     initializeTimeTableHeader();
     initializeTimeTable();
-    //sleep(1);
+    //copyDatabase2cellList();
+    //showcellList();
+
+
 });
 
 $(function () {
@@ -46,11 +50,11 @@ $(function () {
   $(document).on('mouseup','.timetable-entry',function() {
     isMouseDown = false;
     console.log("mouseup");
+    for(var i=0;i<dragged.length;i++) {
+      $(dragged[i]).toggleClass("timetable-tab-drag-slot");
+    }
     if (tab_id != "submitted" && dragged.length > 1){
       console.log(dragged);
-      for(var i=0;i<dragged.length;i++) {
-        $(dragged[i]).toggleClass("timetable-tab-drag-slot");
-      }
       pushToDatabase(dragged);
       dragged=[];
       initializeTimeTable();
@@ -71,7 +75,8 @@ function pushToDatabase(drag) {
     var day = startCell.cellIndex-1;
     s_row = time2Row(($(startCell).parent())[0].cells[0].id);
     e_row = time2Row(($(endCell).parent())[0].cells[0].id);
-    pushTocellList(day, s_row, e_row, drag);
+    add2cellList(day, s_row, e_row, drag);
+    //copycellList2Database();
     var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
     for(var i=0; i<cellList[day].length; i++) {
       firebase.database().ref(dbDIR+'/'+i).set({
@@ -81,8 +86,42 @@ function pushToDatabase(drag) {
     }
   }
 }
+function showcellList() {
+  var timeTable = document.getElementById('timetable');
+  console.log("showcellList");
+  var colorValue;
+  if (tab_id == "submitted"){ colorValue = "timetable-submit-slot"; }
+  else{ colorValue = "timetable-tab-slot"; }
 
-function pushTocellList(day, startRow, endRow, drag){
+  if (cellList.length == 0) { console.log("Empty this week"); }
+  else{
+    for(var j=0; j<cellList.length; j++) {
+      if (cellList[j].length == 0){ console.log("Empty day: ", j); }
+      else {
+        for (var l=0; l<cellList[j].length; l++){
+          var start=cellList[j][0];
+          var end=cellList[j][1];
+          for (var i=start; i<=end; i++){
+            var row = i+1;
+            var day = j+1;
+              //console.log(timeTable.rows[row].cells[day]);
+            timeTable.rows[row].cells[day].classList.add(colorValue);
+            if (i == start){
+              if (start % 2 == 0){s_time = timeAxis[start/2];}
+              else {s_time = time30Axis[(start-1) / 2];}
+              if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
+              else {e_time = time30Axis[end / 2];}
+              t_time = (end+1-start)/2;
+              timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function add2cellList(day, startRow, endRow, drag){
   cellList[day].push([startRow, endRow, drag]);
   cellList[day].sort(function (a, b) {
     if (a[0] > b[0]) {return 1;}
@@ -107,6 +146,77 @@ function pushTocellList(day, startRow, endRow, drag){
       cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
       cellList[day].splice(newIndex,1);
       console.log("merge2 cellList: ", cellList[day]);
+    }
+  }
+}
+
+function copyDatabase2cellList(){
+  console.log("start copyDatabase2cellList");
+  cellList = [];
+  var tabValue;
+  var dbDIR = '/userpool/'+user_id+'/nextweek/';
+  if (tab_id == "submitted"){
+    dbDIR = dbDIR + 'submitted/';
+    //colorValue = "timetable-submit-slot";
+    console.log("dbDIR: ", dbDIR);
+  }
+  else{
+    dbDIR = dbDIR + 'tab/'+tab_id+'/';
+    //colorValue = "timetable-tab-slot";
+    console.log("dbDIR: ", dbDIR);
+  }
+  firebase.database().ref(dbDIR).once('value', function(snapshot) {
+    tabValue = snapshot.val();
+    if (tabValue == null) { console.log("Empty this week"); }
+    else{
+      var keyList = Object.keys(tabValue);
+      console.log("keyList: ", keyList);
+      //console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
+      for(var j=0; j<keyList.length; j++) {
+        var myKey = keyList[j];
+        var dayblock = [];
+        console.log("myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
+        if (tabValue[myKey] == "null" || tabValue[myKey][0] == "null"){ console.log("Empty day: ", myKey); }
+        else {
+          for (var l=0; l<tabValue[myKey].length; l++){
+            var cellblock = [];
+            var start=tabValue[myKey][l][0];
+            var end=tabValue[myKey][l][1];
+            for (var i=start; i<=end; i++){
+              cellblock.push(timeTable.rows[i+1].cells[j+1]);
+            }
+            if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
+          }
+        }
+        cellList[myKey]=dayblock;
+      }
+      console.log("cellList: ", cellList);
+    }
+    console.log("end copyDatabase2cellList");
+    showcellList();
+  });
+  //showcellList();
+  return cellList;
+}
+
+function copycellList2Database(){
+  console.log("start copycellList2Database");
+  for(var i=0; i<cellList.length; i++){
+    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+    if (cellList[i].length == 0){
+      console.log("empty day");
+      firebase.database().ref(dbDIR).update({
+          0: "null"
+        });
+    }
+    else{
+      var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+      for(var j=0; j<cellList[i].length; j++) {
+        firebase.database().ref(dbDIR+'/'+j).set({
+          0: cellList[i][j][0],
+          1: cellList[i][j][1]
+        });
+      }
     }
   }
 }
@@ -159,7 +269,43 @@ function initializeTimeTable() {
             }
         }
     }
+    //showcellList();
     readFromDatabase();
+}
+
+function deleteBlock(t){
+  console.log("deleteBlock: ",t);
+  console.log($(t).parent()[0]); // start cell
+  var newDay = -1;
+  var newIndex = -1;
+  for(var i=0; i<cellList.length; i++) {
+    for(var j=0; j<cellList[i].length; j++) {
+      if(cellList[i][j][2][0] == $(t).parent()[0]){
+        newDay = i;
+        newIndex = j;
+        console.log(cellList[i][j]);
+      }
+    }
+  }
+  cellList[newDay].splice(newIndex,1);
+  //copycellList2Database();
+  var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+newDay;
+  if (cellList[newDay].length == 0){
+    console.log("empty day");
+    firebase.database().ref(dbDIR).update({
+        0: "null"
+      });
+  }
+  else{
+    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+newDay;
+    for(var i=0; i<cellList[newDay].length; i++) {
+      firebase.database().ref(dbDIR+'/'+i).set({
+        0: cellList[newDay][i][0],
+        1: cellList[newDay][i][1]
+      });
+    }
+  }
+  initializeTimeTable();
 }
 
 function readFromDatabase(){
@@ -209,7 +355,8 @@ function readFromDatabase(){
                 else {s_time = time30Axis[(start-1) / 2];}
                 if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
                 else {e_time = time30Axis[end / 2];}
-                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time;
+                t_time = (end+1-start)/2;
+                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
               }
             }
             if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
@@ -238,24 +385,28 @@ function initializeTimeTableHeader() {
 }
 
 function tabsubmit() {
+  copycellList2Database();
   tab_id = "submitted";
-  cellList = [];
+  //copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tab1() {
+  copycellList2Database();
   tab_id = "tab1";
-  cellList = [];
+  //copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tab2() {
+  copycellList2Database();
   tab_id = "tab2";
-  cellList = [];
+  // copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tabAdd() {
+  copycellList2Database();
   tab_id = "tab3";
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
   firebase.database().ref(dbDIR).set({
@@ -267,8 +418,34 @@ function tabAdd() {
       5: "null",
       6: "null"
   });
-  cellList = [];
+  //cellList = [];
+  copyDatabase2cellList();
   initializeTimeTable();
+}
+
+function submit() {
+  var dbDIR = '/userpool/'+user_id+'/nextweek/submitted/';
+  console.log("Init submit");
+  for(var i=0; i<cellList.length; i++){
+    console.log(cellList[i]);
+    if (cellList[i].length == 0){
+      console.log("empty day");
+      firebase.database().ref(dbDIR+i).set({
+          0: "null"
+        });
+    }
+    else{
+      for(var j=0; j<cellList[i].length; j++) {
+        console.log("i: ",i,", j: ",j);
+        firebase.database().ref(dbDIR+i+'/'+j+'/').set({
+          0: cellList[i][j][0],
+          1: cellList[i][j][1]
+        });
+      }
+    }
+  }
+  alert("Submit Completed!");
+
 }
 
 console.log(window.location.href);

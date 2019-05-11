@@ -47,6 +47,13 @@
     background-color: var(--tab-slot-color);
     color: black;
 }
+.tabbutton:active{
+    background-color: var(--tab-slot-color);
+    color: black;
+}
+
+.fa-times {cursor: pointer;}
+
 
 .tabsubmitbutton {
     border: solid 1px;
@@ -65,5 +72,26 @@
 
 .tabsubmitbutton:hover{
     background-color: var(--submit-slot-color);
+    color: black;
+}
+
+.submitbutton {
+    border: solid 1px;
+    /* border-color:var(--warning-color); */
+    background-color: #FFFFFF;
+    padding: 2px 10px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+.submitbutton:hover{
+    background-color: var(--view-drag-slot-color);
     color: black;
 }

@@ -1,8 +1,98 @@
 /* modal */
 .modal-dialog {
     margin: 0;
+    width: 300px;
+}
+
+.modal-header .close {
+    margin: -1rem;
+}
+
+.modal-title {
+    margin: auto;
+    font-size: 1rem;
+}
+
+.modal-body {
+    padding: 0;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.modal-body-element {
+    margin-top: 0.5em;
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+
+    line-height: 34px;
+    height: 34px;
+}
+
+.modal-body-description {
+    margin-top: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 12px;
+
+    line-height: 20px;
+}
+
+.btn-request-status-yet {
+    color: black;
+    background-color: lightgray;
+    border: none;
+}
+
+.btn-request-status-wait {
+    color: white;
+    background-color: gray;
+    border: none;
+}
+
+.btn-request-status-reject {
+    color: white;
+    background-color: red;
+    border: none;
+}
+
+.modal-body-element button {
+    float: right;
+}
+
+.modal-footer {
+    justify-content: center;
 }
 
 .btn {
     font-size: 12px;
 }
+
+.custom-select {
+    font-size: 12px;
+}
+
+.reward-modal-content {
+    background: lightgrey;
+}
+
+#overlay {
+    position:fixed;
+    left:0;
+    top:0;
+    width:100vw;
+    height:100vh;
+    display:none;
+    background-color:#000;
+    opacity:0.5;
+  }
+
+  .accept-modal-dialog {
+      margin: auto;
+  }
+
+  .accept-modal-content {
+      background: lightgoldenrodyellow;
+  }
+
+  .fa-reward {
+      color: red;
+  }

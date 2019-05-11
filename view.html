@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/view.css" />
@@ -37,6 +41,9 @@
         </table>
     </div>
 
+    <div id="overlay"></div>
+
+    <!-- Replacement modal -->
     <div id="replacement-modal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -54,9 +61,105 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">SEND ALL REQUESTS</button>
                 </div>
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-sync-alt"></i> GET REPLACEMENT</h5>
+                <button id="btn-close-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-element">
+                    <i class="fas fa-user-circle"></i> Jang Sujin
+                    <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+                    <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-coffee"></i> </button>
+                </div>
+                <div class="modal-body-element">
+                    <i class="fas fa-user-circle"></i> Kim Juho
+                    <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+                    <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-drumstick-bite"></i> </button>
+                </div>
+                <div class="modal-body-element">
+                    <i class="fas fa-user-circle"></i> Kim Dayeon
+                    <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+                    <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-beer"></i> </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">SEND all requests</button>
+            </div>
             </div>
         </div>
     </div>
+
+     <!-- Reward modal -->
+     <div id="reward-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="reward-modal-content modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-gift"></i> SEND REWARD</h5>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-description">
+                    All users rejected your replacement request.
+                    Do you want to send request again with the reward?
+                </div>
+                <div class="modal-body-element">
+                    <select id="select-reward" class="custom-select">
+                        <option value="none" selected>select the reward</option>
+                        <option value="coffee">coffee (1)</option>
+                        <option value="beer">beer (1)</option>
+                        <option value="chicken">chicken (1)</option>
+                        <option value="meal">meal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-send-reward" type="button" class="btn btn-secondary" data-dismiss="modal" disabled>send</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accept modal -->
+    <div class="modal" id="accept-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered accept-modal-dialog" role="document">
+          <div class="accept-modal-content modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Congraturations!</h5>
+              <button id="btn-close-accept-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div id="accept-modal-description" class="modal-body-description"></div>
+>>>>>>> dbaaa1259379df2f55fad811060574a0fb61ac52
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Recieve replacement modal -->
+    <div id="receive-replacement-modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-sync-alt"></i> RECEIVE REPLACEMENT</h5>
+                    <button id="btn-close-receive-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-element">
+                        description
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
+                    <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>
+                </div>
+                </div>
+            </div>
+        </div>
 
     <script src="js/view.js"></script>
     <script src="js/constants.js"></script>

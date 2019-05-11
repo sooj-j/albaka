@@ -58,29 +58,41 @@ albaka is a weekly scheduling system for part-timers
         │       │       │       └──  6 : sun_arr
         │       │       │       
         │       │       └──  nextweek
-        │       │               │
-        │       │               ├──  submitted
-        │       │               │       ├──  0 : mon_arr
-        │       │               │       ├──  1 : tue_arr
-        │       │               │       ├──  2 : wed_arr
-        │       │               │       ├──  3 : thu_arr
-        │       │               │       ├──  4 : fri_arr
-        │       │               │       ├──  5 : sat_arr
-        │       │               │       └──  6 : sun_arr
-        │       │               │
-        │       │               └──  tab
-        │       │                       ├──  tab1
-        │       │                       │      ├──  0 : mon_arr
-        │       │                       │      ├──  1 : tue_arr
-        │       │                       │      ├──  2 : wed_arr
-        │       │                       │      ├──  3 : thu_arr
-        │       │                       │      ├──  4 : fri_arr
-        │       │                       │      ├──  5 : sat_arr
-        │       │                       │      └──  6 : sun_arr
-        │       │                       ├──  tab2
-        │       │                       └──  tab3
-        │       │                   
-        │       │
+        │       │       │       │
+        │       │       │       ├──  submitted
+        │       │       │       │       ├──  0 : mon_arr
+        │       │       │       │       ├──  1 : tue_arr
+        │       │       │       │       ├──  2 : wed_arr
+        │       │       │       │       ├──  3 : thu_arr
+        │       │       │       │       ├──  4 : fri_arr
+        │       │       │       │       ├──  5 : sat_arr
+        │       │       │       │       └──  6 : sun_arr
+        │       │       │       │
+        │       │       │       └──  tab
+        │       │       │               ├──  tab1
+        │       │       │               │      ├──  0 : mon_arr
+        │       │       │               │      ├──  1 : tue_arr
+        │       │       │               │      ├──  2 : wed_arr
+        │       │       │               │      ├──  3 : thu_arr
+        │       │       │               │      ├──  4 : fri_arr
+        │       │       │               │      ├──  5 : sat_arr
+        │       │       │               │      └──  6 : sun_arr
+        │       │       │               ├──  tab2
+        │       │       │               └──  tab3
+        │       │       │
+        │       │       └──  request (request sent)
+        │       │                       ├──  0
+        │       │                       │    └──  -LeZMr5akx23bdV0aLYH (random key)
+        │       │                       │               ├── [10, 20]
+        │       │                       │               └── status: status_arr
+        │       │                       ├──  1
+        │       │                       ├──  2
+        │       │                       ├──  3
+        │       │                       ├──  4
+        │       │                       ├──  5
+        │       │                       ├──  6
+        │       │                       └──  7
+        │       │                       
         │       ├── test2 (id)
         │       └── ...
         │       

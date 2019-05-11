@@ -80,18 +80,17 @@ albaka is a weekly scheduling system for part-timers
         │       │       │               ├──  tab2
         │       │       │               └──  tab3
         │       │       │
-        │       │       └──  request (request sent)
-        │       │                       ├──  0
-        │       │                       │    └──  -LeZMr5akx23bdV0aLYH (random key)
-        │       │                       │               ├── [10, 20]
-        │       │                       │               └── status: status_arr
-        │       │                       ├──  1
-        │       │                       ├──  2
-        │       │                       ├──  3
-        │       │                       ├──  4
-        │       │                       ├──  5
-        │       │                       ├──  6
-        │       │                       └──  7
+        │       │       └──  requestSent
+        │       │               ├──  0
+        │       │               │    └──  -LeZMr5akx23bdV0aLYH (random key)
+        │       │               │               ├── [10, 20]
+        │       │               │               └── status: status_arr
+        │       │               ├──  1
+        │       │               ├──  2
+        │       │               ├──  3
+        │       │               ├──  4
+        │       │               ├──  5
+        │       │               └──  6
         │       │                       
         │       ├── test2 (id)
         │       └── ...

@@ -89,7 +89,7 @@ $(document).ready(function () {
       }
 
 
-      var dbDIR = '/userpool/'+user_id+'/request/'+currentRequestDay+'/'+currentRequestKey;
+      var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestDay+'/'+currentRequestKey;
       firebase.database().ref(dbDIR).once('value', function(snapshot) {
         requestValue = snapshot.val();
         message = "Dayeon accepted the replacement on <br/><strong>"+days[currentRequestDay]+" "+getTimeBar(requestValue[0], requestValue[1])+"</strong>"
@@ -224,7 +224,7 @@ function readThisweekFromDatabase(){
 /* TODO: merge with readThisweekFromDatabase */
 function readRequestFromDatabase(){
   var requestValue;
-  var dbDIR = '/userpool/'+user_id+'/request/';
+  var dbDIR = '/userpool/'+user_id+'/requestSent/';
   requestCellList =[[], [], [], [], [], [], []];
 
   firebase.database().ref(dbDIR).once('value', function(snapshot) {
@@ -398,7 +398,7 @@ function pushRequestToDatabase(drag, status) {
   /* TODO: drag upward */
   requestCellList[day].push([s_row, e_row, drag]);
 
-  var dbDIR = '/userpool/'+user_id+'/request/'+day;
+  var dbDIR = '/userpool/'+user_id+'/requestSent/'+day;
   var requestData = {
     0: s_row,
     1: e_row,
@@ -415,7 +415,7 @@ function pushRequestToDatabase(drag, status) {
 function deleteRequest(){
   var day = currentRequestDay;
   var key = currentRequestKey;
-  var requestdbDIR = '/userpool/'+user_id+'/request/'+day+'/'+key;
+  var requestdbDIR = '/userpool/'+user_id+'/requestSent/'+day+'/'+key;
   var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+day;
 
   firebase.database().ref(requestdbDIR).once("value", function (snap) {

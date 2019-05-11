@@ -83,8 +83,9 @@ albaka is a weekly scheduling system for part-timers
         │       │       ├──  requestSent
         │       │       │       ├──  0
         │       │       │       │    └──  -LeZMr5akx23bdV0aLYH (random key)
-        │       │       │       │               ├── [10, 20]
-        │       │       │       │               └── status: status_arr
+        │       │       │       │               ├── 0 (start row) : 10
+        │       │       │       │               ├── 1 (end row) : 20
+        │       │       │       │               └── status : ['wait', 'wait', 'wait']
         │       │       │       ├──  1
         │       │       │       ├──  2
         │       │       │       ├──  3
@@ -95,9 +96,10 @@ albaka is a weekly scheduling system for part-timers
         │       │       └──  requestReceived
         │       │               ├──  0
         │       │               │    └──  -LeZMr5akx23bdV0aLYH (random key)
-        │       │               │               ├── [10, 20]
-        │       │               │               ├── reward: 'beer'
-        │       │               │               └── sender: 'Juho Kim'
+        │       │               │               ├── 0 (start row) : 10
+        │       │               │               ├── 1 (end row) : 20
+        │       │               │               ├── reward : 'beer'
+        │       │               │               └── sender : 'Juho Kim'
         │       │               ├──  1
         │       │               ├──  2
         │       │               ├──  3

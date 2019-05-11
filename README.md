@@ -57,7 +57,7 @@ albaka is a weekly scheduling system for part-timers
         │       │       │       ├──  5 : sat_arr
         │       │       │       └──  6 : sun_arr
         │       │       │       
-        │       │       └──  nextweek
+        │       │       ├──  nextweek
         │       │       │       │
         │       │       │       ├──  submitted
         │       │       │       │       ├──  0 : mon_arr
@@ -80,11 +80,24 @@ albaka is a weekly scheduling system for part-timers
         │       │       │               ├──  tab2
         │       │       │               └──  tab3
         │       │       │
-        │       │       └──  requestSent
+        │       │       ├──  requestSent
+        │       │       │       ├──  0
+        │       │       │       │    └──  -LeZMr5akx23bdV0aLYH (random key)
+        │       │       │       │               ├── [10, 20]
+        │       │       │       │               └── status: status_arr
+        │       │       │       ├──  1
+        │       │       │       ├──  2
+        │       │       │       ├──  3
+        │       │       │       ├──  4
+        │       │       │       ├──  5
+        │       │       │       └──  6
+        │       │       │
+        │       │       └──  requestReceived
         │       │               ├──  0
         │       │               │    └──  -LeZMr5akx23bdV0aLYH (random key)
         │       │               │               ├── [10, 20]
-        │       │               │               └── status: status_arr
+        │       │               │               ├── reward: 'beer'
+        │       │               │               └── sender: 'Juho Kim'
         │       │               ├──  1
         │       │               ├──  2
         │       │               ├──  3

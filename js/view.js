@@ -5,7 +5,8 @@ var timeArray;
 var timeTable = document.getElementById('timetable');
 var cellList =[];
 
-var requestCellList = [];
+var requestSentCellList = [];
+var requestReceivedCellList = [];
 var dragged = [];
 var timers = [];
 
@@ -14,6 +15,13 @@ var currentRequestKey = null;
 
 const modalWidth = 300
 const modalHeight = 265
+
+const rewardToIconHTML = {
+  'coffee': ' <i class="fas fa-coffee"></i>',
+  'beer': ' <i class="fas fa-beer"></i>',
+  'chicken': ' <i class="fas fa-drumstick-bite"></i>',
+  'meal': ' <i class="fas fa-concierge-bell"></i>'
+}
 
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
@@ -41,6 +49,11 @@ $(document).ready(function () {
     $('#btn-close-accept-modal').click(function() {
       $("#accept-modal").css("display", "none");
     });
+
+    $('#btn-close-receive-replacement-modal').click(function() {
+      $("#overlay").css("display", "none");
+      $("#receive-replacement-modal").css("display", "none");
+    })
 
     /* click replacement modal send all requests button */
     $("#btn-send-all-requests").click(function() {
@@ -160,7 +173,8 @@ function initializeTimeTable() {
         }
     }
     readThisweekFromDatabase();
-    readRequestFromDatabase();
+    readRequestSentFromDatabase();
+    readRequestReceivedFromDatabase();
 }
 
 function readThisweekFromDatabase(){
@@ -222,10 +236,18 @@ function readThisweekFromDatabase(){
 }
 
 /* TODO: merge with readThisweekFromDatabase */
-function readRequestFromDatabase(){
+
+function readRequestSentFromDatabase(){
+  readFromDatabase(requestSentCellList, '/userpool/'+user_id+'/requestSent/', "timetable-view-drag-slot")
+}
+
+function readRequestReceivedFromDatabase(){
+  readFromDatabase(requestReceivedCellList, '/userpool/'+user_id+'/requestReceived/', "timetable-view-request-received-slot", true)
+}
+
+function readFromDatabase(storeCellList, dbDIR, className, isRequestReceived) {
   var requestValue;
-  var dbDIR = '/userpool/'+user_id+'/requestSent/';
-  requestCellList =[[], [], [], [], [], [], []];
+  storeCellList =[[], [], [], [], [], [], []];
 
   firebase.database().ref(dbDIR).once('value', function(snapshot) {
     requestValue = snapshot.val();
@@ -250,14 +272,17 @@ function readRequestFromDatabase(){
         for (var i = start; i <= end; i ++){
           var row = i+1;
           var day = Number(dayKey) + 1;
-          timeTable.rows[row].cells[day].classList.add("timetable-view-drag-slot");
+          timeTable.rows[row].cells[day].classList.add(className);
           cellblock.push(timeTable.rows[row].cells[day]);
           if (i == start){
             timeTable.rows[row].cells[day].innerHTML = getTimeBar(start, end);
+            if (isRequestReceived) {
+              timeTable.rows[row].cells[day].innerHTML += rewardToIconHTML[requestComponent['reward']];
+            }
           }
         }
         if (cellblock.length >= 1) {
-          requestCellList[String(dayKey)].push(cellblock);
+          storeCellList[String(dayKey)].push(cellblock);
         }
       })
     })
@@ -302,7 +327,9 @@ function setDraggingSelector() {
     dragged=[];
     isMouseDown = true;
 
-    if (this.classList.contains("timetable-view-drag-slot")) {
+    if (this.classList.contains("timetable-view-request-received-slot")) {
+      openReceiveReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
+    } else if (this.classList.contains("timetable-view-drag-slot")) {
       openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
     } else if (this.classList.contains("timetable-view-slot")){
       dragged.push(this);
@@ -331,6 +358,25 @@ function setDraggingSelector() {
   });
 }
 
+function openReceiveReplacementModal(x, y) {
+  $("#overlay").css({"display":"block"});
+
+  if (y > $(window).height() - modalHeight) {
+    y = $(window).height() - modalHeight;
+  }
+
+  if (x > $(window).width() - modalWidth) {
+    x = $(window).width() - modalWidth;
+  }
+
+  $("#receive-replacement-modal").css({
+    "display": "block",
+    "left": x+"px",
+    "top": y+"px"
+  });
+}
+
+// TODO: remove timeComponent param
 function openReplacementModal(timeComponent, x, y) {
   $("#btn-send-all-requests").html('SEND all requests');
 
@@ -396,7 +442,7 @@ function pushRequestToDatabase(drag, status) {
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
   /* TODO: drag upward */
-  requestCellList[day].push([s_row, e_row, drag]);
+  requestSentCellList[day].push([s_row, e_row, drag]);
 
   var dbDIR = '/userpool/'+user_id+'/requestSent/'+day;
   var requestData = {

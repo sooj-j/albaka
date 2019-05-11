@@ -5,6 +5,7 @@
     --submit-slot-color:#7BE19A;
     --view-slot-color:#FFA473;
     --view-drag-slot-color:#FF825C;
+    --view-request-received-slot-color:#7B8FE0;
     --warning-color:#FF2601;
     /* --tab-color:#FFF396;
     --tab-color-hover:#FFEE47; */
@@ -122,6 +123,12 @@
 .timetable-view-drag-slot {
     background-color: var(--view-drag-slot-color);
     border-bottom: var(--view-drag-slot-color);
+    text-align: center;
+}
+
+.timetable-view-request-received-slot {
+    background-color: var(--view-request-received-slot-color);
+    border-bottom: var(--view-request-received-slot-color);
     text-align: center;
 }
 

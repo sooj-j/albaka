@@ -23,17 +23,11 @@
     text-align: center;
 }
 
-.inbox {
-    /* border-style: dashed;
-  display: inline-block; */
-}
-
 .tabbox {
     position: fixed;
-    width: 75%;
+    width: 960px;
     margin-top: 45px;
     padding: 6.5px;
-    left: 100px;
     background-color: var(--table-border-color);
     border-color: var(--tab-color);
     z-index: 6;

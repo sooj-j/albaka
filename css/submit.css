@@ -1,24 +1,8 @@
 /* view page */
 
-.outbox {
-  width: 100%;
-  text-align: center;
- }
-.inbox {
-  /* border-style: dashed;
-  display: inline-block; */
- }
 
-.tabbox {
-  position: fixed;
-  width: 75%;
-  margin-top: 45px;
-  padding: 6.5px;
-  left:16%;
-  background-color: var(--table-border-color);
-  border-color: var(--tab-color);
-  z-index: 6;
-}
+
+
 
 .smtable_container {
     padding-top: 42px;

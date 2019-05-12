@@ -91,6 +91,10 @@ var may_sum;
 $(document).ready(function(){
     $("#set-zone").hide();
 
+    $("#nav-placeholder").load("nav.html", function () {
+        $(".nav-item")[2].classList.add("nav-item-active");
+    });
+
     database.ref('userpool/test1/wage/may/').once('value').then(function(snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];

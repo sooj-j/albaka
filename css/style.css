@@ -18,8 +18,26 @@
 }
 
 /* common */
+.outbox {
+    width: 100%;
+    text-align: center;
+}
 
+.inbox {
+    /* border-style: dashed;
+  display: inline-block; */
+}
 
+.tabbox {
+    position: fixed;
+    width: 75%;
+    margin-top: 45px;
+    padding: 6.5px;
+    left: 100px;
+    background-color: var(--table-border-color);
+    border-color: var(--tab-color);
+    z-index: 6;
+}
 .fixed-top {
     height: 45px;
 }
@@ -37,7 +55,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 410px;
+    left: 385px; 
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -60,7 +78,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 455px;
+    left: 430px;
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -178,6 +196,7 @@ ul.visible {
 }
 .container {
     font-family: 'Open Sans', sans-serif;
+    margin-left:100px !important;
 }
 .textbox {
     font-family: 'Open Sans', sans-serif;
@@ -197,7 +216,7 @@ ul.visible {
 
 .table {
     table-layout: fixed;
-    width: 800px;
+    width: 960px;
 }
 
 .table thead th {
@@ -251,7 +270,7 @@ ul.visible {
 }
 
 .timetable-tab-drag-slot {
-    background-color: var(--tab-drag-color);
+    background-color: var(--tab-drag-color) !important;
     border-bottom: var(--tab-drag-color);
     text-align: center;
 }

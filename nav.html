@@ -76,11 +76,13 @@
 
     $(document).ready(function () {
         var left1 = $(".navbar-brand").offset().left;
-        $(".navbar-nav").css("left", left1 + 460);
+        $(".navbar-nav").css("left", left1 + 610);
         var right = $("#inbox_icon").offset().left;
         var width = $(window).width();
-        $("#inbox").css("right", width - right - 340);
+        $("#inbox").css("right", width - right-340);
         $("#reward").css("right", width - right - 340);
+        $("#reward_count").css("right", width - right - 320);
+        $("#inbox_count").css("right", width - right - 320);
     });
 
     $("#inbox_menu").click(function () {

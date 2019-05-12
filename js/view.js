@@ -32,6 +32,11 @@ const rewardToIconHTML = {
   'meal': ' <i class="fas fa-concierge-bell"></i>'
 }
 
+const btnReplacementModalHTML = {
+  send: 'SEND all requests',
+  cancel: 'CANCEL all requests'
+}
+
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
 const requestInterval = 2000
 
@@ -52,13 +57,8 @@ $(document).ready(function () {
 
     /* click replacement modal close button */
     $('#btn-close-replacement-modal').click(function() {
-      $("#overlay").css("display", "none");
-      $("#replacement-modal").css("display", "none");
-      $("#reward-modal").css("display", "none");
-      
-      timers.forEach((timer) => {
-        clearTimeout(timer);
-      });
+      closeReplacementModal();
+      initializeTimeTable();
     });
 
     /* click accept modal close button */
@@ -72,10 +72,19 @@ $(document).ready(function () {
 
     /* click replacement modal send all requests button */
     $("#btn-send-all-requests").click(function() {
+      if ($(this).html() === btnReplacementModalHTML.cancel) {
+        var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestSentDay+'/'+currentRequestSentKey;
+        console.log('dbDIR', dbDIR);
+        firebase.database().ref(dbDIR).remove();
+        closeReplacementModal();
+        initializeTimeTable();
+        return;
+      }
+
       timers = [];
 
       pushRequestToDatabase();
-      $("#btn-send-all-requests").html('CANCEL all requests');
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.cancel);
 
       var requestStatus = $(".btn-request-status-yet")
 
@@ -149,6 +158,16 @@ $(document).ready(function () {
 function closeReceiveReplacementModal() {
   $("#overlay").css("display", "none");
   $("#receive-replacement-modal").css("display", "none");
+}
+
+function closeReplacementModal() {
+  $("#overlay").css("display", "none");
+  $("#replacement-modal").css("display", "none");
+  $("#reward-modal").css("display", "none");
+  
+  timers.forEach((timer) => {
+    clearTimeout(timer);
+  });
 }
 
 /* if user reject the replacement request, then pend in inbox */
@@ -619,14 +638,14 @@ function openReplacementModal(x, y) {
     }
 
     if (!statusList) {
-      $("#btn-send-all-requests").html('SEND all requests');
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.send);
 
       for (var i = 0; i < requestStatus.length; i++) {
         requestStatus[i].classList.add("btn-request-status-yet");
         requestStatus[i].innerHTML = "not requested yet";
       }
     } else {
-      $("#btn-send-all-requests").html('CANCEL all requests');
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.cancel);
 
       var countWait = 0;
 

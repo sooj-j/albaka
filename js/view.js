@@ -25,11 +25,12 @@ const receiveReplacementModalHeight = 200
 
 const statusDefault = ['wait', 'wait', 'wait'];
 
+const rewardList = ['coffee', 'beer', 'chicken', 'meal']
 const rewardToIconHTML = {
-  'coffee': ' <i class="fas fa-coffee"></i>',
-  'beer': ' <i class="fas fa-beer"></i>',
-  'chicken': ' <i class="fas fa-drumstick-bite"></i>',
-  'meal': ' <i class="fas fa-concierge-bell"></i>'
+  coffee: ' <i class="fas fa-coffee"></i>',
+  beer: ' <i class="fas fa-beer"></i>',
+  chicken: ' <i class="fas fa-drumstick-bite"></i>',
+  meal: ' <i class="fas fa-concierge-bell"></i>'
 }
 
 const btnReplacementModalHTML = {
@@ -183,7 +184,7 @@ function pendRequestReceived() {
   firebase.database().ref(receiveddbDIR).once("value", function (snap) {
     var requestQueueValue = snap.val();
     if(!requestQueueValue.reward) {
-      requestQueueValue.reward = 'beer';
+      requestQueueValue.reward = rewardList[Math.floor(Math.random()*rewardList.length)];;
       requestQueueValue.day = currentRequestReceivedDay;
       firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }

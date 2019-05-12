@@ -101,7 +101,7 @@ $(document).ready(function(){
         $(".nav-item")[2].classList.add("nav-item-active");
     });
 
-    database.ref('userpool/' + user_info[""] + '/wage/may/').once('value').then(function (snapshot) {
+    database.ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
         $("#division").html(may_sum+"$/"+goal+"$");
@@ -136,7 +136,6 @@ $(document).ready(function(){
 
                 sum += total;
         }
-        alert(sum);
             $("#total-wage").html("Total Wage : " + sum + "$");
 
         });

@@ -48,12 +48,30 @@
                 <button type="button" class="btn submitbutton" onclick="submit()">SUBMIT</button>
                 <button id="tab_submit" type="button" class="btn tabsubmitbutton" onclick="tabsubmit()">SUBMITTED</button>
               </span>
-
             </div>
+            <!--div class="progress">
+                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div-->
         </div>
         <div class="top-placeholder">
                 <div class="smtable_container">
+                    <table style="background-color:#ffffff;">
+                        <tr style="height : 30px;">
+                            <td style= "width:110px;"></td>
+                            <td colspan = "6">
+                                <div class="progress" style="width:740px; left-margine:200px;">
+                                    <div id="progress" class="progress-bar" role="progressbar" style="width: 20%; background-color:#BEF5A4" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">20%</div>
+                                </div>
+                            </td>
+                            <td id = "division" style= "width:108px;"></td>
+                        </tr>
+                    </table>
                     <table class="table" id="timetable-header">
+                        <!--tr>
+                            <div class="progress">
+                                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">%</div>
+                            </div>
+                        </tr-->
                         <tr></tr>
                     </table>
                 </div>

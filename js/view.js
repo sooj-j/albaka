@@ -20,6 +20,7 @@ var currentRequestReceivedCellblock = null;
 
 const modalWidth = 300
 const modalHeight = 265
+const receiveReplacementModalHeight = 200
 
 const rewardToIconHTML = {
   'coffee': ' <i class="fas fa-coffee"></i>',
@@ -520,13 +521,32 @@ function setDraggingSelector() {
 function openReceiveReplacementModal(x, y) {
   $("#overlay").css({"display":"block"});
 
-  if (y > $(window).height() - modalHeight) {
-    y = $(window).height() - modalHeight;
+  if (y > $(window).height() - receiveReplacementModalHeight) {
+    y = $(window).height() - receiveReplacementModalHeight;
   }
 
   if (x > $(window).width() - modalWidth) {
     x = $(window).width() - modalWidth;
   }
+
+  var sender, reward;
+
+  var dbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
+
+  firebase.database().ref(dbDIR).once("value", function (snap) {
+    requestValue = snap.val();
+
+    if (requestValue) {
+      sender = requestValue.sender;
+      reward = requestValue.reward;
+    }
+
+    var description = "<strong>"+sender+"</strong> asks for replacement";
+    if (reward) {
+      description += "<br/>with <strong>"+reward+"</strong> as a reward";
+    }
+    $("#receive-replacement-modal-description").html(description);
+  });
 
   $("#receive-replacement-modal").css({
     "display": "block",

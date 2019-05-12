@@ -1,4 +1,5 @@
 :root {
+    --light-table-border-color: #EDF0F5;
     --table-border-color: #dee2e6;
     --tab-slot-color: #BEF5A4;
     --tab-drag-color: #D5F5C6;
@@ -12,32 +13,27 @@
     --competition-rate-3: #f8ddd0;
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
+    --body-color: #FFFFEC;
     /* --tab-color:#FFF396;
         --competition-rate-1: #ffe4a3;
     --tab-color-hover:#FFEE47; */
 }
 
+/* body{
+    background-color: var(--body-color);
+} */
+
 /* common */
+.container-background {
+    background-color: white;
+    width: 960px;
+    padding-left: 0;
+}
 .outbox {
     width: 100%;
     text-align: center;
 }
 
-.inbox {
-    /* border-style: dashed;
-  display: inline-block; */
-}
-
-.tabbox {
-    position: fixed;
-    width: 75%;
-    margin-top: 45px;
-    padding: 6.5px;
-    left: 100px;
-    background-color: var(--table-border-color);
-    border-color: var(--tab-color);
-    z-index: 6;
-}
 .fixed-top {
     height: 45px;
 }
@@ -56,7 +52,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 460px; 
+    left: 385px;
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -93,7 +89,7 @@
     width: 15px;
     background-color: none;
     color: dimgrey;
-    
+
     text-align: center;
     padding: 2px 3px;
     margin: 0px;
@@ -202,7 +198,7 @@
     top: 45px;
     width: 100%;
     height: 45px;
-    background-color: white;
+    /* background-color: white; */
 }
 .container {
     font-family: 'Open Sans', sans-serif;

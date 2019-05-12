@@ -25,21 +25,21 @@
 <body>
     <!-- Navigation bar -->
     <div id="nav-placeholder"></div>
+    <div class="container container-background">
 
     <!-- Top fixed contents below the navigation bar -->
     <div class="top-placeholder">
-        <div class="container">
             <table class="table" id="timetable-header">
                 <tr></tr>
             </table>
-        </div>
     </div>
 
-    <div class="container container-view">
+    <div class="container-view">
         <table class="table" id="timetable">
             <tr></tr>
         </table>
     </div>
+</div>
 
     <div id="overlay"></div>
 
@@ -134,9 +134,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-body-element">
-                        description
-                    </div>
+                    <div id="receive-replacement-modal-description" class="modal-body-description"></div>
                 </div>
                 <div class="modal-footer">
                     <button id="btn-accept-request" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>

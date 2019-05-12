@@ -10,26 +10,39 @@ var requestReceivedCellList = [[], [], [], [], [], [], []];
 var dragged = [];
 var timers = [];
 
-var currentRequestDay = null;
-var currentRequestKey = null;
-
 /* TODO: change to object */
+var currentRequestSentDay = null;
+var currentRequestSentKey = null;
+var currentRequestSentCellblock = null;
+
 var currentRequestReceivedDay = null;
 var currentRequestReceivedKey = null;
 var currentRequestReceivedCellblock = null;
 
 const modalWidth = 300
 const modalHeight = 265
+const receiveReplacementModalHeight = 200
 
+const statusDefault = ['wait', 'wait', 'wait'];
+
+const rewardList = ['coffee', 'beer', 'chicken', 'meal']
 const rewardToIconHTML = {
-  'coffee': ' <i class="fas fa-coffee"></i>',
-  'beer': ' <i class="fas fa-beer"></i>',
-  'chicken': ' <i class="fas fa-drumstick-bite"></i>',
-  'meal': ' <i class="fas fa-concierge-bell"></i>'
+  coffee: ' <i class="fas fa-coffee"></i>',
+  beer: ' <i class="fas fa-beer"></i>',
+  chicken: ' <i class="fas fa-drumstick-bite"></i>',
+  meal: ' <i class="fas fa-concierge-bell"></i>'
+}
+
+const btnReplacementModalHTML = {
+  send: 'SEND all requests',
+  cancel: 'CANCEL all requests'
 }
 
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
 const requestInterval = 2000
+
+/* status of sent request changes for a certain time intervals. */
+const statusChangeInterval = 2000;
 
 $(document).ready(function () {
 
@@ -46,13 +59,8 @@ $(document).ready(function () {
 
     /* click replacement modal close button */
     $('#btn-close-replacement-modal').click(function() {
-      $("#overlay").css("display", "none");
-      $("#replacement-modal").css("display", "none");
-      $("#reward-modal").css("display", "none");
-      
-      timers.forEach((timer) => {
-        clearTimeout(timer);
-      });
+      closeReplacementModal();
+      initializeTimeTable();
     });
 
     /* click accept modal close button */
@@ -66,10 +74,19 @@ $(document).ready(function () {
 
     /* click replacement modal send all requests button */
     $("#btn-send-all-requests").click(function() {
+      if ($(this).html() === btnReplacementModalHTML.cancel) {
+        var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestSentDay+'/'+currentRequestSentKey;
+        console.log('dbDIR', dbDIR);
+        firebase.database().ref(dbDIR).remove();
+        closeReplacementModal();
+        initializeTimeTable();
+        return;
+      }
+
       timers = [];
 
-      pushRequestToDatabase(dragged, ['wait', 'wait', 'wait']);
-      $("#btn-send-all-requests").html('CANCEL all requests');
+      pushRequestToDatabase();
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.cancel);
 
       var requestStatus = $(".btn-request-status-yet")
 
@@ -79,14 +96,13 @@ $(document).ready(function () {
         requestStatus[i].innerHTML = 'waiting';
       }
 
-      var timeStatusChange = 2000;
       var requestReward = $(".btn-request-reward");
 
-      changeStatusToReject(requestStatus[0], requestReward[0], timeStatusChange);
-      changeStatusToReject(requestStatus[1], requestReward[1], timeStatusChange * 2);
-      changeStatusToReject(requestStatus[2], requestReward[2], timeStatusChange * 3);
+      changeStatusToReject(0, statusChangeInterval);
+      changeStatusToReject(1, statusChangeInterval * 2);
+      changeStatusToReject(2, statusChangeInterval * 3);
 
-      var timer = setTimeout(openRewardModal, timeStatusChange * 3);
+      var timer = setTimeout(openRewardModal, statusChangeInterval * 3);
       timers.push(timer);
     })
 
@@ -110,10 +126,16 @@ $(document).ready(function () {
         requestStatus[i].innerHTML = 'waiting';
       }
 
-      var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestDay+'/'+currentRequestKey;
+      var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestSentDay+'/'+currentRequestSentKey;
       firebase.database().ref(dbDIR).once('value', function(snapshot) {
         requestValue = snapshot.val();
-        message = "Dayeon accepted the replacement on <br/><strong>"+days[currentRequestDay]+" "+getTimeBar(requestValue[0], requestValue[1])+"</strong>"
+        message = "Dayeon accepted the replacement on <br/><strong>"+days[currentRequestSentDay]+" "+getTimeBar(requestValue[0], requestValue[1])+"</strong>"
+        
+        requestValue.status = statusDefault;
+        requestValue.reward = $("#select-reward").val();
+
+        firebase.database().ref(dbDIR).set(requestValue);
+
         var timer = setTimeout(function() {
           openAcceptModal(message);
         }, 2500);
@@ -140,6 +162,16 @@ function closeReceiveReplacementModal() {
   $("#receive-replacement-modal").css("display", "none");
 }
 
+function closeReplacementModal() {
+  $("#overlay").css("display", "none");
+  $("#replacement-modal").css("display", "none");
+  $("#reward-modal").css("display", "none");
+  
+  timers.forEach((timer) => {
+    clearTimeout(timer);
+  });
+}
+
 /* if user reject the replacement request, then pend in inbox */
 function pendRequestReceived() {
   var receiveddbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
@@ -153,7 +185,7 @@ function pendRequestReceived() {
   firebase.database().ref(receiveddbDIR).once("value", function (snap) {
     var requestQueueValue = snap.val();
     if(!requestQueueValue.reward) {
-      requestQueueValue.reward = 'beer';
+      requestQueueValue.reward = rewardList[Math.floor(Math.random()*rewardList.length)];;
       requestQueueValue.day = currentRequestReceivedDay;
       firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }
@@ -243,13 +275,27 @@ function pushRequestReceivedFromQueue() {
   });
 }
 
-function changeStatusToReject(status, reward, time) {
+function changeStatusToReject(index, time) {
+  var requestStatus = $(".btn-request-status");
+  var requestReward = $(".btn-request-reward");
+
   timer = setTimeout(function() {
-    status.classList.remove("btn-request-status-wait");
-    status.classList.add("btn-request-status-reject");
-    status.innerHTML = "rejected";
-    reward.style.display = "block";
+    requestStatus[index].classList.remove("btn-request-status-wait");
+    requestStatus[index].classList.add("btn-request-status-reject");
+    requestStatus[index].innerHTML = "rejected";
+    requestReward[index].style.display = "block";
+
+    var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestSentDay+'/'+currentRequestSentKey;
+    firebase.database().ref(dbDIR).once('value', function(snapshot) {
+      var requestValue = snapshot.val();
+      if (requestValue) {
+        var status = requestValue.status;
+        status[index] = 'reject'
+        firebase.database().ref(dbDIR).update({status: status});
+      }
+    });
   }, time);
+
   timers.push(timer);
 }
 
@@ -456,7 +502,7 @@ function initializeTimeTableHeader() {
     var newCell = newRow.insertCell(0);
 
     // TODO: current dates
-    var dates = ['4/1', '4/2', '4/3', '4/4', '4/5', '4/6', '4/7'];
+    var dates = ['5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12'];
 
     for (var i = 0; i < 7; i++) {
         newCell = newRow.insertCell(i + 1);
@@ -478,21 +524,35 @@ function findCurrentRequestReceived(element) {
     });
 }
 
+function findCurrentRequestSent(element) {
+  var day = element.cellIndex-1;
+
+  requestSentCellList[day].forEach((requestData) => {
+    if (requestData.cellblock.includes(element)) {
+      currentRequestSentDay = day;
+      currentRequestSentKey = requestData.key;
+      currentRequestSentCellblock = requestData.cellblock;
+      return;
+    }
+  });
+}
+
 function setDraggingSelector() {
   var isMouseDown = false;
 
   $(document).on('mousedown','.timetable-entry',function(e) {
     dragged=[];
-    isMouseDown = true;
 
     if (this.classList.contains("timetable-view-request-received-slot")) {
       findCurrentRequestReceived(this);
       openReceiveReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
     } else if (this.classList.contains("timetable-view-drag-slot")) {
-      openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
+      findCurrentRequestSent(this);
+      openReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
     } else if (this.classList.contains("timetable-view-slot")){
       dragged.push(this);
       $(this).addClass("timetable-view-drag-slot");
+      isMouseDown = true;
       return false;
     }
   });
@@ -501,7 +561,7 @@ function setDraggingSelector() {
     if (isMouseDown) {
       if (this.classList.contains("timetable-view-drag-slot")) {
         isMouseDown = false;
-        openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
+        openReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
       } else if (this.classList.contains("timetable-view-slot")){
         dragged.push(this);
         //$(this).toggleClass("timetable-view-drag-slot");
@@ -513,7 +573,10 @@ function setDraggingSelector() {
   $(document).on('mouseup','.timetable-entry',function(e) {
     isMouseDown = false;
     if (dragged.length >= 1){
-      openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
+      currentRequestSentDay = null;
+      currentRequestSentKey = null;
+      currentRequestSentCellblock = dragged;
+      openReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
     }
   });
 }
@@ -521,13 +584,32 @@ function setDraggingSelector() {
 function openReceiveReplacementModal(x, y) {
   $("#overlay").css({"display":"block"});
 
-  if (y > $(window).height() - modalHeight) {
-    y = $(window).height() - modalHeight;
+  if (y > $(window).height() - receiveReplacementModalHeight) {
+    y = $(window).height() - receiveReplacementModalHeight;
   }
 
   if (x > $(window).width() - modalWidth) {
     x = $(window).width() - modalWidth;
   }
+
+  var sender, reward;
+
+  var dbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
+
+  firebase.database().ref(dbDIR).once("value", function (snap) {
+    requestValue = snap.val();
+
+    if (requestValue) {
+      sender = requestValue.sender;
+      reward = requestValue.reward;
+    }
+
+    var description = "<strong>"+sender+"</strong> asks for replacement";
+    if (reward) {
+      description += "<br/>with <strong>"+reward+"</strong> as a reward";
+    }
+    $("#receive-replacement-modal-description").html(description);
+  });
 
   $("#receive-replacement-modal").css({
     "display": "block",
@@ -537,19 +619,59 @@ function openReceiveReplacementModal(x, y) {
 }
 
 // TODO: remove timeComponent param
-function openReplacementModal(timeComponent, x, y) {
-  $("#btn-send-all-requests").html('SEND all requests');
-
+function openReplacementModal(x, y) {
   var requestStatus = $(".btn-request-status")
   var requestReward = $(".btn-request-reward");
 
   for (var i = 0; i < requestStatus.length; i++) {
+    requestStatus[i].classList.remove("btn-request-status-yet");
     requestStatus[i].classList.remove("btn-request-status-wait");
     requestStatus[i].classList.remove("btn-request-status-reject");
-    requestStatus[i].classList.add("btn-request-status-yet");
-    requestStatus[i].innerHTML = 'not requested yet';
     requestReward[i].style.display = "none";
   }
+
+  var statusList;
+  var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestSentDay+'/'+currentRequestSentKey;
+
+  firebase.database().ref(dbDIR).once("value", function (snap) {
+    requestValue = snap.val();
+    if (requestValue) {
+      statusList = requestValue.status;
+    }
+
+    if (!statusList) {
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.send);
+
+      for (var i = 0; i < requestStatus.length; i++) {
+        requestStatus[i].classList.add("btn-request-status-yet");
+        requestStatus[i].innerHTML = "not requested yet";
+      }
+    } else {
+      $("#btn-send-all-requests").html(btnReplacementModalHTML.cancel);
+
+      var countWait = 0;
+
+      for (var i = 0; i < statusList.length; i ++) {
+        if (statusList[i] === 'wait') {
+          requestStatus[i].classList.add("btn-request-status-wait");
+          requestStatus[i].innerHTML = "waiting";
+          changeStatusToReject(i, statusChangeInterval * (countWait + 1));
+          countWait += 1;
+        } else {
+          requestStatus[i].classList.add("btn-request-status-reject");
+          requestStatus[i].innerHTML = "rejected";
+          requestReward[i].style.display = "block";
+        }
+      }
+
+      if (countWait === 0) {
+        openRewardModal();
+      } else {
+        var timer = setTimeout(openRewardModal, statusChangeInterval * (countWait + 1));
+        timers.push(timer);
+      }
+    }
+  });
 
   $("#overlay").css({"display":"block"});
 
@@ -593,34 +715,40 @@ function openAcceptModal(message) {
   deleteRequest();
 }
 
-function pushRequestToDatabase(drag, status) {
-  startCell = drag[0];
-  endCell = drag[drag.length-1];
+function pushRequestToDatabase() {
+  var cellblock = currentRequestSentCellblock;
+  var startCell = cellblock[0];
+  var endCell = cellblock[cellblock.length-1];
 
   var day = startCell.cellIndex - 1;
   s_row = time2Row(($(startCell).parent())[0].cells[0].id);
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
   /* TODO: drag upward */
-  requestSentCellList[day].push([s_row, e_row, drag]);
+  /*
+  requestSentCellList[day].push({
+    key: rcKey,
+    cellblock: cellblock,
+  });
+  */
 
   var dbDIR = '/userpool/'+user_id+'/requestSent/'+day;
   var requestData = {
     0: s_row,
     1: e_row,
-    status: status
+    status: statusDefault
   }
   var newRequestRef = firebase.database().ref(dbDIR+'/').push(requestData);
 
-  currentRequestDay = day;
-  currentRequestKey = newRequestRef.key;
+  currentRequestSentDay = day;
+  currentRequestSentKey = newRequestRef.key;
 
   initializeTimeTable();
 }
 
 function deleteRequest() {
-  var day = currentRequestDay;
-  var key = currentRequestKey;
+  var day = currentRequestSentDay;
+  var key = currentRequestSentKey;
   var requestdbDIR = '/userpool/'+user_id+'/requestSent/'+day+'/'+key;
   var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+day;
 
@@ -664,18 +792,14 @@ function pushThisweekToDatabase(drag) {
   s_row = time2Row(($(startCell).parent())[0].cells[0].id);
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
-  requestSentCellList[day].push([s_row, e_row, drag]);
-
   var dbDIR = '/userpool/'+user_id+'/thisweek/'+day;
   var thisweekData = {
     0: s_row,
     1: e_row
   }
 
-  /* TODO: sort? */
   firebase.database().ref(dbDIR).once("value", function (snap) {
     var thisweekValue = snap.val();
-    console.log('thisweekValue', thisweekValue, thisweekValue.length);
     var index = thisweekValue === "null" ? 0 : thisweekValue.length;
 
     firebase.database().ref(dbDIR+'/'+index+'/').set(thisweekData);

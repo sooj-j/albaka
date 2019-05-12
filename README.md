@@ -92,9 +92,14 @@ albaka is a weekly scheduling system for part-timers
         │       │       │       |       ├──  from : "user id" who sent this request
         │       │       │       |       └──  reward : (string) reward of the request/ "" for no reward
         │       │       │       |
+        │       │       ├──  change // for accepted request
         │       │       │       |
-        │       │       │       
-        
+        │       │       │       ├──randomkey
+        │       │       │       |       ├── date : "Day Date" ex) "TUE 4/13"
+        │       │       │       |       ├── end_time : "request end time" ex)
+        │       │       │       |       ├── start_time : "request start time"
+        │       │       │       |       ├── receiver: "userid" who accepted the request
+        │       │       │       |       └── reward: "reward" to give
         │       │       ├──  requestSent
         │       │       │       ├──  0
         │       │       │       │    └──  -LeZMr5akx23bdV0aLYH (random key)

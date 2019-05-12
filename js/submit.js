@@ -59,7 +59,7 @@ $(function () {
         //$(dragged[i]).addClass("timetable-tab-drag-slot");
         //$(dragged[i]).classList.remove("timetable-tab-drag-slot");
     }
-    if (tab_id != "submitted" && dragged.length > 1){
+    if (tab_id != "submitted" && dragged.length >= 1){
       console.log(dragged);
       pushToDatabase(dragged);
       dragged=[];
@@ -73,10 +73,10 @@ function pushToDatabase(drag) {
   console.log("pushToDatabase");
   startCell = drag[0];
   endCell = drag[drag.length-1];
-  if (startCell == endCell){
-    console.log("1 cell");
-  }
-  else {
+  // if (startCell == endCell){
+  //   console.log("1 cell");
+  // }
+  // else {
     //day: startCell.cellIndex
     //time: time2Row($(startCell).parent())[0].cells[0].id) ~ time2Row($(endCell).parent())[0].cells[0].id)
     var day = startCell.cellIndex-1;
@@ -90,6 +90,35 @@ function pushToDatabase(drag) {
         0: cellList[day][i][0],
         1: cellList[day][i][1]
       });
+    }
+  // }
+}
+
+function add2cellList(day, startRow, endRow, drag){
+  cellList[day].push([startRow, endRow, drag]);
+  cellList[day].sort(function (a, b) {
+    if (a[0] > b[0]) {return 1;}
+    if (a[0] < b[0]) {return -1;}
+    return 0;
+  });
+  console.log(cellList[day]);
+  var newIndex = cellList[day].findIndex(function (a) {
+    return (a[0] == startRow && a[1] == endRow);
+  });
+  if (newIndex != cellList[day].length -1){ //not the last element
+    if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
+      cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
+      cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
+      cellList[day].splice(newIndex+1,1);
+      console.log("merge1 cellList: ", cellList[day]);
+    }
+  }
+  if (newIndex != 0){
+    if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
+      cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
+      cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
+      cellList[day].splice(newIndex,1);
+      console.log("merge2 cellList: ", cellList[day]);
     }
   }
 }
@@ -147,6 +176,7 @@ function initializeTimeTable() {
     drawCompetitionRate();
     readFromDatabase();
 }
+
 function drawCompetitionRate() {
     console.log("draw");
     var dbDIR = '/workplace/' + user_info.workplace + '/CompetitionRate/';
@@ -192,15 +222,15 @@ function deleteBlock(t){
         console.log(cellList[i][j]);
       }
     }
-  };
+  }
   cellList[newDay].splice(newIndex,1);
   //copycellList2Database();
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+newDay;
   if (cellList[newDay].length == 0){
     console.log("empty day");
     firebase.database().ref(dbDIR).update({
-        0: "null"
-      });
+      0: "null"
+    });
   }
   else{
     var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+newDay;
@@ -210,9 +240,8 @@ function deleteBlock(t){
         1: cellList[newDay][i][1]
       });
     }
-  }
-  //initializeTimeTable();
-  readFromDatabase();
+    }
+  initializeTimeTable();
 }
 
 function readFromDatabase(){
@@ -263,7 +292,9 @@ function readFromDatabase(){
                 if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
                 else {e_time = time30Axis[end / 2];}
                 t_time = (end+1-start)/2;
-                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                //timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                if (t_time > 0.5 ) {timeTable.rows[row+1].cells[day].innerHTML = Number(t_time)+"H"+" ";}
               }
             }
             if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}

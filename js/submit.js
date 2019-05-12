@@ -409,7 +409,7 @@ function readFromDatabase(){
 }
 
 function initializeTimeTableHeader() {
-    var timeTableHeader = document.getElementById('timetable-header-submit');
+    var timeTableHeader = document.getElementById('timetable-header');
     var newRow = timeTableHeader.insertRow(0);
     var newCell = newRow.insertCell(0);
 

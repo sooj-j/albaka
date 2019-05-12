@@ -13,6 +13,14 @@ $(document).ready(function () {
     findUser().then(function () {
         initializeTimeTableHeader();
         initializeTimeTable();
+        var tab1_btn = document.getElementById('tab1_btn');
+        tab1_btn.classList.add("tabbutton_active");
+        var tab2_btn = document.getElementById('tab2_btn');
+        tab2_btn.classList.remove("tabbutton_active");
+        var tab3_btn = document.getElementById('tab3_btn');
+        tab3_btn.classList.remove("tabbutton_active");
+        var tabsubmit_btn = document.getElementById('tab_submit');
+        tabsubmit_btn.classList.remove("tabsubmitbutton_active");
     });
     cellList=[];
 
@@ -26,6 +34,7 @@ $(document).ready(function () {
 $(function () {
   var isMouseDown = false;
   var dragged = [];
+  var prev;
   $(document).on('mousedown','.timetable-entry',function() {
     console.log("mousedown");
     dragged=[];
@@ -36,15 +45,17 @@ $(function () {
       console.log("mousedown: ", this); //cell
       $(this).toggleClass("timetable-tab-drag-slot");
       //$(this).addClass("timetable-tab-drag-slot");
+      prev = this;
       return false; // prevent text selection
     }
   });
 
   $(document).on('mouseover','.timetable-entry',function() {
     if (isMouseDown) {
-      if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
+      if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted") && (this.cellIndex == prev.cellIndex)){
         console.log("mouseover: ", this);
         dragged.push(this);
+        prev = this;
         $(this).toggleClass("timetable-tab-drag-slot");
         //$(this).addClass("timetable-tab-drag-slot");
       }
@@ -85,6 +96,9 @@ function pushToDatabase(drag) {
     add2cellList(day, s_row, e_row, drag);
     //copycellList2Database();
     var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
+    firebase.database().ref(dbDIR).set({
+      0: "null"
+    });
     for(var i=0; i<cellList[day].length; i++) {
       firebase.database().ref(dbDIR+'/'+i).set({
         0: cellList[day][i][0],
@@ -95,29 +109,33 @@ function pushToDatabase(drag) {
 }
 
 function add2cellList(day, startRow, endRow, drag){
+  console.log("before add: ", cellList[day]);
   cellList[day].push([startRow, endRow, drag]);
+  console.log("after add: ", cellList[day]);
   cellList[day].sort(function (a, b) {
     if (a[0] > b[0]) {return 1;}
     if (a[0] < b[0]) {return -1;}
     return 0;
   });
-  console.log(cellList[day]);
+  console.log("after sort: ", cellList[day]);
   var newIndex = cellList[day].findIndex(function (a) {
     return (a[0] == startRow && a[1] == endRow);
   });
+  console.log(newIndex);
   if (newIndex != cellList[day].length -1){ //not the last element
     if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
       cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
       cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
-      cellList[day].splice(newIndex+1,1);
+      cellList[day].splice(newIndex,1);
       console.log("merge1 cellList: ", cellList[day]);
+      newIndex -= 1;
     }
   }
   if (newIndex != 0){
     if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
       cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
       cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
-      cellList[day].splice(newIndex,1);
+      cellList[day].splice(newIndex-1,1);
       console.log("merge2 cellList: ", cellList[day]);
     }
   }
@@ -325,6 +343,14 @@ function initializeTimeTableHeader() {
 function tabsubmit() {
   copycellList2Database();
   tab_id = "submitted";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.add("tabsubmitbutton_active");
   //copyDatabase2cellList();
   initializeTimeTable();
 }
@@ -332,6 +358,14 @@ function tabsubmit() {
 function tab1() {
   copycellList2Database();
   tab_id = "tab1";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.add("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
   //copyDatabase2cellList();
   initializeTimeTable();
 }
@@ -339,12 +373,40 @@ function tab1() {
 function tab2() {
   copycellList2Database();
   tab_id = "tab2";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.add("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
+  // copyDatabase2cellList();
+  initializeTimeTable();
+}
+function tab3() {
+  copycellList2Database();
+  tab_id = "tab3";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.add("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
   // copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tabAdd() {
+  var tab3_btn = document.getElementById('tab3_btn');
+  var tab_add = document.getElementById('tab_add');
+  tab3_btn.style.display = "inline";
+  tab_add.style.display = "none";
+  // tab_add.style.disable = "true"
   copycellList2Database();
+
   tab_id = "tab3";
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
   firebase.database().ref(dbDIR).set({
@@ -359,9 +421,11 @@ function tabAdd() {
   //cellList = [];
   copyDatabase2cellList();
   initializeTimeTable();
+  tab3();
 }
 
 function submit() {
+
   var dbDIR = '/userpool/'+user_id+'/nextweek/submitted/';
   console.log("Init submit");
   for(var i=0; i<cellList.length; i++){

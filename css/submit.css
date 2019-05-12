@@ -2,10 +2,13 @@
 
 
 .tabbox {
+    padding: 6.5px;
+    padding-left: 120px;
+    /* text-align: left; */
     position: fixed;
     width: 960px;
     margin-top: 45px;
-    padding: 6.5px;
+    border-radius: 0;
     background-color: white;
     border-color: var(--tab-color);
     z-index: 6;
@@ -20,9 +23,16 @@
 }
 
 .tabbutton {
-    border: solid 1px;
-    background-color: var(--table-border-color);
-    padding: 2px 10px;
+    border: solid var(--darker-grey) 1px;
+    border-bottom: none;
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-right-radius: 0px 0px;
+    border-bottom-left-radius: 0px 0px;
+
+    width: 90px;
+    background-color: var(--light-table-border-color);
+    padding: 5px 5px;
     color: black;
     text-align: center;
     text-decoration: none;
@@ -36,20 +46,35 @@
 
 .tabbutton:hover{
     background-color: var(--tab-slot-color);
+    box-shadow: 1px -1px 2px grey;
     color: black;
 }
-.tabbutton:active{
+.tabbutton_active{
     background-color: var(--tab-slot-color);
+    transform: translateY(1px);
+    box-shadow: 1px -1px 2px grey;
     color: black;
 }
+/* .btn:active {
+        background-color: #FF8C00;
+        box-shadow: 0 5px #808080;
+        transform: translateY(4px);
+    } */
 
 .fa-times {cursor: pointer;}
 
 
 .tabsubmitbutton {
-    border: solid 1px;
-    background-color: var(--table-border-color);
-    padding: 2px 10px;
+    border: solid var(--darker-grey) 1px;
+    border-bottom: none;
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-right-radius: 0px 0px;
+    border-bottom-left-radius: 0px 0px;
+
+    width: 100px;
+    background-color: var(--light-table-border-color);
+    padding: 5px 5px;
     color: black;
     text-align: center;
     text-decoration: none;
@@ -63,14 +88,22 @@
 
 .tabsubmitbutton:hover{
     background-color: var(--submit-slot-color);
+    box-shadow: 1px -1px 2px grey;
+    color: black;
+}
+
+.tabsubmitbutton_active{
+    background-color: var(--submit-slot-color);
+    transform: translateY(1px);
+    box-shadow: 1px -1px 2px grey;
     color: black;
 }
 
 .submitbutton {
-    border: solid 1px;
+    border: solid var(--darker-grey) 1px;
     /* border-color:var(--warning-color); */
     background-color: #FFFFFF;
-    padding: 2px 10px;
+    padding: 5px 5px;
     color: black;
     text-align: center;
     text-decoration: none;
@@ -84,15 +117,6 @@
 
 .submitbutton:hover{
     background-color: var(--view-drag-slot-color);
+    box-shadow: 1px -1px 2px grey;
     color: black;
-}
-#timetable {
-  /* margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px; */
-}
-#timetable-header-submit {
-  /* margin-top: 5px;
-  margin-left: 10px;
-  margin-right: 10px; */
 }

@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -33,12 +34,18 @@
         <div>
         <div class="outbox">
             <div class="tabbox">
-                tab space
-                <input type="button" value="TAB1" class="btn tabbutton" onclick="tab1()" />
-                <input type="button" value="TAB2" class="btn tabbutton" onclick="tab2()" />
-                <input type="button" value="TAB3 +" class="btn tabbutton" onclick="tabAdd()" />
-                <input type="button" value="SUBMITTED" class="btn tabsubmitbutton" onclick="tabsubmit()" />
-                <input type="button" value="SUBMIT" class="btn submitbutton" onclick="submit()" />
+              <span id ="tab_container" style="float: left">
+                <button id="tab1_btn" type="button" class="btn tabbutton" onclick="tab1()"> TAB1 </button>
+                <button id="tab2_btn" type="button" class="btn tabbutton" onclick="tab2()" >TAB2</button>
+                <button id="tab3_btn" type="button" class="btn tabbutton" onclick="tab3()" style="display:none;">TAB3</button>
+                <button id ="tab_add" class="btn tabbutton" onclick="tabAdd()" style="display:inline;">+</button>
+              </span>
+
+              <span style="float: right">
+                <button type="button" class="btn submitbutton" onclick="submit()">SUBMIT</button>
+                <button id="tab_submit" type="button" class="btn tabsubmitbutton" onclick="tabsubmit()">SUBMITTED</button>
+              </span>
+
             </div>
         </div>
         <div class="top-placeholder">

@@ -1,4 +1,5 @@
 :root {
+    --light-table-border-color: #EDF0F5;
     --table-border-color: #dee2e6;
     --tab-slot-color: #BEF5A4;
     --tab-drag-color: #D5F5C6;
@@ -18,9 +19,9 @@
     --tab-color-hover:#FFEE47; */
 }
 
-body{
+/* body{
     background-color: var(--body-color);
-}
+} */
 
 /* common */
 .container-background {

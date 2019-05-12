@@ -11,10 +11,12 @@
 
 .tabbox {
   position: fixed;
+  max-width: 800px;
+  text-align: left;
   width: 75%;
   margin-top: 45px;
   padding: 6.5px;
-  left:16%;
+  /* left:16%; */
   background-color: var(--table-border-color);
   border-color: var(--tab-color);
   z-index: 6;
@@ -95,3 +97,26 @@
     background-color: var(--view-drag-slot-color);
     color: black;
 }
+#timetable {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 30px;
+  border-bottom: 5px solid var(--warning-color);
+  border-left: 5px solid var(--warning-color);
+  border-right: 5px solid var(--warning-color);
+}
+#timetable-header-submit {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-top: 5px solid var(--warning-color);
+  border-left: 5px solid var(--warning-color);
+  border-right: 5px solid var(--warning-color);
+  /* border-bottom: 2px solid var(--table-border-color); */
+}
+/* #timetable-submit {
+  margin: 5px;
+  border-bottom: 4px solid var(--warning-color);
+  border-left: 4px solid var(--warning-color);
+  border-right: 4px solid var(--warning-color);
+} */

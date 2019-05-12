@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
     cellList=[];
 
-    
+
     //copyDatabase2cellList();
     //showcellList();
 
@@ -409,7 +409,7 @@ function readFromDatabase(){
 }
 
 function initializeTimeTableHeader() {
-    var timeTableHeader = document.getElementById('timetable-header');
+    var timeTableHeader = document.getElementById('timetable-header-submit');
     var newRow = timeTableHeader.insertRow(0);
     var newCell = newRow.insertCell(0);
 

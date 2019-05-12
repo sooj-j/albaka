@@ -105,6 +105,7 @@ albaka is a weekly scheduling system for part-timers
         │       │       │       └──  randomKey
         │       │       │            ├── 0 (start row) : 10
         │       │       │            ├── 1 (end row) : 20
+        │       │       │            ├── day : 0
         │       │       │            ├── reward (optional) : 'beer'
         │       │       │            ├── sender : 'Juho Kim'
         │       │       │            └── isPending (optional) : false

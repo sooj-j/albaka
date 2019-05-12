@@ -5,13 +5,18 @@ var timeArray;
 var timeTable = document.getElementById('timetable');
 var cellList =[];
 
-var requestSentCellList = [];
-var requestReceivedCellList = [];
+var requestSentCellList = [[], [], [], [], [], [], []];
+var requestReceivedCellList = [[], [], [], [], [], [], []];
 var dragged = [];
 var timers = [];
 
 var currentRequestDay = null;
 var currentRequestKey = null;
+
+/* TODO: change to object */
+var currentRequestReceivedDay = null;
+var currentRequestReceivedKey = null;
+var currentRequestReceivedCellblock = null;
 
 const modalWidth = 300
 const modalHeight = 265
@@ -51,8 +56,7 @@ $(document).ready(function () {
     });
 
     $('#btn-close-receive-replacement-modal').click(function() {
-      $("#overlay").css("display", "none");
-      $("#receive-replacement-modal").css("display", "none");
+      closeReceiveReplacementModal();
     })
 
     /* click replacement modal send all requests button */
@@ -101,7 +105,6 @@ $(document).ready(function () {
         requestStatus[i].innerHTML = 'waiting';
       }
 
-
       var dbDIR = '/userpool/'+user_id+'/requestSent/'+currentRequestDay+'/'+currentRequestKey;
       firebase.database().ref(dbDIR).once('value', function(snapshot) {
         requestValue = snapshot.val();
@@ -112,7 +115,32 @@ $(document).ready(function () {
         timers.push(timer);
       });
     });
+
+    $("#btn-accept-request").click(function() {
+      pushThisweekToDatabase(currentRequestReceivedCellblock);
+      deleteRequestReceived();
+      closeReceiveReplacementModal();
+    })
+
+    $("#btn-reject-request").click(function() {
+      pendRequestReceived();
+      closeReceiveReplacementModal();
+    })
 });
+
+function closeReceiveReplacementModal() {
+  $("#overlay").css("display", "none");
+  $("#receive-replacement-modal").css("display", "none");
+}
+
+/* if user reject the replacement request, then pend in inbox */
+function pendRequestReceived() {
+  var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
+  firebase.database().ref(requestdbDIR).update({
+    isPending: true,
+  });
+  initializeTimeTable();
+}
 
 function changeStatusToReject(status, reward, time) {
   timer = setTimeout(function() {
@@ -238,17 +266,23 @@ function readThisweekFromDatabase(){
 /* TODO: merge with readThisweekFromDatabase */
 
 function readRequestSentFromDatabase(){
-  readFromDatabase(requestSentCellList, '/userpool/'+user_id+'/requestSent/', "timetable-view-drag-slot")
+  function storeToList(dayKey, data) {
+    requestSentCellList[dayKey].push(data);
+  }
+
+  readFromDatabase(storeToList, '/userpool/'+user_id+'/requestSent/', "timetable-view-drag-slot")
 }
 
 function readRequestReceivedFromDatabase(){
-  readFromDatabase(requestReceivedCellList, '/userpool/'+user_id+'/requestReceived/', "timetable-view-request-received-slot", true)
+  function storeToList(dayKey, data) {
+    requestReceivedCellList[dayKey].push(data);
+  }
+
+  readFromDatabase(storeToList, '/userpool/'+user_id+'/requestReceived/', "timetable-view-request-received-slot", true)
 }
 
-function readFromDatabase(storeCellList, dbDIR, className, isRequestReceived) {
+function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
   var requestValue;
-  storeCellList =[[], [], [], [], [], [], []];
-
   firebase.database().ref(dbDIR).once('value', function(snapshot) {
     requestValue = snapshot.val();
     if (requestValue == null) {
@@ -263,8 +297,15 @@ function readFromDatabase(storeCellList, dbDIR, className, isRequestReceived) {
         return;
       }
 
-      var requestComponentList = Object.values(requestValue[dayKey]);
-      requestComponentList.forEach((requestComponent) => {
+      var rcKeyList = Object.keys(requestValue[dayKey]);
+      rcKeyList.forEach((rcKey) => {
+        var requestComponent = requestValue[dayKey][rcKey]
+
+        if (isRequestReceived && requestComponent.isPending) {
+          // TODO: push in inbox
+          return;
+        }
+
         var cellblock=[]
         var start=requestComponent[0];
         var end=requestComponent[1];
@@ -276,13 +317,16 @@ function readFromDatabase(storeCellList, dbDIR, className, isRequestReceived) {
           cellblock.push(timeTable.rows[row].cells[day]);
           if (i == start){
             timeTable.rows[row].cells[day].innerHTML = getTimeBar(start, end);
-            if (isRequestReceived) {
+            if (isRequestReceived && rewardToIconHTML[requestComponent['reward']]) {
               timeTable.rows[row].cells[day].innerHTML += rewardToIconHTML[requestComponent['reward']];
             }
           }
         }
         if (cellblock.length >= 1) {
-          storeCellList[String(dayKey)].push(cellblock);
+          storeToList(dayKey, {
+            key: rcKey,
+            cellblock: cellblock,
+          });
         }
       })
     })
@@ -320,6 +364,19 @@ function initializeTimeTableHeader() {
     }
 }
 
+function findCurrentRequestReceived(element) {
+    var day = element.cellIndex-1;
+
+    requestReceivedCellList[day].forEach((requestData) => {
+      if (requestData.cellblock.includes(element)) {
+        currentRequestReceivedDay = day;
+        currentRequestReceivedKey = requestData.key;
+        currentRequestReceivedCellblock = requestData.cellblock;
+        return;
+      }
+    });
+}
+
 function setDraggingSelector() {
   var isMouseDown = false;
 
@@ -328,6 +385,7 @@ function setDraggingSelector() {
     isMouseDown = true;
 
     if (this.classList.contains("timetable-view-request-received-slot")) {
+      findCurrentRequestReceived(this);
       openReceiveReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
     } else if (this.classList.contains("timetable-view-drag-slot")) {
       openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
@@ -458,7 +516,7 @@ function pushRequestToDatabase(drag, status) {
   initializeTimeTable();
 }
 
-function deleteRequest(){
+function deleteRequest() {
   var day = currentRequestDay;
   var key = currentRequestKey;
   var requestdbDIR = '/userpool/'+user_id+'/requestSent/'+day+'/'+key;
@@ -494,4 +552,46 @@ function deleteRequest(){
       }
     })
   });
+}
+
+function pushThisweekToDatabase(drag) {
+  startCell = drag[0];
+  endCell = drag[drag.length-1];
+
+  var day = startCell.cellIndex-1;
+  s_row = time2Row(($(startCell).parent())[0].cells[0].id);
+  e_row = time2Row(($(endCell).parent())[0].cells[0].id);
+
+  requestSentCellList[day].push([s_row, e_row, drag]);
+
+  var dbDIR = '/userpool/'+user_id+'/thisweek/'+day;
+  var thisweekData = {
+    0: s_row,
+    1: e_row
+  }
+
+  /* TODO: sort? */
+  firebase.database().ref(dbDIR).once("value", function (snap) {
+    var thisweekValue = snap.val();
+    console.log('thisweekValue', thisweekValue, thisweekValue.length);
+    var index = thisweekValue === "null" ? 0 : thisweekValue.length;
+
+    firebase.database().ref(dbDIR+'/'+index+'/').set(thisweekData);
+    initializeTimeTable();
+  });
+}
+
+function deleteRequestReceived() {
+  var day = currentRequestReceivedDay;
+  var key = currentRequestReceivedKey;
+
+  var index = requestReceivedCellList.findIndex((element) => { element.key === key; });
+  requestReceivedCellList.splice(index, 1);
+
+  var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+day+'/'+key;
+  firebase.database().ref(requestdbDIR).remove();
+
+  // TODO: 필요?
+  currentRequestReceivedDay = null;
+  currentRequestReceivedKey = null;
 }

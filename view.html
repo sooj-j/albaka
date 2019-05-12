@@ -139,8 +139,22 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
-                    <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>
+                    <button id="btn-accept-request" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
+                    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button id="btn-reject-request" class="btn btn-secondary" type="button">reject</button>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect03">
+                            <option value="none" selected>reward</option>
+                            <option value="coffee">coffee</option>
+                            <option value="beer">beer</option>
+                            <option value="chicken">chicken</option>
+                            <option value="meal">meal</option>
+                        </select>
+                    </div>
+                    
+                    <!--<button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>-->
                 </div>
                 </div>
             </div>

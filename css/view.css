@@ -83,16 +83,16 @@
     display:none;
     background-color:#000;
     opacity:0.5;
-  }
+}
 
-  .accept-modal-dialog {
-      margin: auto;
-  }
+.accept-modal-dialog {
+    margin: auto;
+}
 
-  .accept-modal-content {
-      background: lightgoldenrodyellow;
-  }
+.accept-modal-content {
+    background: lightgoldenrodyellow;
+}
 
-  .fa-reward {
-      color: red;
-  }
+.fa-reward {
+    color: red;
+}

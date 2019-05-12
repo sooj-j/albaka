@@ -10,26 +10,39 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:makeURL('view.html')">view this week</a>
+                    <a class="nav-link" href="javascript:makeURL('view.html')">VIEW THIS WEEK</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:makeURL('submit.html')">submit next week</a>
+                    <a class="nav-link" href="javascript:makeURL('submit.html')">SUBMIT SCHEDULE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:makeURL('wage.html')">my wage</a>
+                    <a class="nav-link" href="javascript:makeURL('wage.html')">MY WAGE</a>
                 </li>
 
 
                 <li class="nav-down" id="inbox_menu">
                     <a class="nav-link" id="inbox_icon"><i class="fas fa-inbox fa-2x"></i><div id="inbox_count">2</div></a>
                     <ul class="hide" id="inbox">
-                        <li class="inbox_content_header">Remaining Requests
-                            <input type="button" value="X" class="close btn" onclick="closeInbox()" />
+                        <li class="inbox_content_header">
+                            REMAINING REQUESTS
+                            <input type="button" value="X" class="close btn" id="inbox_close" onclick="closeInbox()"/>
                         </li>
-                        <ol class="big_inbox" id="has_reward">
-                        </ol>
-                        <ol class="big_inbox" id="no_reward">
-                        </ol>
+                        <div class="big_inbox" id="has_reward"></div>
+                        <div class="big_inbox" id="no_reward"></div>
+
+                    </ul>
+                </li>
+                <li class="nav-down" id="reward_menu">
+                    <a class="nav-link" id="reward_icon"><i class="fas fa-gift fa-2x"></i><div id="reward_count">2</div></a>
+                    <ul class="hide" id="reward">
+                        <li class="inbox_content_header">
+                            GIFTS
+                            <input type="button" value="X" class="close btn" id="reward_close" onclick="closeReward()" />
+                        </li>
+                        <div class="big_inbox" id="empty_reward"> no reward to deal with.</div>
+                        <div class="big_inbox" id="reward_to_send"></div>
+
+                        <div class="big_inbox" id="reward_to_receive"></div>
 
                     </ul>
                 </li>
@@ -43,8 +56,67 @@
 
 
     </div>
+    
 </nav>
+<script type="text/javascript">
+    var inbox_click = true;
+    var reward_click = true;
+    function closeInbox() {
+        $('#inbox').toggleClass('visible');
+        $("#inbox_icon").toggleClass('active');
+        inbox_click = true;
+        console.log("close");
+    };
+    function closeReward() {
+        $('#reward').toggleClass('visible');
+        $("#reward_icon").toggleClass('active');
+        reward_click = true;
+        console.log("close");
+    };
 
+    $(document).ready(function () {
+        var left1 = $(".navbar-brand").offset().left;
+        $(".navbar-nav").css("left", left1 + 460);
+        var right = $("#inbox_icon").offset().left;
+        var width = $(window).width();
+        $("#inbox").css("right", width - right - 340);
+        $("#reward").css("right", width - right - 340);
+    });
+
+    $("#inbox_menu").click(function () {
+        $("#inbox").toggleClass('visible');
+        $("#inbox_icon").toggleClass('active');
+        if (reward_click == false) {
+            $("#reward_icon").removeClass('active');
+            reward_click = true;
+            $('#reward').removeClass('visible');
+        };
+        if (inbox_click == true) {
+            inbox_click = false;
+        } else {
+            inbox_click = true;
+        }
+    });
+
+    $("#reward_menu").click(function () {
+        $("#reward").toggleClass('visible');
+        $("#reward_icon").toggleClass('active');
+        if (inbox_click == false) {
+            $("#inbox_icon").toggleClass('active');
+            inbox_click = true;
+            console.log("close");
+            $("#inbox").toggleClass('visible');
+        };
+
+        if (reward_click == true) {
+            reward_click = false;
+        } else {
+            reward_click = true;
+        }
+    });
+    
+
+</script>
 <script src="js/inbox.js"></script>
 
 

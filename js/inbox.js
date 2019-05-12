@@ -1,13 +1,12 @@
 // JavaScript source code
 var id;
-var inbox_click = true;
 
 var req_arr;
-
+var reward_cnt = 0;
+var req_cnt = 0;
 
 
 function getUserinfo(userid) {
-    console.log("find", userid);
     return firebase.database().ref("userpool").orderByChild("id").equalTo(userid).once("value", function (snap) {
         user_info = snap.val();
     });
@@ -17,7 +16,7 @@ function get_received_req() {//get when change happen in received requests
     firebase.database().ref("userpool/" + id).child('received_req').on("value", function (snapshot) {
         var index = 0;
         snapshot.forEach((snap) => {
-            console.log("req:", snap.val());
+            
             req = snap.val();
             firebase.database().ref("userpool").child(req.from).on("value", function (snap) {
                 if (snap.exists()) {
@@ -34,13 +33,13 @@ function get_received_req() {//get when change happen in received requests
                         'index': index,
 
                     };
-                    
+                    console.log("draw req:", req2);
                     draw_one_req(req2);
-
+                    index += 1;
                 }
                 
             });
-            index += 1;
+            
         });
     });
 }
@@ -51,31 +50,34 @@ function del_request(idx) {
     console.log("del:", idx);
     $("#id_" + idx).remove();
     //notify it to the sender
+
+    $("#inbox_count").html(req_cnt);
     
 }
 
 //send message to sender // add time to my timetable
 function accept_request(idx) {
     req_cnt--; 
-    var idx = idx - 1;
     $("#id_" + idx).remove();
+    console.log("id:", idx);
     firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
         console.log("accept:", snap);
         var req = snap.val();
         console.log("accept:", req);
-        var newreq = firebase.database().ref("userpool/" + req.id + '/change').push();
-        newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward":req.reward });
+        var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
+        newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
         //i!!!! implement to be in receiver's timetable
     }).then(function () {
-        firebase.database().ref("userpool/" + id + 'received_req').child(idx).remove();
+        firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
         });
     
     //i!!!! implement to be in sender's timetable
+
+    $("#inbox_count").html(req_cnt);
     
 }
 
 //hover effect
-var req_cnt = 0;
 function draw_one_req(req) {
     var i = $('<img>', {
         class: "inbox_img",
@@ -104,6 +106,7 @@ function draw_one_req(req) {
     $(temp).attr("class", "inbox_content_row");
     $(txt).attr("class", "img_text");
     $(temp).attr("id", "id_" + req.index);
+    //$(temp).attr("onmouseover", "hoveron()");
     req_cnt++;
     $(i).appendTo($(cap));
     $(cap).append("<b> " + req.name + " </b>");
@@ -124,63 +127,26 @@ function draw_one_req(req) {
         $(temp).appendTo($("#has_reward"));
 
     }
-}
+    $("#inbox_count").html(req_cnt);
+};
+
 
 
 
 
 $(document).ready(function () {
+
+    $("#inbox_count").html(req_cnt);
+    $("#reward_count").html(reward_cnt);
     global_params = window.location.href.split('?')[1];
     id = global_params.split('uid=')[1];
-    var left1 = $(".navbar-brand").offset().left;
-    $(".navbar-nav").css("left", left1 + 460);
+    
+    console.log("fin");
 
-    $("#inbox_menu").click(function () {
-        $("#inbox").toggleClass('visible');
-        var right = $("#inbox_icon").offset().left;
-        var width = $(window).width();
-        $("#inbox").css("right", width - right-340);
-
-        if (inbox_click == true) {
-            $("#inbox_icon").toggleClass('active');
-            inbox_click = false;
-        } else {
-            $("#inbox_icon").removeClass('active');
-            inbox_click = true;
-        }
-    });
-
-    function closeInbox() {
-        $("#inbox_icon").removeClass('active');
-        inbox_click = true;
-        $("#inbox").removeClass('visible');
-    }
-
+    //firebase.database().ref("userpool/" + id).child('received_req').on("value", function (snapshot) {
     get_received_req();
 
-    $('#id_1').hover(function () {
-        console.log("click");
-    });
-
-    
-    $('.inbox_content_row').hover(function () {
-        console.log("click");
-    });
-
-    $("#inbox").on("hover", function (evnet) {
-        console.log("here");
-        //$(this).css("background-color", "var(--table-border-color)");
-        //var arridx = $(this).attr("id").replace("id_", "");
-        //firebase.database().ref("userpool/" + id + 'received_req').child(arridx).once("value", function (snap) {
-        //    var r = snap.val();
-        //    datetocell(r);
-        // });
-
-    }, function () {
-        console.log("mousout");
-    });
-    
-
+   
     
 });
 

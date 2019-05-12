@@ -1,4 +1,4 @@
-# albaka
+﻿# albaka
 
 > CS374: Intro to HCI
 > Dayeon Kim, Sujin Jang, Heeju Wi, Hyunjoo Paik
@@ -14,6 +14,8 @@ albaka is a weekly scheduling system for part-timers
         ├── submit.js                   submit for next week timetable.. tab......
         ├── view.js                     view this week timetable
         ├── wage.js                     @
+　　　　├── inbox.js                    remained request/ remained rewards to deal with
+　　　　├── hover.js                    hover effect for remained request/reward box work in submit.html and view.html
         └── common.js                   submit과 view에서 동시에 사용 가능한.... 것들... 말고도...괜츈....
 
         pages
@@ -22,8 +24,9 @@ albaka is a weekly scheduling system for part-timers
 
         css
         │
-        ├── style.css                   기본
+        ├── style.css                   for common css; top-menu, inbox, table, and other basic frames
         ├── submit.css                  submit page 및 js에서 사용하는 css
+　　　　├── view.css                    view page 및 js에서 사용하는 css
         └── wage.css                    @
 
 
@@ -41,13 +44,13 @@ albaka is a weekly scheduling system for part-timers
         │
         ├── userpool
         │       │
-        │       ├── test1 (id)
+        │       ├── test1 (= user id)
         │       │       │
-        │       │       ├──  id              string
-        │       │       ├──  pw              string
-        │       │       ├──  name            string
-        │       │       ├──  img             url?
-        │       │       ├──  workplace       
+        │       │       ├──  id              user id (string)
+        │       │       ├──  pw              user password(string)
+        │       │       ├──  name            user real name(string)
+        │       │       ├──  img             user’s small face image (url from firebase storage)
+        │       │       ├──  workplace       workplace (use shortcut such as wp1, wp2..)
         │       │       ├──  thisweek
         │       │       │       ├──  0 : mon_arr
         │       │       │       ├──  1 : tue_arr

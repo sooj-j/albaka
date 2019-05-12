@@ -1,13 +1,19 @@
 :root {
     --table-border-color: #dee2e6;
-    --tab-slot-color:#BEF5A4;
-    --tab-drag-color:#D5F5C6;
-    --submit-slot-color:#7BE19A;
-    --view-slot-color:#FFA473;
-    --view-drag-slot-color:#FF825C;
-    --view-request-received-slot-color:#7B8FE0;
-    --warning-color:#FF2601;
+    --tab-slot-color: #BEF5A4;
+    --tab-drag-color: #D5F5C6;
+    --submit-slot-color: #7BE19A;
+    --view-slot-color: #FFA473;
+    --view-drag-slot-color: #FF825C;
+    --view-request-received-slot-color: #7B8FE0;
+    --warning-color: #FF2601;
+    --competition-rate-1: #fdf7f5;
+    --competition-rate-2: #f3eae6;
+    --competition-rate-3: #f8ddd0;
+    --neutral-color: #EFEFEF;
+    --darker-grey: #A9A9A9;
     /* --tab-color:#FFF396;
+        --competition-rate-1: #ffe4a3;
     --tab-color-hover:#FFEE47; */
 }
 
@@ -31,8 +37,8 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 387px;
-    top: 12px;
+    left: 410px;
+    top: 23px;
     background-color: dimgray;
     border-radius: 30%;
     width: 12px;
@@ -43,6 +49,24 @@
     position: fixed;
     width: 340px;
     right: 5px;
+}
+#reward {
+    position: fixed;
+    width: 340px;
+    right: 5px;
+}
+#reward_count {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    left: 455px;
+    top: 23px;
+    background-color: dimgray;
+    border-radius: 30%;
+    width: 12px;
+    text-align: center;
+    color: white;
 }
 .close {
     border: none;
@@ -57,18 +81,14 @@
     text-decoration: none;
     font-size: 12px;
     font-weight: bold;
-    display: inline-block;
+    display: block;
     cursor: pointer;
     -webkit-transition-duration: 0.1s;
     transition-duration: 0.1s;
 }
-    .close:hover {
-        font-weight: bold;
-        color: black;
-    }
-ol {
-    list-style-type: none;
-    padding-inline-start: 0px;
+.close:hover {
+    font-weight: bold;
+    color: black;
 }
 .inbox_content_row {
     font-family: 'Open Sans', sans-serif;
@@ -87,7 +107,7 @@ ol {
     font-size: 90%;
     font-family: 'Open Sans', sans-serif;
     width: 50px;
-    display: inline-block;
+    display:inline-block;
     float: left;
 }
 .img_text {
@@ -104,6 +124,7 @@ ol {
     font-weight: bold;
     border-bottom: 2px solid var(--table-border-color);
 }
+
 #inbox.li:hover{
     font-weight:bold;
 }
@@ -122,7 +143,6 @@ ol {
 .hide {
     display: none;
     list-style: none;
-    z-index: 30;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     border: 2px solid var(--table-border-color);
@@ -131,9 +151,10 @@ ol {
     position: absolute;
     text-align: center;
     top: 50px;
+    z-index:30;
 }
 ul.visible {
-    display: inline-block;
+    display: block;
 }
 .nav-item{
     margin-right:10px;
@@ -224,7 +245,7 @@ ul.visible {
 }
 
 .timetable-tab-slot {
-    background-color: var(--tab-slot-color);
+    background-color: var(--tab-slot-color) !important;
     border-bottom: var(--tab-slot-color);
     text-align: center;
 }
@@ -258,7 +279,15 @@ ul.visible {
     border-bottom: var(--view-request-received-slot-color);
     text-align: center;
 }
-
+.timetable-rate-1 {
+    background-color: var(--competition-rate-1);
+}
+.timetable-rate-2 {
+    background-color: var(--competition-rate-2);
+}
+.timetable-rate-3 {
+    background-color: var(--competition-rate-3);
+}
 /* login */
 .button {
     border: none;

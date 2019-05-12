@@ -345,7 +345,8 @@ function setDraggingSelector() {
         openReplacementModal(dragged, e.pageX, e.pageY - $(window).scrollTop());
       } else if (this.classList.contains("timetable-view-slot")){
         dragged.push(this);
-        $(this).toggleClass("timetable-view-drag-slot");
+        //$(this).toggleClass("timetable-view-drag-slot");
+          $(this).addClass("timetable-view-drag-slot");
       }
     }
   });

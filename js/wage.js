@@ -1,13 +1,8 @@
-/*
-$(document).ready(function () {
-    $("#nav-placeholder").load("nav.html", function () {
-        $(".nav-item")[2].classList.add("nav-item-active");
-    });
-});
-*/
+
+
 var goal;
 var database = firebase.database();
-
+var user_info;
 
 var mayfirst = ['may1','may2','may3','may4', 'may5'];
 var maysecond = ['may6','may7','may8','may9', 'may10','may11','may12'];
@@ -23,6 +18,17 @@ var calender = {
 'mayfourth': mayfourth,
 'mayfifth':mayfifth
 }
+function findUser() {
+    global_params = window.location.href.split('?')[1];
+    user_id = global_params.split('uid=')[1];
+    console.log("user_id: ", user_id);
+
+    return firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
+        user_info = snap.val();
+        console.log("user_info: ")
+        console.log(user_info); //user_info.id
+    });
+};
 /*
 var weeks = {
     'mayfirst':{
@@ -91,7 +97,11 @@ var may_sum;
 $(document).ready(function(){
     $("#set-zone").hide();
 
-    database.ref('userpool/test1/wage/may/').once('value').then(function(snapshot) {
+    $("#nav-placeholder").load("nav.html", function () {
+        $(".nav-item")[2].classList.add("nav-item-active");
+    });
+
+    database.ref('userpool/' + user_info[""] + '/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
         $("#division").html(may_sum+"$/"+goal+"$");
@@ -125,8 +135,9 @@ $(document).ready(function(){
                 }
 
                 sum += total;
-            }
-            $("#total-wage").html(sum + "$");
+        }
+        alert(sum);
+            $("#total-wage").html("Total Wage : " + sum + "$");
 
         });
         /*

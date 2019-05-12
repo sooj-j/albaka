@@ -27,7 +27,7 @@ $(function () {
   var isMouseDown = false;
   var dragged = [];
   $(document).on('mousedown','.timetable-entry',function() {
-  console.log("mousedown");
+    console.log("mousedown");
     dragged=[];
     isMouseDown = true;
     console.log(isMouseDown);
@@ -45,7 +45,7 @@ $(function () {
       if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
         console.log("mouseover: ", this);
         dragged.push(this);
-          //$(this).toggleClass("timetable-tab-drag-slot");
+        //$(this).toggleClass("timetable-tab-drag-slot");
         $(this).addClass("timetable-tab-drag-slot");
       }
     }
@@ -69,7 +69,7 @@ $(function () {
 });
 
 function pushToDatabase(drag) {
-  console.log("pushToDatabase")
+  console.log("pushToDatabase");
   startCell = drag[0];
   endCell = drag[drag.length-1];
   if (startCell == endCell){
@@ -324,7 +324,7 @@ function deleteBlock(t){
         console.log(cellList[i][j]);
       }
     }
-  }
+  };
   cellList[newDay].splice(newIndex,1);
   //copycellList2Database();
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+newDay;

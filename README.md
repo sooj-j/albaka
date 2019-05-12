@@ -100,6 +100,16 @@ albaka is a weekly scheduling system for part-timers
         │       │       │               ├── start_time : "request start time"
         │       │       │               ├── receiver: "userid" who accepted the request
         │       │       │               └── reward: "reward" to give
+        │       │       │
+        │       │       ├──  requestQueue // queue for automatically receive request
+        │       │       │       └──  randomKey
+        │       │       │            ├── 0 (start row) : 10
+        │       │       │            ├── 1 (end row) : 20
+        │       │       │            ├── day : 0
+        │       │       │            ├── reward (optional) : 'beer'
+        │       │       │            ├── sender : 'Juho Kim'
+        │       │       │            └── isPending (optional) : false
+        │       │       │
         │       │       ├──  requestSent
         │       │       │       ├──  0
         │       │       │       │    └──  -LeZMr5akx23bdV0aLYH (random key)
@@ -118,9 +128,9 @@ albaka is a weekly scheduling system for part-timers
         │       │               │    └──  -LeZMr5akx23bdV0aLYH (random key)
         │       │               │               ├── 0 (start row) : 10
         │       │               │               ├── 1 (end row) : 20
-        │       │               │               ├── reward : 'beer'
+        │       │               │               ├── reward (optional) : 'beer'
         │       │               │               ├── sender : 'Juho Kim'
-        │       │               │               └── isPending : false
+        │       │               │               └── isPending (optional) : false
         │       │               ├──  1
         │       │               ├──  2
         │       │               ├──  3

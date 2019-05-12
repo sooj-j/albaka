@@ -32,6 +32,7 @@ const rewardToIconHTML = {
 const requestInterval = 2000
 
 $(document).ready(function () {
+
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[0].classList.add("nav-item-active");
     });
@@ -596,7 +597,7 @@ function pushRequestToDatabase(drag, status) {
   startCell = drag[0];
   endCell = drag[drag.length-1];
 
-  var day = startCell.cellIndex-1;
+  var day = startCell.cellIndex - 1;
   s_row = time2Row(($(startCell).parent())[0].cells[0].id);
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
@@ -686,7 +687,8 @@ function deleteRequestReceived() {
   var day = currentRequestReceivedDay;
   var key = currentRequestReceivedKey;
 
-  var index = requestReceivedCellList.findIndex((element) => { element.key === key; });
+    var index = requestReceivedCellList.findIndex((element) => { element.key === key; });
+    console.log("ind", index);
   requestReceivedCellList.splice(index, 1);
 
   var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+day+'/'+key;
@@ -696,3 +698,5 @@ function deleteRequestReceived() {
   currentRequestReceivedDay = null;
   currentRequestReceivedKey = null;
 }
+
+

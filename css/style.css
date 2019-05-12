@@ -43,7 +43,8 @@
 }
 .navbar-nav {
     position: absolute;
-    left: 540px;
+    left: 645px !important;
+    top:5px;
 }
 .nav-down {
     font-family: 'Open Sans', sans-serif;
@@ -55,7 +56,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 385px; 
+    left: 460px; 
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -78,7 +79,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 430px;
+    left: 505px;
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -103,10 +104,11 @@
     cursor: pointer;
     -webkit-transition-duration: 0.1s;
     transition-duration: 0.1s;
+    z-index:31;
 }
 .close:hover {
     font-weight: bold;
-    color: black;
+    color: white;
 }
 .inbox_content_row {
     font-family: 'Open Sans', sans-serif;
@@ -114,7 +116,11 @@
     border-bottom: 1px solid var(--table-border-color);
     list-style-type: none;
     overflow:auto;
+    z-index: 32;
 }
+    .inbox_content_row:hover {
+        background-color: var(--table-border-color);
+    }
 .inbox_img{
     padding:3px;
     width:45px;
@@ -122,17 +128,17 @@
 }
 .caption {
     margin: 3px;
-    font-size: 90%;
+    font-size: 9px;
     font-family: 'Open Sans', sans-serif;
     width: 50px;
-    display:inline-block;
+    display:block;
     float: left;
 }
 .img_text {
     width: 260px;
-    display: inline-block;
+    display: block;
     float: left;
-    margin-top:5px;
+    margin-top:8px;
 }
 .inbox_content_header {
     font-family: 'Open Sans', sans-serif;
@@ -167,15 +173,19 @@
     background-color: white;
     padding-left: 0px;
     position: absolute;
+    left:1080px;
     text-align: center;
     top: 50px;
-    z-index:30;
+    z-index:31;
 }
-ul.visible {
+.hide.visible {
     display: block;
 }
 .nav-item{
     margin-right:10px;
+    width:160px;
+    font-size:16px;
+    text-align:center;
 }
 
 .nav-link {
@@ -296,6 +306,12 @@ ul.visible {
 .timetable-view-request-received-slot {
     background-color: var(--view-request-received-slot-color);
     border-bottom: var(--view-request-received-slot-color);
+    text-align: center;
+}
+.timetable-view-request-hover-slot {
+    background-color: dimgray;
+    color:white;
+    border-bottom: none;
     text-align: center;
 }
 .timetable-rate-1 {

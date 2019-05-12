@@ -3,53 +3,49 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
     <div class="container">
         <a class="navbar-brand" href="javascript:makeURL('view.html')">ALBAKA</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:makeURL('view.html')">VIEW THIS WEEK</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:makeURL('submit.html')">SUBMIT SCHEDULE</a>
-                </li>
-                <li class="nav-item">
+        
+        <div id="navbarSupportedContent">
+            <div class="navbar-nav">
+                <div class="nav-item">
+                    <a class="nav-link" href="javascript:makeURL('view.html')">VIEW ASSIGNED SCHEDULE</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="javascript:makeURL('submit.html')">SUBMIT NEXT SCHEDULE</a>
+                </div>
+                <div class="nav-item" style="width:100px">
                     <a class="nav-link" href="javascript:makeURL('wage.html')">MY WAGE</a>
-                </li>
+                </div>
 
-
-                <li class="nav-down" id="inbox_menu">
+                <div class="nav-down" id="inbox_menu">
                     <a class="nav-link" id="inbox_icon"><i class="fas fa-inbox fa-2x"></i><div id="inbox_count">2</div></a>
-                    <ul class="hide" id="inbox">
-                        <li class="inbox_content_header">
+                    <div class="hide" id="inbox">
+                        <div class="inbox_content_header">
                             REMAINING REQUESTS
-                            <input type="button" value="X" class="close btn" id="inbox_close" onclick="closeInbox()"/>
-                        </li>
+                            <input type="button" value="X" class="close btn" id="inbox_close"/>
+                        </div>
                         <div class="big_inbox" id="has_reward"></div>
                         <div class="big_inbox" id="no_reward"></div>
 
-                    </ul>
-                </li>
-                <li class="nav-down" id="reward_menu">
+                    </div>
+                </div>
+                <div class="nav-down" id="reward_menu">
                     <a class="nav-link" id="reward_icon"><i class="fas fa-gift fa-2x"></i><div id="reward_count">2</div></a>
-                    <ul class="hide" id="reward">
-                        <li class="inbox_content_header">
+                    <div class="hide" id="reward">
+                        <div class="inbox_content_header">
                             GIFTS
-                            <input type="button" value="X" class="close btn" id="reward_close" onclick="closeReward()" />
-                        </li>
+                            <input type="button" value="X" class="close btn" id="reward_close" />
+                        </div>
                         <div class="big_inbox" id="empty_reward"> no reward to deal with.</div>
                         <div class="big_inbox" id="reward_to_send"></div>
 
                         <div class="big_inbox" id="reward_to_receive"></div>
 
-                    </ul>
-                </li>
+                    </div>
+                </div>
                 <li class="nav-item" style="margin-left:150px">
                     <a class="nav-link ml-auto" href="index.html">log out</a>
                 </li>
-            </ul>
+            </div>
 
         </div>
 
@@ -62,27 +58,53 @@
     var inbox_click = true;
     var reward_click = true;
     function closeInbox() {
-        $('#inbox').toggleClass('visible');
-        $("#inbox_icon").toggleClass('active');
+        $('#inbox').attr('display','block');
+        $("#inbox_icon").removeClass('active');
         inbox_click = true;
-        console.log("close");
     };
     function closeReward() {
-        $('#reward').toggleClass('visible');
-        $("#reward_icon").toggleClass('active');
+        $('#reward').attr('display', 'block');
+        $("#reward_icon").removeClass('active');
         reward_click = true;
-        console.log("close");
     };
 
+    var re = new RegExp("<b> " + ".*" + "<\/b>", "i");
+
     $(document).ready(function () {
-        var left1 = $(".navbar-brand").offset().left;
-        $(".navbar-nav").css("left", left1 + 610);
-        var right = $("#inbox_icon").offset().left;
-        var width = $(window).width();
-        $("#inbox").css("right", width - right-340);
-        $("#reward").css("right", width - right - 340);
-        $("#reward_count").css("right", width - right - 320);
-        $("#inbox_count").css("right", width - right - 320);
+        $("#inbox_close").click(closeInbox);
+        $("#reward_close").click(closeReward);
+
+        $('.big_inbox').on('mouseenter', '.inbox_content_row', function () {
+            
+            var usertext = $(this).children('.img_text').html();
+            if (usertext != "") {
+                var found = usertext.match(re)[0].split(" ");
+
+                var json2 = {
+                    'day': found[1],
+                    'date': found[2],
+                    'start_time': time2Row(found[3].split('~')[0]),
+                    'end_time': time2Row(found[3].split('~')[1])
+                };
+                console.log(json2);
+                hover_on_view(json2);
+            };
+            
+
+        });
+
+        $('.big_inbox').on('mouseleave', '.inbox_content_row', function () {
+            console.log("out");
+            var usertext = $(this).children('.img_text').html();
+            var found = usertext.match(re)[0].split(" ");
+            var json2 = {
+                'day': found[1],
+                'date': found[2],
+                'start_time': time2Row(found[3].split('~')[0]),
+                'end_time': time2Row(found[3].split('~')[1])
+            };
+            remove_hover_cell(json2);
+        });
     });
 
     $("#inbox_menu").click(function () {
@@ -120,5 +142,6 @@
 
 </script>
 <script src="js/inbox.js"></script>
+<script src="js/view.js"></script>
 
 

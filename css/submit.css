@@ -1,7 +1,16 @@
 /* view page */
 
 
-
+.tabbox {
+    position: fixed;
+    width: 75%;
+    margin-top: 45px;
+    padding: 6.5px;
+    left: 100px;
+    background-color: var(--table-border-color);
+    border-color: var(--tab-color);
+    z-index: 6;
+}
 
 
 .smtable_container {
@@ -78,4 +87,22 @@
 .submitbutton:hover{
     background-color: var(--view-drag-slot-color);
     color: black;
+}
+#timetable {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-bottom: 5px solid var(--warning-color);
+  border-left: 5px solid var(--warning-color);
+  border-right: 5px solid var(--warning-color);
+  border-collapse: collapse;
+}
+#timetable-header-submit {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-top: 5px solid var(--warning-color);
+  border-left: 5px solid var(--warning-color);
+  border-right: 5px solid var(--warning-color);
+  border-collapse: collapse;
 }

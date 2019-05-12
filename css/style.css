@@ -32,6 +32,7 @@
     border-color: var(--tab-color);
     z-index: 6;
 }
+
 .fixed-top {
     height: 45px;
 }
@@ -49,7 +50,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 385px; 
+    left: 385px;
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;
@@ -86,7 +87,7 @@
     width: 15px;
     background-color: none;
     color: dimgrey;
-    
+
     text-align: center;
     padding: 2px 3px;
     margin: 0px;

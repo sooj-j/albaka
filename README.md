@@ -85,21 +85,21 @@ albaka is a weekly scheduling system for part-timers
         │       │       │
         │       │       ├──  received_req // for rejected requests once
         │       │       │       |
-        │       │       │       ├── random_index(int) //per one requestex. ex) 0,1,,,
-        │       │       │       |       ├──  date : "Day Date" ex) "TUE 4/13"
-        │       │       │       |       ├──  end_time : "request end time" ex) "13:00"
-        │       │       │       |       ├──  start_time : "request start time" ex)"10:30"
-        │       │       │       |       ├──  from : "user id" who sent this request
-        │       │       │       |       └──  reward : (string) reward of the request/ "" for no reward
-        │       │       │       |
+        │       │       │       └── random_index(int) //per one requestex. ex) 0,1,,,
+        │       │       │               ├──  date : "Day Date" ex) "TUE 4/13"
+        │       │       │               ├──  end_time : "request end time" ex) "13:00"
+        │       │       │               ├──  start_time : "request start time" ex)"10:30"
+        │       │       │               ├──  from : "user id" who sent this request
+        │       │       │               └──  reward : (string) reward of the request/ "" for no reward
+        │       │       │        
         │       │       ├──  change // for accepted request
         │       │       │       |
-        │       │       │       ├──randomkey
-        │       │       │       |       ├── date : "Day Date" ex) "TUE 4/13"
-        │       │       │       |       ├── end_time : "request end time" ex)
-        │       │       │       |       ├── start_time : "request start time"
-        │       │       │       |       ├── receiver: "userid" who accepted the request
-        │       │       │       |       └── reward: "reward" to give
+        │       │       │       └──randomkey
+        │       │       │               ├── date : "Day Date" ex) "TUE 4/13"
+        │       │       │               ├── end_time : "request end time" ex)
+        │       │       │               ├── start_time : "request start time"
+        │       │       │               ├── receiver: "userid" who accepted the request
+        │       │       │               └── reward: "reward" to give
         │       │       ├──  requestSent
         │       │       │       ├──  0
         │       │       │       │    └──  -LeZMr5akx23bdV0aLYH (random key)
@@ -119,7 +119,8 @@ albaka is a weekly scheduling system for part-timers
         │       │               │               ├── 0 (start row) : 10
         │       │               │               ├── 1 (end row) : 20
         │       │               │               ├── reward : 'beer'
-        │       │               │               └── sender : 'Juho Kim'
+        │       │               │               ├── sender : 'Juho Kim'
+        │       │               │               └── isPending : false
         │       │               ├──  1
         │       │               ├──  2
         │       │               ├──  3

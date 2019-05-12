@@ -28,16 +28,6 @@
   display: inline-block; */
 }
 
-.tabbox {
-    position: fixed;
-    width: 75%;
-    margin-top: 45px;
-    padding: 6.5px;
-    left: 100px;
-    background-color: var(--table-border-color);
-    border-color: var(--tab-color);
-    z-index: 6;
-}
 .fixed-top {
     height: 45px;
 }
@@ -55,7 +45,7 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 385px; 
+    left: 385px;
     top: 23px;
     background-color: dimgray;
     border-radius: 30%;

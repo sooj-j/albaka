@@ -1,7 +1,16 @@
 /* view page */
 
 
-
+.tabbox {
+    position: fixed;
+    width: 75%;
+    margin-top: 45px;
+    padding: 6.5px;
+    left: 100px;
+    background-color: var(--table-border-color);
+    border-color: var(--tab-color);
+    z-index: 6;
+}
 
 
 .smtable_container {
@@ -82,10 +91,11 @@
 #timetable {
   margin-top: 10px;
   margin-left: 10px;
-  margin-right: 30px;
+  margin-right: 10px;
   border-bottom: 5px solid var(--warning-color);
   border-left: 5px solid var(--warning-color);
   border-right: 5px solid var(--warning-color);
+  border-collapse: collapse;
 }
 #timetable-header-submit {
   margin-top: 5px;
@@ -94,11 +104,5 @@
   border-top: 5px solid var(--warning-color);
   border-left: 5px solid var(--warning-color);
   border-right: 5px solid var(--warning-color);
-  /* border-bottom: 2px solid var(--table-border-color); */
+  border-collapse: collapse;
 }
-/* #timetable-submit {
-  margin: 5px;
-  border-bottom: 4px solid var(--warning-color);
-  border-left: 4px solid var(--warning-color);
-  border-right: 4px solid var(--warning-color);
-} */

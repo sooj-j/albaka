@@ -234,7 +234,7 @@ function pushRequestReceivedFromQueue() {
 
     /* delete latest request from request queue */
     delete requestQueueValue[lastKey]
-    if (Object.keys(obj).length === 0) {
+    if (Object.keys(requestQueueValue).length === 0) {
       /* prevent initialize queue to default when revisiting */
       requestQueueValue = "done"
     }

@@ -28,6 +28,9 @@ const rewardToIconHTML = {
   'meal': ' <i class="fas fa-concierge-bell"></i>'
 }
 
+/* user receives requests for a certain time intervals, in the order in the LIFO queue. */
+const requestInterval = 2000
+
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[0].classList.add("nav-item-active");
@@ -36,6 +39,7 @@ $(document).ready(function () {
     findUser();
     initializeTimeTableHeader();
     initializeTimeTable();
+    initializeRequestQueue();
 
     setDraggingSelector();
 
@@ -120,11 +124,13 @@ $(document).ready(function () {
       pushThisweekToDatabase(currentRequestReceivedCellblock);
       deleteRequestReceived();
       closeReceiveReplacementModal();
+      setTimeout(pushRequestReceivedFromQueue, requestInterval);
     })
 
     $("#btn-reject-request").click(function() {
       pendRequestReceived();
       closeReceiveReplacementModal();
+      setTimeout(pushRequestReceivedFromQueue, requestInterval);
     })
 });
 
@@ -135,11 +141,105 @@ function closeReceiveReplacementModal() {
 
 /* if user reject the replacement request, then pend in inbox */
 function pendRequestReceived() {
-  var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
-  firebase.database().ref(requestdbDIR).update({
+  var receiveddbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
+  var queuedbDIR = '/userpool/'+user_id+'/requestQueue/';
+  
+  firebase.database().ref(receiveddbDIR).update({
     isPending: true,
   });
+
+  /* if request without reward is rejected, then push the request with reward <beer> to queue */
+  firebase.database().ref(receiveddbDIR).once("value", function (snap) {
+    var requestQueueValue = snap.val();
+    if(!requestQueueValue.reward) {
+      requestQueueValue.reward = 'beer';
+      requestQueueValue.day = currentRequestReceivedDay;
+      firebase.database().ref(queuedbDIR).push(requestQueueValue);
+    }
+  });
+
   initializeTimeTable();
+}
+
+
+function initializeRequestQueue() {
+  const requestQueueDefault = [{
+    0: 0,
+    1: 3,
+    day: 4,
+    isPending: false,
+    sender: "Heeju",
+    reward: null
+  }, {
+    0: 12,
+    1: 16,
+    day: 2,
+    isPending: false,
+    sender: "Hyunjoo",
+    reward: null
+  }, {
+    0: 0,
+    1: 2,
+    day: 3,
+    isPending: false,
+    sender: "Dayeon",
+    reward: null
+  }];
+
+  var dbDIR = '/userpool/'+user_id+'/requestQueue/';
+
+  firebase.database().ref(dbDIR).once("value", function (snap) {
+    requestQueueValue = snap.val();
+    if (requestQueueValue === null) {
+      firebase.database().ref(dbDIR).set(requestQueueDefault);
+    }
+    setTimeout(pushRequestReceivedFromQueue, requestInterval);
+  });
+}
+
+/* user receives a popped request from the queue */
+function pushRequestReceivedFromQueue() {
+  var queuedbDIR = '/userpool/'+user_id+'/requestQueue/';
+  var receiveddbDIR = '/userpool/'+user_id+'/requestReceived/';
+
+  firebase.database().ref(queuedbDIR).once("value", function (snap) {
+    requestQueueValue = snap.val();
+    if (requestQueueValue === null) return;
+
+    /* get latest request from queue */
+    var lastKey = Object.keys(requestQueueValue).pop();
+    var firstRequest = requestQueueValue[lastKey];
+
+    day = firstRequest.day
+    delete firstRequest.day
+    firstRequest.isPending = false
+
+    /* push new request to request received DB */
+    firebase.database().ref(receiveddbDIR+'/'+day).once("value", function (snap) {
+      requestValue = snap.val();
+      /* if there is an existing request which has same < start time, end time, sender > with new request from queue,
+         then delete the existing request ( pending request is updated with reward ) */
+      if (requestValue) {
+        for (key in requestValue) {
+          if (requestValue[key][0] === firstRequest[0] &&
+              requestValue[key][1] === firstRequest[1] &&
+              requestValue[key].sender === firstRequest.sender) {
+            firebase.database().ref(receiveddbDIR+'/'+day+'/'+key).remove();
+          }
+        }
+      }
+      firebase.database().ref(receiveddbDIR+'/'+day).push(firstRequest);
+      initializeTimeTable();
+    });
+
+    /* delete latest request from request queue */
+    delete requestQueueValue[lastKey]
+    if (Object.keys(obj).length === 0) {
+      /* prevent initialize queue to default when revisiting */
+      requestQueueValue = "done"
+    }
+    firebase.database().ref(queuedbDIR).set(requestQueueValue);
+  });
 }
 
 function changeStatusToReject(status, reward, time) {

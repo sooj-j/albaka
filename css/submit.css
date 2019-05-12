@@ -1,23 +1,8 @@
 /* view page */
 
 
-<<<<<<< HEAD
-.tabbox {
-  position: fixed;
-  max-width: 800px;
-  text-align: left;
-  width: 75%;
-  margin-top: 45px;
-  padding: 6.5px;
-  /* left:16%; */
-  background-color: var(--table-border-color);
-  border-color: var(--tab-color);
-  z-index: 6;
-}
-=======
 
 
->>>>>>> 9c00cf025ee6c9aac19e2d571147c268e18c6437
 
 .smtable_container {
     padding-top: 42px;

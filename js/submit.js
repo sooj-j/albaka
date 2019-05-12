@@ -27,6 +27,17 @@ $(document).ready(function () {
     //copyDatabase2cellList();
     //showcellList();
 
+    firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
+        var goal = snapshot.val()['goal'];
+        var may_sum = snapshot.val()['sum'];
+        var total = goal - may_sum;
+        //sum 에 전체 시간 넣어주면 되는데 전 잘 이해가 안 되요ㅠㅠ
+        $("#division").html(sum+"$/"+total+"$");
+        var percentage = (sum/total *100).toPrecision(2);
+        $('#progress').html(percentage + "%");
+        $("#progress").css("width", percentage+'%')
+        });// 이 함수 추가나 뺄 때마다 넣으면 되는데 어디다 넣어야 할지 모르겠어요ㅠㅠ
+
 
 });
 

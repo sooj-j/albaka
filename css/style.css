@@ -12,20 +12,25 @@
     --competition-rate-3: #f8ddd0;
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
+    --body-color: #FFFFEC;
     /* --tab-color:#FFF396;
         --competition-rate-1: #ffe4a3;
     --tab-color-hover:#FFEE47; */
 }
 
+body{
+    background-color: var(--body-color);
+}
+
 /* common */
+.container-background {
+    background-color: white;
+    width: 960px;
+    padding-left: 0;
+}
 .outbox {
     width: 100%;
     text-align: center;
-}
-
-.inbox {
-    /* border-style: dashed;
-  display: inline-block; */
 }
 
 .fixed-top {
@@ -182,7 +187,7 @@ ul.visible {
     top: 45px;
     width: 100%;
     height: 45px;
-    background-color: white;
+    /* background-color: white; */
 }
 .container {
     font-family: 'Open Sans', sans-serif;

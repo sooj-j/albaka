@@ -41,11 +41,8 @@ function register() {
         "pw": pw,
         "workplace": wp,
         "img": uimg,
-<<<<<<< HEAD
-=======
         "thisweek": "null",
-        "nextweek": "null",
->>>>>>> bd26eeffea09988291f67a85c77e9fd5c95358b3
+        "nextweek": "null"
 
     };
 

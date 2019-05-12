@@ -10,11 +10,13 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
-    findUser();
+    findUser().then(function () {
+        initializeTimeTableHeader();
+        initializeTimeTable();
+    });
     cellList=[];
 
-    initializeTimeTableHeader();
-    initializeTimeTable();
+    
     //copyDatabase2cellList();
     //showcellList();
 
@@ -32,7 +34,8 @@ $(function () {
     if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
       dragged.push(this);
       console.log("mousedown: ", this); //cell
-      $(this).toggleClass("timetable-tab-drag-slot");
+      //$(this).toggleClass("timetable-tab-drag-slot");
+      $(this).addClass("timetable-tab-drag-slot");
       return false; // prevent text selection
     }
   });
@@ -42,7 +45,8 @@ $(function () {
       if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
         console.log("mouseover: ", this);
         dragged.push(this);
-        $(this).toggleClass("timetable-tab-drag-slot");
+          //$(this).toggleClass("timetable-tab-drag-slot");
+        $(this).addClass("timetable-tab-drag-slot");
       }
     }
   });
@@ -51,13 +55,15 @@ $(function () {
     isMouseDown = false;
     console.log("mouseup");
     for(var i=0;i<dragged.length;i++) {
-      $(dragged[i]).toggleClass("timetable-tab-drag-slot");
+        //$(dragged[i]).toggleClass("timetable-tab-drag-slot");
+        $(dragged[i]).addClass("timetable-tab-drag-slot");
     }
     if (tab_id != "submitted" && dragged.length > 1){
       console.log(dragged);
       pushToDatabase(dragged);
       dragged=[];
-      initializeTimeTable();
+      //initializeTimeTable();
+      readFromDatabase();
     }
   });
 });
@@ -226,7 +232,7 @@ function findUser() {
     user_id = global_params.split('uid=')[1];
     console.log("user_id: ", user_id);
 
-    firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
+    return firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
         user_info = snap.val();
         console.log("user_info: ")
         console.log(user_info); //user_info.id
@@ -268,9 +274,41 @@ function initializeTimeTable() {
                 newCell.classList.add("timetable-entry");
             }
         }
-    }
+    };
     //showcellList();
+    drawCompetitionRate();
     readFromDatabase();
+}
+function drawCompetitionRate() {
+    console.log("draw");
+    var dbDIR = '/workplace/' + user_info.workplace + '/CompetitionRate/';
+    var colorValue;
+    if (tab_id == "submitted") {
+        //do nothing
+    }
+    else {
+        firebase.database().ref(dbDIR).once('value', function (snapshot) {
+            rates = snapshot.val();
+            for (var j = 0; j < 7; j++) {
+                var day_rate = rates[j].split(',');
+                var day = j + 1;
+
+                for (var i = 0; i < 38; i++) {
+                    var row = i + 1;
+                    if (day_rate[i] == 0) {
+                        continue;
+                    } else if (day_rate[i] == 1) {
+                        colorValue = "timetable-rate-1";
+                    } else if (day_rate[i] == 2) {
+                        colorValue = "timetable-rate-2";
+                    } else {
+                        colorValue = "timetable-rate-3";
+                    }
+                    timeTable.rows[row].cells[day].classList.add(colorValue);
+                }
+            }
+        });
+    };
 }
 
 function deleteBlock(t){
@@ -305,7 +343,8 @@ function deleteBlock(t){
       });
     }
   }
-  initializeTimeTable();
+  //initializeTimeTable();
+  readFromDatabase();
 }
 
 function readFromDatabase(){
@@ -446,6 +485,6 @@ function submit() {
   }
   alert("Submit Completed!");
 
-}
+};
 
 console.log(window.location.href);

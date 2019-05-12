@@ -167,12 +167,41 @@ function draw_one_req(req) {
     $("#inbox_count").html(req_cnt);
 };
 
-function draw_one_rew(req) {
-    var i = $('<img>', {
-        class: "inbox_img",
-        src: req.img,
-        align: "left",
+function draw_one_rew_to_receive(req) {
+   
+    var del = $('<input>', {
+        type: "button",
+        value: "I already received.",
+        class: "btn button",
+        onclick: "del_reward(" + req.index + ")",
+        style: "margin: 3px; font-size:10px",
     });
+    var give = $('<input>', {
+        type: "button",
+        value: "notify"+req.sender+ "to send",
+        class: "btn button",
+        onclick: "give_reward(" + req.index + ")",
+        style: "margin: 3px; font-size:10px",
+    });
+
+    var temp = document.createElement('div');
+    var txt = document.createElement('div');
+    $(temp).attr("class", "reward_content_row");
+    //$(txt).attr("class", "img_text");
+    $(temp).attr("id", "id_" + req.index);
+
+    rew_cnt++;
+    $(txt).append("<b>" + req.sender +" </b>"+"has to give you" + "<b>" + req.reward + "</b><br>");
+
+    $(txt).append(del);
+    $(txt).append(give);
+    $(temp).append($(txt));
+    $(temp).appendTo($("#reward_to_receive"));
+    $("#reward_count").html(req_cnt);
+    
+};
+function draw_one_rew_to_send(req) {
+
     var del = $('<input>', {
         type: "button",
         value: "I already sent.",
@@ -180,44 +209,21 @@ function draw_one_rew(req) {
         onclick: "del_reward(" + req.index + ")",
         style: "margin: 3px; font-size:10px",
     });
-    var acpt = $('<input>', {
-        type: "button",
-        value: "I received it.",
-        class: "btn button",
-        onclick: "get_reward(" + req.index + ")",
-        style: "margin: 3px; right: 2px;font-size:10px"
-    });
-    var cap = document.createElement('div');
-    $(cap).attr("class", "caption alignleft");
 
     var temp = document.createElement('div');
     var txt = document.createElement('div');
-    $(temp).attr("class", "inbox_content_row");
-    $(txt).attr("class", "img_text");
+    $(temp).attr("class", "reward_content_row");
+    //$(txt).attr("class", "img_text");
     $(temp).attr("id", "id_" + req.index);
 
-    req_cnt++;
-    $(i).appendTo($(cap));
-    $(cap).append("<b> " + req.name + " </b>");
-    $(cap).appendTo($(temp));
+    rew_cnt++;
+    $(txt).append("you have to give <b> " + req.reward + " </b> to "+req.sender + " </b> <br>");
 
-    if (req.reward == "") {
-        $(txt).append("Can you to work at" + "<b> " + req.date + " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
-        $(txt).append(acpt);
-        $(txt).append(del);
-        $(temp).append($(txt));
-        $(temp).appendTo($("#no_reward"));
-    } else {
-        $(txt).append(" Can you to work at" + "<b> " + req.date + " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
-        //$(txt).append("you can get " + "<b> " + req.reward + " </b>");
-        $(acpt).attr('value', 'accept with ' + req.reward);
-        $(txt).append(acpt);
-        $(txt).append(del);
-        $(temp).append($(txt));
-        $(temp).appendTo($("#has_reward"));
+    $(txt).append(del);
+    $(temp).append($(txt));
+    $(temp).appendTo($("#reward_to_send"));
+    $("#reward_count").html(req_cnt);
 
-    }
-    $("#inbox_count").html(req_cnt);
 };
 
 

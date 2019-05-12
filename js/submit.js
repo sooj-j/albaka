@@ -34,8 +34,8 @@ $(function () {
     if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
       dragged.push(this);
       console.log("mousedown: ", this); //cell
-      //$(this).toggleClass("timetable-tab-drag-slot");
-      $(this).addClass("timetable-tab-drag-slot");
+      $(this).toggleClass("timetable-tab-drag-slot");
+      //$(this).addClass("timetable-tab-drag-slot");
       return false; // prevent text selection
     }
   });
@@ -45,8 +45,8 @@ $(function () {
       if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
         console.log("mouseover: ", this);
         dragged.push(this);
-        //$(this).toggleClass("timetable-tab-drag-slot");
-        $(this).addClass("timetable-tab-drag-slot");
+        $(this).toggleClass("timetable-tab-drag-slot");
+        //$(this).addClass("timetable-tab-drag-slot");
       }
     }
   });
@@ -55,14 +55,15 @@ $(function () {
     isMouseDown = false;
     console.log("mouseup");
     for(var i=0;i<dragged.length;i++) {
-        //$(dragged[i]).toggleClass("timetable-tab-drag-slot");
-        $(dragged[i]).addClass("timetable-tab-drag-slot");
+        $(dragged[i]).toggleClass("timetable-tab-drag-slot");
+        //$(dragged[i]).addClass("timetable-tab-drag-slot");
+        //$(dragged[i]).classList.remove("timetable-tab-drag-slot");
     }
     if (tab_id != "submitted" && dragged.length > 1){
       console.log(dragged);
       pushToDatabase(dragged);
       dragged=[];
-      //initializeTimeTable();
+      initializeTimeTable();
       readFromDatabase();
     }
   });
@@ -92,140 +93,7 @@ function pushToDatabase(drag) {
     }
   }
 }
-function showcellList() {
-  var timeTable = document.getElementById('timetable');
-  console.log("showcellList");
-  var colorValue;
-  if (tab_id == "submitted"){ colorValue = "timetable-submit-slot"; }
-  else{ colorValue = "timetable-tab-slot"; }
 
-  if (cellList.length == 0) { console.log("Empty this week"); }
-  else{
-    for(var j=0; j<cellList.length; j++) {
-      if (cellList[j].length == 0){ console.log("Empty day: ", j); }
-      else {
-        for (var l=0; l<cellList[j].length; l++){
-          var start=cellList[j][0];
-          var end=cellList[j][1];
-          for (var i=start; i<=end; i++){
-            var row = i+1;
-            var day = j+1;
-              //console.log(timeTable.rows[row].cells[day]);
-            timeTable.rows[row].cells[day].classList.add(colorValue);
-            if (i == start){
-              if (start % 2 == 0){s_time = timeAxis[start/2];}
-              else {s_time = time30Axis[(start-1) / 2];}
-              if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
-              else {e_time = time30Axis[end / 2];}
-              t_time = (end+1-start)/2;
-              timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-function add2cellList(day, startRow, endRow, drag){
-  cellList[day].push([startRow, endRow, drag]);
-  cellList[day].sort(function (a, b) {
-    if (a[0] > b[0]) {return 1;}
-    if (a[0] < b[0]) {return -1;}
-    return 0;
-  });
-  console.log(cellList[day]);
-  var newIndex = cellList[day].findIndex(function (a) {
-    return (a[0] == startRow && a[1] == endRow);
-  });
-  if (newIndex != cellList[day].length -1){ //not the last element
-    if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
-      cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
-      cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
-      cellList[day].splice(newIndex+1,1);
-      console.log("merge1 cellList: ", cellList[day]);
-    }
-  }
-  if (newIndex != 0){
-    if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
-      cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
-      cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
-      cellList[day].splice(newIndex,1);
-      console.log("merge2 cellList: ", cellList[day]);
-    }
-  }
-}
-
-function copyDatabase2cellList(){
-  console.log("start copyDatabase2cellList");
-  cellList = [];
-  var tabValue;
-  var dbDIR = '/userpool/'+user_id+'/nextweek/';
-  if (tab_id == "submitted"){
-    dbDIR = dbDIR + 'submitted/';
-    //colorValue = "timetable-submit-slot";
-    console.log("dbDIR: ", dbDIR);
-  }
-  else{
-    dbDIR = dbDIR + 'tab/'+tab_id+'/';
-    //colorValue = "timetable-tab-slot";
-    console.log("dbDIR: ", dbDIR);
-  }
-  firebase.database().ref(dbDIR).once('value', function(snapshot) {
-    tabValue = snapshot.val();
-    if (tabValue == null) { console.log("Empty this week"); }
-    else{
-      var keyList = Object.keys(tabValue);
-      console.log("keyList: ", keyList);
-      //console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
-      for(var j=0; j<keyList.length; j++) {
-        var myKey = keyList[j];
-        var dayblock = [];
-        console.log("myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
-        if (tabValue[myKey] == "null" || tabValue[myKey][0] == "null"){ console.log("Empty day: ", myKey); }
-        else {
-          for (var l=0; l<tabValue[myKey].length; l++){
-            var cellblock = [];
-            var start=tabValue[myKey][l][0];
-            var end=tabValue[myKey][l][1];
-            for (var i=start; i<=end; i++){
-              cellblock.push(timeTable.rows[i+1].cells[j+1]);
-            }
-            if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
-          }
-        }
-        cellList[myKey]=dayblock;
-      }
-      console.log("cellList: ", cellList);
-    }
-    console.log("end copyDatabase2cellList");
-    showcellList();
-  });
-  //showcellList();
-  return cellList;
-}
-
-function copycellList2Database(){
-  console.log("start copycellList2Database");
-  for(var i=0; i<cellList.length; i++){
-    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-    if (cellList[i].length == 0){
-      console.log("empty day");
-      firebase.database().ref(dbDIR).update({
-          0: "null"
-        });
-    }
-    else{
-      var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-      for(var j=0; j<cellList[i].length; j++) {
-        firebase.database().ref(dbDIR+'/'+j).set({
-          0: cellList[i][j][0],
-          1: cellList[i][j][1]
-        });
-      }
-    }
-  }
-}
 
 function findUser() {
     global_params = window.location.href.split('?')[1];
@@ -409,7 +277,7 @@ function readFromDatabase(){
 }
 
 function initializeTimeTableHeader() {
-    var timeTableHeader = document.getElementById('timetable-header-submit');
+    var timeTableHeader = document.getElementById('timetable-header');
     var newRow = timeTableHeader.insertRow(0);
     var newCell = newRow.insertCell(0);
 
@@ -488,3 +356,143 @@ function submit() {
 };
 
 console.log(window.location.href);
+
+
+
+
+/* Don't remove below codes */
+
+function showcellList() {
+  var timeTable = document.getElementById('timetable');
+  console.log("showcellList");
+  var colorValue;
+  if (tab_id == "submitted"){ colorValue = "timetable-submit-slot"; }
+  else{ colorValue = "timetable-tab-slot"; }
+
+  if (cellList.length == 0) { console.log("Empty this week"); }
+  else{
+    for(var j=0; j<cellList.length; j++) {
+      if (cellList[j].length == 0){ console.log("Empty day: ", j); }
+      else {
+        for (var l=0; l<cellList[j].length; l++){
+          var start=cellList[j][0];
+          var end=cellList[j][1];
+          for (var i=start; i<=end; i++){
+            var row = i+1;
+            var day = j+1;
+              //console.log(timeTable.rows[row].cells[day]);
+            timeTable.rows[row].cells[day].classList.add(colorValue);
+            if (i == start){
+              if (start % 2 == 0){s_time = timeAxis[start/2];}
+              else {s_time = time30Axis[(start-1) / 2];}
+              if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
+              else {e_time = time30Axis[end / 2];}
+              t_time = (end+1-start)/2;
+              timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function add2cellList(day, startRow, endRow, drag){
+  cellList[day].push([startRow, endRow, drag]);
+  cellList[day].sort(function (a, b) {
+    if (a[0] > b[0]) {return 1;}
+    if (a[0] < b[0]) {return -1;}
+    return 0;
+  });
+  console.log(cellList[day]);
+  var newIndex = cellList[day].findIndex(function (a) {
+    return (a[0] == startRow && a[1] == endRow);
+  });
+  if (newIndex != cellList[day].length -1){ //not the last element
+    if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
+      cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
+      cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
+      cellList[day].splice(newIndex+1,1);
+      console.log("merge1 cellList: ", cellList[day]);
+    }
+  }
+  if (newIndex != 0){
+    if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
+      cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
+      cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
+      cellList[day].splice(newIndex,1);
+      console.log("merge2 cellList: ", cellList[day]);
+    }
+  }
+}
+
+function copyDatabase2cellList(){
+  console.log("start copyDatabase2cellList");
+  cellList = [];
+  var tabValue;
+  var dbDIR = '/userpool/'+user_id+'/nextweek/';
+  if (tab_id == "submitted"){
+    dbDIR = dbDIR + 'submitted/';
+    //colorValue = "timetable-submit-slot";
+    console.log("dbDIR: ", dbDIR);
+  }
+  else{
+    dbDIR = dbDIR + 'tab/'+tab_id+'/';
+    //colorValue = "timetable-tab-slot";
+    console.log("dbDIR: ", dbDIR);
+  }
+  firebase.database().ref(dbDIR).once('value', function(snapshot) {
+    tabValue = snapshot.val();
+    if (tabValue == null) { console.log("Empty this week"); }
+    else{
+      var keyList = Object.keys(tabValue);
+      console.log("keyList: ", keyList);
+      //console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
+      for(var j=0; j<keyList.length; j++) {
+        var myKey = keyList[j];
+        var dayblock = [];
+        console.log("myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
+        if (tabValue[myKey] == "null" || tabValue[myKey][0] == "null"){ console.log("Empty day: ", myKey); }
+        else {
+          for (var l=0; l<tabValue[myKey].length; l++){
+            var cellblock = [];
+            var start=tabValue[myKey][l][0];
+            var end=tabValue[myKey][l][1];
+            for (var i=start; i<=end; i++){
+              cellblock.push(timeTable.rows[i+1].cells[j+1]);
+            }
+            if (cellblock.length >= 1){dayblock.push([start, end, cellblock]);}
+          }
+        }
+        cellList[myKey]=dayblock;
+      }
+      console.log("cellList: ", cellList);
+    }
+    console.log("end copyDatabase2cellList");
+    showcellList();
+  });
+  //showcellList();
+  return cellList;
+}
+
+function copycellList2Database(){
+  console.log("start copycellList2Database");
+  for(var i=0; i<cellList.length; i++){
+    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+    if (cellList[i].length == 0){
+      console.log("empty day");
+      firebase.database().ref(dbDIR).update({
+          0: "null"
+        });
+    }
+    else{
+      var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+      for(var j=0; j<cellList[i].length; j++) {
+        firebase.database().ref(dbDIR+'/'+j).set({
+          0: cellList[i][j][0],
+          1: cellList[i][j][1]
+        });
+      }
+    }
+  }
+}

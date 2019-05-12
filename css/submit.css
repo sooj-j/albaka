@@ -88,7 +88,7 @@
     background-color: var(--view-drag-slot-color);
     color: black;
 }
-#timetable {
+/* #timetable {
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
@@ -105,4 +105,4 @@
   border-left: 5px solid var(--warning-color);
   border-right: 5px solid var(--warning-color);
   border-collapse: collapse;
-}
+} */

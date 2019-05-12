@@ -4,6 +4,7 @@ var timeArray;
 var timeTable = document.getElementById('timetable');
 var tab_id = "tab1";
 var cellList = [];
+var sum = 0;
 
 
 $(document).ready(function () {
@@ -23,8 +24,6 @@ $(document).ready(function () {
         tabsubmit_btn.classList.remove("tabsubmitbutton_active");
     });
     cellList=[];
-
-
     //copyDatabase2cellList();
     //showcellList();
 
@@ -266,6 +265,8 @@ function readFromDatabase(){
   var tabValue;
   var dbDIR = '/userpool/'+user_id+'/nextweek/';
   var colorValue;
+  sum = 0;
+
   if (tab_id == "submitted"){
     dbDIR = dbDIR + 'submitted/';
     colorValue = "timetable-submit-slot";
@@ -310,6 +311,7 @@ function readFromDatabase(){
                 if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
                 else {e_time = time30Axis[end / 2];}
                 t_time = (end+1-start)/2;
+                sum += t_time;
                 //timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
                 timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
                 if (t_time > 0.5 ) {timeTable.rows[row+1].cells[day].innerHTML = Number(t_time)+"H"+" ";}
@@ -321,6 +323,7 @@ function readFromDatabase(){
         cellList[myKey]=dayblock;
       }
       console.log("cellList: ", cellList);
+      console.log("sum: ", sum);
     }
   });
 }
@@ -442,7 +445,6 @@ function reset() {
 }
 
 function submit() {
-
   var dbDIR = '/userpool/'+user_id+'/nextweek/submitted/';
   console.log("Init submit");
   for(var i=0; i<cellList.length; i++){
@@ -470,7 +472,20 @@ function submit() {
 console.log(window.location.href);
 
 
-
+function calculate_sum(){
+  for(var i=0; i<cellList.length; i++){
+    console.log(cellList[i]);
+    if (cellList[i].length == 0){
+      console.log("empty day");
+    }
+    else{
+      for(var j=0; j <cellList[i].length; j++) {
+        sum += (cellList[i][j][1]+1-cellList[i][j][0])/2;
+      }
+    }
+  }
+  console.log("sum: ",sum);
+}
 
 /* Don't remove below codes */
 

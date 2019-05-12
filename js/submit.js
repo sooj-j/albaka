@@ -324,6 +324,7 @@ function readFromDatabase(){
       }
       console.log("cellList: ", cellList);
       console.log("sum: ", sum);
+      sum = 0;
     }
   });
 }

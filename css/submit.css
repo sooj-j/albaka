@@ -120,3 +120,24 @@
     box-shadow: 1px -1px 2px grey;
     color: black;
 }
+
+.resetbutton {
+    border: solid var(--darker-grey) 1px;
+    background-color: #FFFFFF;
+    padding: 5px 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+.resetbutton:hover{
+    background-color: var(--warning-color);
+    box-shadow: 1px -1px 2px grey;
+    color: black;
+}

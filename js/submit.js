@@ -341,7 +341,7 @@ function initializeTimeTableHeader() {
 }
 
 function tabsubmit() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "submitted";
   var tab1_btn = document.getElementById('tab1_btn');
   tab1_btn.classList.remove("tabbutton_active");
@@ -356,7 +356,7 @@ function tabsubmit() {
 }
 
 function tab1() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "tab1";
   var tab1_btn = document.getElementById('tab1_btn');
   tab1_btn.classList.add("tabbutton_active");
@@ -371,7 +371,7 @@ function tab1() {
 }
 
 function tab2() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "tab2";
   var tab1_btn = document.getElementById('tab1_btn');
   tab1_btn.classList.remove("tabbutton_active");
@@ -385,7 +385,7 @@ function tab2() {
   initializeTimeTable();
 }
 function tab3() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "tab3";
   var tab1_btn = document.getElementById('tab1_btn');
   tab1_btn.classList.remove("tabbutton_active");
@@ -405,7 +405,7 @@ function tabAdd() {
   tab3_btn.style.display = "inline";
   tab_add.style.display = "none";
   // tab_add.style.disable = "true"
-  copycellList2Database();
+  //copycellList2Database();
 
   tab_id = "tab3";
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
@@ -422,6 +422,23 @@ function tabAdd() {
   copyDatabase2cellList();
   initializeTimeTable();
   tab3();
+}
+
+function reset() {
+  alert("Are you sure you want to reset the current timetable?");
+  var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
+  firebase.database().ref(dbDIR).set({
+      0: "null",
+      1: "null",
+      2: "null",
+      3: "null",
+      4: "null",
+      5: "null",
+      6: "null"
+  });
+  alert("Reset Completed!");
+  initializeTimeTable();
+
 }
 
 function submit() {
@@ -572,22 +589,26 @@ function copyDatabase2cellList(){
 
 function copycellList2Database(){
   console.log("start copycellList2Database");
-  for(var i=0; i<cellList.length; i++){
-    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-    if (cellList[i].length == 0){
-      console.log("empty day");
-      firebase.database().ref(dbDIR).update({
-          0: "null"
-        });
-    }
-    else{
+  if (tab_id != "submitted"){
+    for(var i=0; i<cellList.length; i++){
       var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-      for(var j=0; j<cellList[i].length; j++) {
-        firebase.database().ref(dbDIR+'/'+j).set({
-          0: cellList[i][j][0],
-          1: cellList[i][j][1]
-        });
+      if (cellList[i].length == 0){
+        console.log("empty day");
+        firebase.database().ref(dbDIR).update({
+            0: "null"
+          });
+      }
+      else{
+        var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+        for(var j=0; j<cellList[i].length; j++) {
+          firebase.database().ref(dbDIR+'/'+j).set({
+            0: cellList[i][j][0],
+            1: cellList[i][j][1]
+          });
+        }
       }
     }
+
   }
+
 }

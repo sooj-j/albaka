@@ -264,8 +264,8 @@ function pendRequestReceived() {
       }
       firebase.database().ref(pendingdbDIR).remove()
         firebase.database().ref(pendingdbDIR).set(requestPendingValue).then(function () {
-            firebase.database().ref(receiveddbDIR).remove();
-            location.reload();
+            firebase.database().ref(receiveddbDIR).remove().then(function () { location.reload(); });
+            
         })
     });
 
@@ -859,7 +859,8 @@ function pushThisweekToDatabase(drag) {
   }
 
   firebase.database().ref(dbDIR).once("value", function (snap) {
-    var thisweekValue = snap.val();
+      var thisweekValue = snap.val();
+      console.log("push", thisweekValue);
     var index = thisweekValue === "null" ? 0 : thisweekValue.length;
 
     firebase.database().ref(dbDIR+'/'+index+'/').set(thisweekData);

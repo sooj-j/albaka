@@ -143,7 +143,7 @@ function del_request(idx) {
 
 
 function push_time_toDB(timecell) {
-    var day = day_to_07(timecell.day);
+    var day = day_to_07(timecell.day)+1;
     console.log(timecell, day);
     var dbDIR = '/userpool/' + user_id + '/thisweek/' + day;
     var requestData = {
@@ -152,8 +152,10 @@ function push_time_toDB(timecell) {
     }
     firebase.database().ref(dbDIR).once('value', function (snap) {
         var oldarr = snap.val();
-        oldarr.append(requestData);
+        oldarr.push(requestData);
+        oldarr.sort();
         firebase.database().ref(dbDIR).set(oldarr);
+        console.log("accpet",oldarr);
     });    
     //firebase.database().ref(dbDIR + '/').push(requestData);
     console.log("accpet");
@@ -316,7 +318,7 @@ $(document).ready(function () {
     console.log("fin");
 
     init_req();
-
+    
     //get_received_req();
     get_received_rew();
 

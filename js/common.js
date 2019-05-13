@@ -91,6 +91,21 @@ function remove_hover_cell(json) {
     };
     for (var i = json.start_time; i <= json.end_time; i++) {
         if (i == json.start_time) {
+            
+            if (json.start_time % 2 == 0) {
+                s_time = timeAxis[json.start_time / 2];
+            }
+            else {
+                s_time = time30Axis[(json.start_time - 1) / 2];
+            }
+            if ((json.end_time + 1) % 2 == 0) {
+                e_time = timeAxis[(json.end_time + 1) / 2];
+            }
+            else {
+                e_time = time30Axis[json.end_time / 2];
+            }
+             
+            //$(timetable.rows[i + 1].cells[day + 1]).text(s_time + " ~ " + e_time);
             $(timetable.rows[i + 1].cells[day + 1]).text("");
         };
         $(timetable.rows[i + 1].cells[day + 1]).removeClass("timetable-view-request-hover-slot");

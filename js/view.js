@@ -263,14 +263,19 @@ function pendRequestReceived() {
         });
       }
       firebase.database().ref(pendingdbDIR).remove()
-      firebase.database().ref(pendingdbDIR).set(requestPendingValue)
+        firebase.database().ref(pendingdbDIR).set(requestPendingValue).then(function () {
+            firebase.database().ref(receiveddbDIR).remove();
+            location.reload();
+        })
     });
 
-    firebase.database().ref(receiveddbDIR).remove();
+    //firebase.database().ref(receiveddbDIR).remove();
   });
 
     initializeTimeTable();
-    init_req();
+    
+    //init_req();
+    
 }
 
 

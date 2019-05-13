@@ -4,13 +4,21 @@ var timeArray;
 var timeTable = document.getElementById('timetable');
 var tab_id = "tab1";
 var cellList = [];
-var sum = 0;
+var sum, goal, may_sum, remain;
+var cell_sum = 0;
 
 
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
+    firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
+        goal = snapshot.val()['goal'];
+        may_sum = snapshot.val()['sum'];
+        remain = goal - may_sum;
+        console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
+    });
+
     findUser().then(function () {
         initializeTimeTableHeader();
         initializeTimeTable();
@@ -22,24 +30,13 @@ $(document).ready(function () {
         tab3_btn.classList.remove("tabbutton_active");
         var tabsubmit_btn = document.getElementById('tab_submit');
         tabsubmit_btn.classList.remove("tabsubmitbutton_active");
+
+    }).then(function(){
+      console.log("here");
     });
     cellList=[];
     //copyDatabase2cellList();
     //showcellList();
-
-//df
-
-    firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
-        var goal = snapshot.val()['goal'];
-        var may_sum = snapshot.val()['sum'];
-        var total = goal - may_sum;
-        //sum 에 전체 시간 넣어주면 되는데 전 잘 이해가 안 되요ㅠㅠ
-        $("#division").html(sum+"$/"+total+"$");
-        var percentage = (sum/total *100).toPrecision(2);
-        $('#progress').html(percentage + "%");
-        $("#progress").css("width", percentage+'%')
-        });// 이 함수 추가나 뺄 때마다 넣으면 되는데 어디다 넣어야 할지 모르겠어요ㅠㅠ
-
 
 });
 
@@ -47,6 +44,7 @@ $(function () {
   var isMouseDown = false;
   var dragged = [];
   var prev;
+
   $(document).on('mousedown','.timetable-entry',function() {
     console.log("mousedown");
     dragged=[];
@@ -84,6 +82,7 @@ $(function () {
     }
     if (tab_id != "submitted" && dragged.length >= 1){
       console.log(dragged);
+      sum=0;
       pushToDatabase(dragged);
       dragged=[];
       initializeTimeTable();
@@ -91,6 +90,36 @@ $(function () {
     }
   });
 });
+
+
+function progress_change() {
+      var division = document.getElementById('division');
+      var progress = document.getElementById('progress');
+      // division.innerHTML = sum+"H * 10 = "+sum*10+"$ / "+remain+"$";
+      division.innerHTML = "$"+sum*10 + " / $"+remain;
+      division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+      var percentage = ((sum*10)/remain *100);
+      if (percentage <= 100){
+        percentage = percentage.toPrecision(2)
+        progress.innerHTML = percentage + "%";
+        progress.style.width = percentage + "%";
+      }
+      else {
+        percentage = percentage.toPrecision(3)
+        progress.innerHTML = "Congraturations!! "+percentage + "%";
+        progress.style.width = "100%";
+      }
+
+      if (tab_id == "submitted"){
+        progress.classList.add("progress-bar_submit");
+        progress.classList.remove("progress-bar_tab");
+      }else {
+        progress.classList.add("progress-bar_tab");
+        progress.classList.remove("progress-bar_submit");
+      }
+      console.log("in progress_change");
+      console.log("sum: ", sum,", percentage: ", percentage);
+}
 
 function pushToDatabase(drag) {
   console.log("pushToDatabase");
@@ -107,6 +136,7 @@ function pushToDatabase(drag) {
     e_row = time2Row(($(endCell).parent())[0].cells[0].id);
     add2cellList(day, s_row, e_row, drag);
     //copycellList2Database();
+    sum=0;
     var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
     firebase.database().ref(dbDIR).set({
       0: "null"
@@ -167,6 +197,7 @@ function findUser() {
 }
 
 function initializeTimeTable() {
+    sum=0;
     console.log("intialize");
     var numRows = timeTable.rows.length;
     for(var i=0;i<numRows-1;i++) { timeTable.deleteRow(1); }
@@ -271,6 +302,7 @@ function deleteBlock(t){
       });
     }
     }
+  sum=0;
   initializeTimeTable();
 }
 
@@ -336,10 +368,15 @@ function readFromDatabase(){
         cellList[myKey]=dayblock;
       }
       console.log("cellList: ", cellList);
-      console.log("sum: ", sum);
-      sum = 0;
+      console.log("sum: ", sum)
+      //calculate_sum();
+      progress_change();
+      //progress_change();
+      sum=0;
+      cell_sum=0;
     }
   });
+
 }
 
 function initializeTimeTableHeader() {
@@ -486,7 +523,10 @@ function submit() {
 console.log(window.location.href);
 
 
-function calculate_sum(){
+/* Don't remove below codes */
+
+function calculate_sum() {
+  cell_sum = 0;
   for(var i=0; i<cellList.length; i++){
     console.log(cellList[i]);
     if (cellList[i].length == 0){
@@ -494,14 +534,12 @@ function calculate_sum(){
     }
     else{
       for(var j=0; j <cellList[i].length; j++) {
-        sum += (cellList[i][j][1]+1-cellList[i][j][0])/2;
+        cell_sum += (cellList[i][j][1]+1-cellList[i][j][0])/2;
       }
     }
   }
-  console.log("sum: ",sum);
+  console.log("sum: ",cell_sum);
 }
-
-/* Don't remove below codes */
 
 function showcellList() {
   var timeTable = document.getElementById('timetable');

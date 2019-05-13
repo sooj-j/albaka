@@ -1,5 +1,35 @@
-/* view page */
+/* submit page */
 
+.progress-bar {
+  color: black;
+  box-shadow: 1px -1px 2px grey;
+}
+.progress {
+  box-shadow: 1px -1px 2px grey;
+  /* border: solid var(--darker-grey) 1px; */
+}
+
+.progress-bar_tab {
+  background-color: var(--tab-slot-color);
+}
+
+.progress-bar_submit {
+  background-color: var(--submit-slot-color);
+}
+#division {
+  /* color: var(--submit-slot-color); */
+  text-shadow: 0.5px -0.5px 0.5px grey;
+}
+#division:hover {
+  cursor: pointer;
+  position: relative;
+  text-decoration: underline;
+}
+
+/* [data-toggle="tooltip"]:hover:after {
+  background-color: #000000;
+	background-color: rgba(0, 0, 0, 0.8);
+} */
 
 .tabbox {
     padding: 6.5px;
@@ -19,7 +49,7 @@
 }
 
 .smtable_contentcontainer {
-    padding-top: 133px; /* 109=> 91//151=>133*/
+    padding-top: 160px; /* 109=> 91//151=>133*/
 }
 
 .tabbutton {
@@ -33,7 +63,7 @@
     width: 90px;
     background-color: var(--light-table-border-color);
     padding: 5px 5px;
-    color: black;
+    color: var(--darker-grey-2);
     text-align: center;
     text-decoration: none;
     font-size: 12px;
@@ -47,7 +77,8 @@
 .tabbutton:hover{
     background-color: var(--tab-slot-color);
     box-shadow: 1px -1px 2px grey;
-    color: black;
+    color: white;
+    text-shadow: -0.5px 0 var(--darker-grey), 0 0.5px var(--darker-grey), 0.5px 0 var(--darker-grey), 0 -0.5px var(--darker-grey);
 }
 .tabbutton_active{
     background-color: var(--tab-slot-color);
@@ -75,7 +106,7 @@
     width: 100px;
     background-color: var(--light-table-border-color);
     padding: 5px 5px;
-    color: black;
+    color: var(--darker-grey-2);
     text-align: center;
     text-decoration: none;
     font-size: 12px;
@@ -89,7 +120,8 @@
 .tabsubmitbutton:hover{
     background-color: var(--submit-slot-color);
     box-shadow: 1px -1px 2px grey;
-    color: black;
+    color: white;
+    text-shadow: -0.5px 0 var(--darker-grey), 0 0.5px var(--darker-grey), 0.5px 0 var(--darker-grey), 0 -0.5px var(--darker-grey);
 }
 
 .tabsubmitbutton_active{
@@ -104,7 +136,7 @@
     /* border-color:var(--warning-color); */
     background-color: #FFFFFF;
     padding: 5px 5px;
-    color: black;
+    color: var(--darker-grey-2);
     text-align: center;
     text-decoration: none;
     font-size: 12px;
@@ -118,14 +150,15 @@
 .submitbutton:hover{
     background-color: var(--view-drag-slot-color);
     box-shadow: 1px -1px 2px grey;
-    color: black;
+    color: white;
+    text-shadow: -0.5px 0 var(--darker-grey), 0 0.5px var(--darker-grey), 0.5px 0 var(--darker-grey), 0 -0.5px var(--darker-grey);
 }
 
 .resetbutton {
     border: solid var(--darker-grey) 1px;
     background-color: #FFFFFF;
     padding: 5px 5px;
-    color: black;
+    color: var(--darker-grey-2);
     text-align: center;
     text-decoration: none;
     font-size: 12px;
@@ -139,5 +172,6 @@
 .resetbutton:hover{
     background-color: var(--warning-color);
     box-shadow: 1px -1px 2px grey;
-    color: black;
+    color: white;
+    text-shadow: -0.5px 0 var(--darker-grey), 0 0.5px var(--darker-grey), 0.5px 0 var(--darker-grey), 0 -0.5px var(--darker-grey);
 }

@@ -13,7 +13,10 @@
     --competition-rate-3: #f8ddd0;
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
-    --darker-grey-2:#707070;
+    --darker-grey-2: #707070;
+    --darker-grey-3: #595959;
+    --darker-grey-4: #4A4A4A;
+
     --body-color: #FFFFEC;
     /* --tab-color:#FFF396;
         --competition-rate-1: #ffe4a3;
@@ -192,6 +195,8 @@
 
 .nav-item-active {
     font-weight: bold;
+    color: var(--darker-grey-4);
+    /* text-decoration: underline; */
 }
 
 .top-placeholder {

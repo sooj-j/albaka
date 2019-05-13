@@ -48,6 +48,26 @@ const dayToDateString = {
   6: 'SUN 5/12'
 };
 
+const requestQueueDefault = [{
+  0: 0,
+  1: 3,
+  day: 4,
+  sender: "Heeju",
+  reward: null
+}, {
+  0: 12,
+  1: 16,
+  day: 2,
+  sender: "Hyunjoo",
+  reward: null
+}, {
+  0: 0,
+  1: 2,
+  day: 3,
+  sender: "Dayeon",
+  reward: null
+}];
+
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
 const requestInterval = 15000;
 
@@ -253,26 +273,6 @@ function pendRequestReceived() {
 
 
 function initializeRequestQueue() {
-  const requestQueueDefault = [{
-    0: 0,
-    1: 3,
-    day: 4,
-    sender: "Heeju",
-    reward: null
-  }, {
-    0: 12,
-    1: 16,
-    day: 2,
-    sender: "Hyunjoo",
-    reward: null
-  }, {
-    0: 0,
-    1: 2,
-    day: 3,
-    sender: "Dayeon",
-    reward: null
-  }];
-
   var dbDIR = '/userpool/'+user_id+'/requestQueue/';
 
   firebase.database().ref(dbDIR).once("value", function (snap) {
@@ -881,3 +881,31 @@ function deleteRequestReceived() {
 }
 
 
+
+/* helper function */
+function initializeAutoRequest() {
+  var queuedbDIR = '/userpool/'+user_id+'/requestQueue/';
+  firebase.database().ref(queuedbDIR).remove();
+
+  var requestdbDIR = '/userpool/'+user_id+'/requestReceived/';
+  firebase.database().ref(requestdbDIR).remove();
+
+  var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
+  // firebase.database().ref(pendingdbDIR).remove();
+
+  requestQueueDefault.forEach((element) => {
+    var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+element.day+'/';
+    firebase.database().ref(thisweekdbDIR).once("value", function (snap) {
+      thisweekValue = snap.val();
+
+      if (thisweekValue === null) return;
+
+      Object.keys(thisweekValue).forEach((key) => {
+        if (thisweekValue[key][0] <= element[0] && thisweekValue[key][1] >= element[1]) {
+          firebase.database().ref(thisweekdbDIR+key).remove();
+          return;
+        }
+      })
+    });
+  });
+}

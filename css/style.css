@@ -8,9 +8,12 @@
     --view-drag-slot-color: #FF825C;
     --view-request-received-slot-color: #7B8FE0;
     --warning-color: #FF2601;
-    --competition-rate-1: #fdf7f5;
-    --competition-rate-2: #f3eae6;
-    --competition-rate-3: #f8ddd0;
+    --competition-rate-1: #FFCFCF;
+    --competition-rate-2: #FFCFCF;
+    --competition-rate-3: #FFABAB;
+    --competition-rate-4: #FF8F8F;
+    --competition-rate-5: #FF6969;
+
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
     --darker-grey-2: #707070;

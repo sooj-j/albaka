@@ -38,13 +38,24 @@ const btnReplacementModalHTML = {
   cancel: 'CANCEL all requests'
 }
 
+const dayToDateString = {
+  0: 'MON 5/6',
+  1: 'TUE 5/7',
+  2: 'WED 5/8',
+  3: 'THU 5/9',
+  4: 'FRI 5/10',
+  5: 'SAT 5/11',
+  6: 'SUN 5/12'
+};
+
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
-const requestInterval = 10000;
+const requestInterval = 15000;
 
 /* status of sent request changes for a certain time intervals. */
 const statusChangeInterval = 2000;
 
 $(document).ready(function () {
+
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[0].classList.add("nav-item-active");
     });
@@ -137,6 +148,15 @@ $(document).ready(function () {
 
         var timer = setTimeout(function() {
           // reward-todo: 위처럼 보낸 reward db에 저장
+          var rewarddbDIR = '/userpool/'+user_id+'/rewardSent/';
+
+          if (requestValue.reward) {
+            firebase.database().ref(rewarddbDIR).push({
+              reward: requestValue.reward,
+              sender: 'testDayeon'
+            });
+          }
+
           openAcceptModal(message);
         }, 2500);
         timers.push(timer);
@@ -191,15 +211,12 @@ function pendRequestReceived() {
       newRequestQueueRef = firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }
     
-    // TODO: start_time, end_time, date 변환하기
-
-    console.log('push to pendingDB')
     var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
     var pendingData = {
-      date: 'date',
-      start_time: 'start_time',
-      end_time: 'end_time',
-      from: requestQueueValue.sender,
+      date: dayToDateString[currentRequestReceivedDay],
+      start_time: getTimeStr(requestQueueValue[0]),
+      end_time: getTimeStr(requestQueueValue[1]),
+      from: 'test' + requestQueueValue.sender,
       reward: requestQueueValue.reward
     }
 
@@ -207,13 +224,26 @@ function pendRequestReceived() {
       pendingData.queueKey = newRequestQueueRef.key
     }
 
-    var newPendingRequestRef = firebase.database().ref(pendingdbDIR).push(pendingData);
+    firebase.database().ref(pendingdbDIR).once("value", function (snap) {
+      var requestPendingValue = snap.val();
 
-    if (newRequestQueueRef) {
-      firebase.database().ref(queuedbDIR+'/'+newRequestQueueRef.key).update({
-        pendingKey: newPendingRequestRef.key
-      });
-    }
+      if (!requestPendingValue) {
+        requestPendingValue = [];
+      }
+      // console.log('push to pendingDB > value', requestPendingValue, pendingData)
+
+      requestPendingValue.push(pendingData);
+
+      var pendingKey = requestPendingValue.length - 1;
+
+      if (newRequestQueueRef) {
+        firebase.database().ref(queuedbDIR+'/'+newRequestQueueRef.key).update({
+          pendingKey: pendingKey
+        });
+      }
+      firebase.database().ref(pendingdbDIR).remove()
+      firebase.database().ref(pendingdbDIR).set(requestPendingValue)
+    });
 
     firebase.database().ref(receiveddbDIR).remove();
   });
@@ -227,21 +257,18 @@ function initializeRequestQueue() {
     0: 0,
     1: 3,
     day: 4,
-    isPending: false,
     sender: "Heeju",
     reward: null
   }, {
     0: 12,
     1: 16,
     day: 2,
-    isPending: false,
     sender: "Hyunjoo",
     reward: null
   }, {
     0: 0,
     1: 2,
     day: 3,
-    isPending: false,
     sender: "Dayeon",
     reward: null
   }];
@@ -272,7 +299,6 @@ function pushRequestReceivedFromQueue() {
 
     day = firstRequest.day
     delete firstRequest.day
-    firstRequest.isPending = false
 
     if (firstRequest.pendingKey) {
       var pendingdbDIR = '/userpool/'+user_id+'/received_req/'+firstRequest.pendingKey;
@@ -483,11 +509,6 @@ function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
       rcKeyList.forEach((rcKey) => {
         var requestComponent = requestValue[dayKey][rcKey]
 
-        if (isRequestReceived && requestComponent.isPending) {
-          // TODO: push in inbox
-          return;
-        }
-
         var cellblock=[]
         var start=requestComponent[0];
         var end=requestComponent[1];
@@ -516,19 +537,15 @@ function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
 }
 
 function getTimeBar(start, end) {
-  if (start % 2 == 0){
-    s_time = timeAxis[start/2];
-  } else {
-    s_time = time30Axis[(start-1) / 2];
-  }
+  return getTimeStr(start) + " ~ "+ getTimeStr(end);
+}
 
-  if ((end+1) % 2 == 0){
-    e_time = timeAxis[(end+1)/2];
+function getTimeStr(time) {
+  if (time % 2 == 0){
+    return timeAxis[time/2];
   } else {
-    e_time = time30Axis[end / 2];
+    return time30Axis[(time-1) / 2];
   }
-
-  return s_time + " ~ "+ e_time;
 }
 
 function initializeTimeTableHeader() {
@@ -654,7 +671,6 @@ function openReceiveReplacementModal(x, y) {
   });
 }
 
-// TODO: remove timeComponent param
 function openReplacementModal(x, y) {
   var requestStatus = $(".btn-request-status")
   var requestReward = $(".btn-request-reward");
@@ -756,17 +772,11 @@ function pushRequestToDatabase() {
   var startCell = cellblock[0];
   var endCell = cellblock[cellblock.length-1];
 
-  var day = startCell.cellIndex-1;
+  var day = startCell.cellIndex - 1;
   s_row = time2Row(($(startCell).parent())[0].cells[0].id);
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
   /* TODO: drag upward */
-  /*
-  requestSentCellList[day].push({
-    key: rcKey,
-    cellblock: cellblock,
-  });
-  */
 
   var dbDIR = '/userpool/'+user_id+'/requestSent/'+day;
   var requestData = {
@@ -851,11 +861,23 @@ function deleteRequestReceived() {
   requestReceivedCellList.splice(index, 1);
 
   var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+day+'/'+key;
-  firebase.database().ref(requestdbDIR).remove();
+  var rewarddbDIR = '/userpool/'+user_id+'/rewardReceived/';
 
-  // reward-todo: 받은 reward 저장
+  firebase.database().ref(requestdbDIR).once("value", function (snap) {
+    var requestValue = snap.val();
+    
+    if (requestValue.reward) {
+      firebase.database().ref(rewarddbDIR).push({
+        reward: requestValue.reward,
+        sender: 'test' + requestValue.sender
+      });
+    }
+    firebase.database().ref(requestdbDIR).remove();
+  });
 
   // TODO: 필요?
   currentRequestReceivedDay = null;
   currentRequestReceivedKey = null;
 }
+
+

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/wage.css" />
+    <title>Albaka</title>
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <!--div id="nav-placeholder"></!--div-->
+    <div class="col-md-12 col-sm-12 well py-5">
+        <div class="row">
+            <div class="col-md-12" id="nav-placeholder">
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-12 col-sm-12 well pull-right-lg">
+        <div class="row">
+            <div class="col-sm-2" ></div>
+            <div class="table-responsive col-md-8" style="padding:0px;">
+                <table class="table table-style">
+                    <tr>
+                        <th colspan="8">
+                            <a href="#" class="previous round" style="display:inline-block;">&#8249;</a>
+                            <p class="text-dark my-0 mx-5" style="display:inline-block;">FEBRUARY-2019</p>
+                            <a style="display:inline-block;" href= "javascript:makeURL('wage_march.html')" class="previous round">&#8250;</a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><p class="font-weight-bold small text-dark mb-0">Mon</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Tue</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Wed</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Thu</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Fri</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Sat</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Sun</p></th>
+                        <th><p class="font-weight-bold small text-dark mb-0">Total Wage</p></th>
+                    </tr>
+                    <tr style="height: 80px;">
+                        <th><p class="small text-dark mb-0 align-items-start"></p> <p class="small text-info m-2" id="1"> </p></th>
+                        <th><p class="small text-dark mb-0 align-items-start"></p> <p class="small text-info m-2" id="2"> </p></th>
+                        <th><p class="small text-dark mb-0"></p> <p class="small text-info m-2" id="3">  </p></th>
+                        <th><p class="small text-dark mb-0"></p> <p class="small text-info m-2" id="4">  </p></th>
+                        <th><p class="small text-dark mb-0">1</p> <p class="small text-info m-2" id="5"> 15$ </p></th>
+                        <th><p class="small text-dark mb-0">2</p> <p class="small text-info m-2" id="6"> </p></th>
+                        <th><p class="small text-dark mb-0">3</p> <p class="small text-info m-2" id="7"> </p></th>
+                        <th><br><p class="text-info small p-0" id="aprilfirst"> 15$ </p></th>
+                    </tr>
+                    <tr style="height: 80px;">
+                        <th><p class="small text-dark mb-0">4</p><p class="small text-info m-1" id="8"> 20$ </p></th>
+                        <th><p class="small text-dark mb-0">5</p><p class="small text-info m-1" id="9"> </p></th>
+                        <th><p class="small text-dark mb-0">6</p><p class="small text-info m-1" id="10"> 15$ </p></th>
+                        <th><p class="small text-dark mb-0">7</p><p class="small text-info m-1" id="11"></p></th>
+                        <th><p class="small text-dark mb-0">8</p><p class="small text-info m-1" id="12"> 20$ </p></th>
+                        <th><p class="small text-dark mb-0">9</p><p class="small text-info m-1" id="13"> </p></th>
+                        <th><p class="small text-dark mb-0">10</p><p class="small text-info m-1" id="14"> </p></th>
+                        <th><p class="small text-dark mb-0" id="aprilsecond">55$</p></th>
+
+                    </tr>
+                    <tr style="height: 80px;">
+                        <th><p class="small text-dark mb-0">11</p><p class="small text-info m-1" id="15">  </p></th>
+                        <th><p class="small text-dark mb-0">12</p><p class="small text-info m-1" id="16"> 20$ </p></th>
+                        <th><p class="small text-dark mb-0">13</p><p class="small text-info m-1" id="17"> </p></th>
+                        <th><p class="small text-dark mb-0">14</p><p class="small text-info m-1" id="18"> </p></th>
+                        <th><p class="small text-dark mb-0">15</p><p class="small text-info m-1" id="19"> 15$ </p></th>
+                        <th><p class="small text-dark mb-0">16</p><p class="small text-info m-1" id="20"> 25$ </p></th>
+                        <th><p class="small text-dark mb-0">17</p><p class="small text-info m-1" id="21"> </p></th>
+                        <th><p class="small text-dark mb-0" id="aprilthird">60$</p></th>
+                    </tr>
+                    <tr style="height: 80px;">
+                        <th><p class="small text-dark mb-0">18</p><p class="small text-info m-1" id="22"> </p></th>
+                        <th><p class="small text-dark mb-0">19</p><p class="small text-info m-1" id="23"> 10$ </p></th>
+                        <th><p class="small text-dark mb-0">20</p><p class="small text-info m-1" id="24"></p></th>
+                        <th><p class="small text-dark mb-0">21</p><p class="small text-info m-1" id="25"> 15$ </p></th>
+                        <th><p class="small text-dark mb-0">22</p><p class="small text-info m-1" id="26"> </p></th>
+                        <th><p class="small text-dark mb-0">23</p><p class="small text-info m-1" id="27"> </p></th>
+                        <th><p class="small text-dark mb-0">24</p><p class="small text-info m-1" id="28"> 20$ </p></th>
+                        <th><p class="small text-dark mb-0" id="aprilfourth"> 45$ </p></th>
+                    </tr>
+                    <tr style="height: 80px;">
+                        <th><p class="small text-dark mb-0">25</p><p class="small text-info m-1" id="29">15$ </p></th>
+                        <th><p class="small text-dark mb-0">26</p><p class="small text-info m-1" id="30"></p></th>
+                        <th><p class="small text-dark mb-0">27</p> <p class="small text-info m-1" id="31">25$</p></th>
+                        <th><p class="small text-dark mb-0">28</p><p class="small text-info m-1" id="32"></p></th>
+                        <th><p class="small text-dark mb-0"></p><p class="small text-info m-1" id="33"></p></th>
+                        <th><p class="small text-dark mb-0"></p><p class="small text-info m-1" id="34"></p></th>
+                        <th><p class="small text-dark mb-0"></p><p class="small text-info m-1" id="35"></p></th>
+                        <th><p class="small text-dark mb-0" id="aprilfifth">40$</p></th>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="col-sm-2" ></div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid;">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2">
+                Total Wage : 215$
+
+            </div>
+            <div class="col-md-2" ></div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-storage.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyB9Ibvo2HC_lI9HREIlCtoUYF47t7cXC4M",
+            authDomain: "albaka.firebaseapp.com",
+            databaseURL: "https://albaka.firebaseio.com",
+            projectId: "albaka",
+            storageBucket: "albaka.appspot.com",
+            messagingSenderId: "650544065422"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="js/wage_february.js"></script>
+    <!--script src="js/wage_constants.js"></scrip-->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+
+</body>
+

@@ -4,6 +4,7 @@ var timeArray;
 var timeTable = document.getElementById('timetable');
 var tab_id = "tab1";
 var cellList = [];
+var sum = 0;
 
 
 $(document).ready(function () {
@@ -13,12 +14,31 @@ $(document).ready(function () {
     findUser().then(function () {
         initializeTimeTableHeader();
         initializeTimeTable();
+        var tab1_btn = document.getElementById('tab1_btn');
+        tab1_btn.classList.add("tabbutton_active");
+        var tab2_btn = document.getElementById('tab2_btn');
+        tab2_btn.classList.remove("tabbutton_active");
+        var tab3_btn = document.getElementById('tab3_btn');
+        tab3_btn.classList.remove("tabbutton_active");
+        var tabsubmit_btn = document.getElementById('tab_submit');
+        tabsubmit_btn.classList.remove("tabsubmitbutton_active");
     });
     cellList=[];
-
-
     //copyDatabase2cellList();
     //showcellList();
+
+//df
+
+    firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
+        var goal = snapshot.val()['goal'];
+        var may_sum = snapshot.val()['sum'];
+        var total = goal - may_sum;
+        //sum 에 전체 시간 넣어주면 되는데 전 잘 이해가 안 되요ㅠㅠ
+        $("#division").html(sum+"$/"+total+"$");
+        var percentage = (sum/total *100).toPrecision(2);
+        $('#progress').html(percentage + "%");
+        $("#progress").css("width", percentage+'%')
+        });// 이 함수 추가나 뺄 때마다 넣으면 되는데 어디다 넣어야 할지 모르겠어요ㅠㅠ
 
 
 });
@@ -26,6 +46,7 @@ $(document).ready(function () {
 $(function () {
   var isMouseDown = false;
   var dragged = [];
+  var prev;
   $(document).on('mousedown','.timetable-entry',function() {
     console.log("mousedown");
     dragged=[];
@@ -36,15 +57,17 @@ $(function () {
       console.log("mousedown: ", this); //cell
       $(this).toggleClass("timetable-tab-drag-slot");
       //$(this).addClass("timetable-tab-drag-slot");
+      prev = this;
       return false; // prevent text selection
     }
   });
 
   $(document).on('mouseover','.timetable-entry',function() {
     if (isMouseDown) {
-      if ((! this.classList.contains("timetable-tab-slot"))  && (tab_id !="submitted")){
+      if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted") && (this.cellIndex == prev.cellIndex)){
         console.log("mouseover: ", this);
         dragged.push(this);
+        prev = this;
         $(this).toggleClass("timetable-tab-drag-slot");
         //$(this).addClass("timetable-tab-drag-slot");
       }
@@ -85,6 +108,9 @@ function pushToDatabase(drag) {
     add2cellList(day, s_row, e_row, drag);
     //copycellList2Database();
     var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+day;
+    firebase.database().ref(dbDIR).set({
+      0: "null"
+    });
     for(var i=0; i<cellList[day].length; i++) {
       firebase.database().ref(dbDIR+'/'+i).set({
         0: cellList[day][i][0],
@@ -95,29 +121,33 @@ function pushToDatabase(drag) {
 }
 
 function add2cellList(day, startRow, endRow, drag){
+  console.log("before add: ", cellList[day]);
   cellList[day].push([startRow, endRow, drag]);
+  console.log("after add: ", cellList[day]);
   cellList[day].sort(function (a, b) {
     if (a[0] > b[0]) {return 1;}
     if (a[0] < b[0]) {return -1;}
     return 0;
   });
-  console.log(cellList[day]);
+  console.log("after sort: ", cellList[day]);
   var newIndex = cellList[day].findIndex(function (a) {
     return (a[0] == startRow && a[1] == endRow);
   });
+  console.log(newIndex);
   if (newIndex != cellList[day].length -1){ //not the last element
     if (cellList[day][newIndex][1] + 1 == cellList[day][newIndex+1][0]){
       cellList[day][newIndex][1] = cellList[day][newIndex+1][1]
       cellList[day][newIndex][2] = cellList[day][newIndex][2].concat(cellList[day][newIndex+1][2])
-      cellList[day].splice(newIndex+1,1);
+      cellList[day].splice(newIndex,1);
       console.log("merge1 cellList: ", cellList[day]);
+      newIndex -= 1;
     }
   }
   if (newIndex != 0){
     if (cellList[day][newIndex-1][1] + 1 == cellList[day][newIndex][0]){
       cellList[day][newIndex-1][1] = cellList[day][newIndex][1]
       cellList[day][newIndex-1][2] = cellList[day][newIndex-1][2].concat(cellList[day][newIndex][2])
-      cellList[day].splice(newIndex,1);
+      cellList[day].splice(newIndex-1,1);
       console.log("merge2 cellList: ", cellList[day]);
     }
   }
@@ -248,6 +278,8 @@ function readFromDatabase(){
   var tabValue;
   var dbDIR = '/userpool/'+user_id+'/nextweek/';
   var colorValue;
+  sum = 0;
+
   if (tab_id == "submitted"){
     dbDIR = dbDIR + 'submitted/';
     colorValue = "timetable-submit-slot";
@@ -292,6 +324,7 @@ function readFromDatabase(){
                 if ((end+1) % 2 == 0){e_time = timeAxis[(end+1)/2];}
                 else {e_time = time30Axis[end / 2];}
                 t_time = (end+1-start)/2;
+                sum += t_time;
                 //timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
                 timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
                 if (t_time > 0.5 ) {timeTable.rows[row+1].cells[day].innerHTML = Number(t_time)+"H"+" ";}
@@ -303,6 +336,8 @@ function readFromDatabase(){
         cellList[myKey]=dayblock;
       }
       console.log("cellList: ", cellList);
+      console.log("sum: ", sum);
+      sum = 0;
     }
   });
 }
@@ -323,28 +358,72 @@ function initializeTimeTableHeader() {
 }
 
 function tabsubmit() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "submitted";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.add("tabsubmitbutton_active");
   //copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tab1() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "tab1";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.add("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
   //copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tab2() {
-  copycellList2Database();
+  //copycellList2Database();
   tab_id = "tab2";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.add("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.remove("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
+  // copyDatabase2cellList();
+  initializeTimeTable();
+}
+function tab3() {
+  //copycellList2Database();
+  tab_id = "tab3";
+  var tab1_btn = document.getElementById('tab1_btn');
+  tab1_btn.classList.remove("tabbutton_active");
+  var tab2_btn = document.getElementById('tab2_btn');
+  tab2_btn.classList.remove("tabbutton_active");
+  var tab3_btn = document.getElementById('tab3_btn');
+  tab3_btn.classList.add("tabbutton_active");
+  var tabsubmit_btn = document.getElementById('tab_submit');
+  tabsubmit_btn.classList.remove("tabsubmitbutton_active");
   // copyDatabase2cellList();
   initializeTimeTable();
 }
 
 function tabAdd() {
-  copycellList2Database();
+  var tab3_btn = document.getElementById('tab3_btn');
+  var tab_add = document.getElementById('tab_add');
+  tab3_btn.style.display = "inline";
+  tab_add.style.display = "none";
+  // tab_add.style.disable = "true"
+  //copycellList2Database();
+
   tab_id = "tab3";
   var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
   firebase.database().ref(dbDIR).set({
@@ -359,6 +438,24 @@ function tabAdd() {
   //cellList = [];
   copyDatabase2cellList();
   initializeTimeTable();
+  tab3();
+}
+
+function reset() {
+  alert("Are you sure you want to reset the current timetable?");
+  var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/';
+  firebase.database().ref(dbDIR).set({
+      0: "null",
+      1: "null",
+      2: "null",
+      3: "null",
+      4: "null",
+      5: "null",
+      6: "null"
+  });
+  alert("Reset Completed!");
+  initializeTimeTable();
+
 }
 
 function submit() {
@@ -389,7 +486,20 @@ function submit() {
 console.log(window.location.href);
 
 
-
+function calculate_sum(){
+  for(var i=0; i<cellList.length; i++){
+    console.log(cellList[i]);
+    if (cellList[i].length == 0){
+      console.log("empty day");
+    }
+    else{
+      for(var j=0; j <cellList[i].length; j++) {
+        sum += (cellList[i][j][1]+1-cellList[i][j][0])/2;
+      }
+    }
+  }
+  console.log("sum: ",sum);
+}
 
 /* Don't remove below codes */
 
@@ -508,22 +618,26 @@ function copyDatabase2cellList(){
 
 function copycellList2Database(){
   console.log("start copycellList2Database");
-  for(var i=0; i<cellList.length; i++){
-    var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-    if (cellList[i].length == 0){
-      console.log("empty day");
-      firebase.database().ref(dbDIR).update({
-          0: "null"
-        });
-    }
-    else{
+  if (tab_id != "submitted"){
+    for(var i=0; i<cellList.length; i++){
       var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
-      for(var j=0; j<cellList[i].length; j++) {
-        firebase.database().ref(dbDIR+'/'+j).set({
-          0: cellList[i][j][0],
-          1: cellList[i][j][1]
-        });
+      if (cellList[i].length == 0){
+        console.log("empty day");
+        firebase.database().ref(dbDIR).update({
+            0: "null"
+          });
+      }
+      else{
+        var dbDIR = '/userpool/'+user_id+'/nextweek/tab/'+tab_id+'/'+i;
+        for(var j=0; j<cellList[i].length; j++) {
+          firebase.database().ref(dbDIR+'/'+j).set({
+            0: cellList[i][j][0],
+            1: cellList[i][j][1]
+          });
+        }
       }
     }
+
   }
+
 }

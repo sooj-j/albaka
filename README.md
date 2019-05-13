@@ -11,7 +11,8 @@ albaka is a weekly scheduling system for part-timers
         │
         ├── constant.js                 define timeAxis and day array
         ├── login.js                    login and signup functions
-        ├── submit.js                   submit for next week timetable.. tab......
+        ├── submit.js                   submit for next week timetable
+        │                                 - can add time slots by dragging / delete time slots by clicking X button
         ├── view.js                     view this week timetable
         ├── wage.js                     @
         ├── inbox.js                    remained request/ remained rewards to deal with
@@ -25,7 +26,7 @@ albaka is a weekly scheduling system for part-timers
         css
         │
         ├── style.css                   for common css; top-menu, inbox, table, and other basic frames
-        ├── submit.css                  submit page 및 js에서 사용하는 css
+        ├── submit.css                  submit html 및 js에서 사용하는 css
         ├── view.css                    view page 및 js에서 사용하는 css
         └── wage.css                    @
 
@@ -80,8 +81,8 @@ albaka is a weekly scheduling system for part-timers
         │       │       │               │      ├──  4 : fri_arr
         │       │       │               │      ├──  5 : sat_arr
         │       │       │               │      └──  6 : sun_arr
-        │       │       │               ├──  tab2
-        │       │       │               └──  tab3
+        │       │       │               ├──  tab2 ...
+        │       │       │               └──  tab3 ...
         │       │       │
         │       │       ├──  received_req // for rejected requests once
         │       │       │       |
@@ -152,13 +153,13 @@ albaka is a weekly scheduling system for part-timers
                 │       │
                 │       ├── CompetitionRate // key= day, value =string which contains 38 numbers which means how many workers had subbmitted per 30 min.
                 │       │       │
-                │       │       ├── 0 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 1 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 2 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 3 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 4 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 5 : "0,0,0,1,1,2,3,...,2,0" 
-                │       │       ├── 6 : "0,0,0,1,1,2,3,...,2,0" 
+                │       │       ├── 0 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 1 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 2 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 3 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 4 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 5 : "0,0,0,1,1,2,3,...,2,0"
+                │       │       ├── 6 : "0,0,0,1,1,2,3,...,2,0"
                 │       │
                 │       └──  timetable  //timetable scheduled from workers' submitted time, each arr contains userid per 30 min
                 │               │

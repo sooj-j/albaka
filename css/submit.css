@@ -23,7 +23,7 @@
 #division:hover {
   cursor: pointer;
   position: relative;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 /* [data-toggle="tooltip"]:hover:after {

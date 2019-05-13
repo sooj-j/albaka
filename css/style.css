@@ -121,10 +121,18 @@
     .inbox_content_row:hover {
         background-color: var(--table-border-color);
     }
-.inbox_img{
-    padding:3px;
-    width:45px;
-    height:45px
+.reward_content_row {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    border-bottom: 1px solid var(--table-border-color);
+    list-style-type: none;
+    overflow: auto;
+    z-index: 32;
+}
+.inbox_img {
+    padding: 3px;
+    width: 45px;
+    height: 45px
 }
 .caption {
     margin: 3px;

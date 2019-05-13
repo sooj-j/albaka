@@ -213,7 +213,8 @@ function pendRequestReceived() {
     
     var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
     var pendingData = {
-      date: dayToDateString[currentRequestReceivedDay],
+        date: dayToDateString[currentRequestReceivedDay].split(' ')[1],
+        day: dayToDateString[currentRequestReceivedDay].split(' ')[0],
       start_time: getTimeStr(requestQueueValue[0]),
       end_time: getTimeStr(requestQueueValue[1]),
       from: 'test' + requestQueueValue.sender,
@@ -248,7 +249,8 @@ function pendRequestReceived() {
     firebase.database().ref(receiveddbDIR).remove();
   });
 
-  initializeTimeTable();
+    initializeTimeTable();
+    init_req();
 }
 
 
@@ -430,19 +432,26 @@ function readThisweekFromDatabase(){
       // console.log("keyList: ", keyList);
       // console.log("timetable: ", timeTable.rows[1].cells[1]); //월 8시
       for(var j=0; j<keyList.length; j++) {
-        var myKey = keyList[j];
+          var myKey = keyList[j];
+          //console.log(myKey, keyList);
+          
         if (thisweekValue[myKey]=="null"){
           console.log("Empty day: ", myKey);
         }
         else {
-          for (var l=0; l<thisweekValue[myKey].length; l++){
-            var cellblock=[]
+            for (var l = 0; l < thisweekValue[myKey].length; l++){
+            //var key_slot = thisweekValue[myKey][l];
+            var cellblock = []
+            //console.log(key_slot);
+            //var start = key_slot[0];
+            //var end = key_slot[1];
             var start=thisweekValue[myKey][l][0];
             var end=thisweekValue[myKey][l][1];
-            // console.log("day: ", myKey, ", start: ", start, ", end: ", end);
+            console.log("day: ", myKey, ", start: ", start, ", end: ", end);
             for (var i=start; i<=end; i++){
               var row = i+1;
-              var day = j+1;
+              var day = j + 1;
+              //console.log("cell", row, day);
               //console.log(timeTable.rows[row].cells[day]);
               timeTable.rows[row].cells[day].classList.add("timetable-view-slot");
               cellblock.push(timeTable.rows[row].cells[day]);

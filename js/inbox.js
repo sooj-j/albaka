@@ -16,8 +16,39 @@ function clearInbox() {
     $(".no_reward").text("");
 };
 function init_req() {
-    firebase.database().ref("userpool/" + id).child('received_req').once("value", function (snapshot) {
-        console.log("Req00", snapshot.val());//whole array
+    firebase.database().ref("userpool/" + id).child('received_req').once('value', function (snapshot) {
+        console.log("once", snapshot.val());//whole array
+        clearInbox();
+
+        snapshot.forEach((snap) => {
+            console.log("Req01", snap.key);//one req
+            var req = snap.val();
+            firebase.database().ref("userpool/" + req.from).once("value", function (s) {
+                if (s.exists()) {
+                    var info = s.val();
+                    var req2 = {
+                        'img': info.img,
+                        'id': info.id,
+                        'name': info.name,
+                        'start_time': req.start_time,
+                        'end_time': req.end_time,
+                        'reward': req.reward,
+                        'date': req.date,
+                        'day': req.day,
+                        'index': snap.key,
+
+                    };
+                    console.log("draw req:", req2);
+                    draw_one_req(req2);
+                    //index += 1;
+                }
+            });
+        });
+    });
+    
+    firebase.database().ref("userpool/" + id).child('received_req').on('child_changed', function (snapshot) {
+        console.log("onchange", snapshot.val());//whole array
+        clearInbox();
         
         snapshot.forEach((snap) => {
             console.log("Req01", snap.key);//one req
@@ -45,13 +76,11 @@ function init_req() {
     });
 }
 function get_received_req() {//get when change happen in received requests
-    clearInbox();
-    init_req();
-    firebase.database().ref("userpool/" + id).child('received_req').on('child_changed', function (snapshot) {
-        console.log("changed received_Req");
-        clearInbox();
+    //'child_changed'
+    //firebase.database().ref("userpool/" + id).child('received_req').on('value', function (snapshot) {
+        //console.log("changed received_Req");
         init_req();
-    });
+    //});
 };
 function clearReward() {
     $(".has_reward").text("reward_to_send");
@@ -90,80 +119,76 @@ function del_request(idx) {
     req_cnt--;
     console.log("idx", idx);
     //checked the firebase removed!!
-    //firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
-    $("#id_" + idx).remove();
-    //notify it to the sender
-
-    $("#inbox_count").html(req_cnt);
     
+    $("#id_" + idx).remove();
+    firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
+        if (snap.exists()) {
+            var req = snap.val();
+            console.log(req);
+
+            if (req.queueKey) {
+                var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
+                firebase.database().ref(queuedbDIR).remove();
+            };
+            var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
+            remove_hover_cell(timecell);
+            
+        }
+    }).then(function () {
+        //firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
+    });
+    $("#inbox_count").html(req_cnt);
 }
+
+
 
 function push_time_toDB(timecell) {
     var day = day_to_07(timecell.day);
+    console.log(timecell, day);
     var dbDIR = '/userpool/' + user_id + '/thisweek/' + day;
     var requestData = {
         0: timecell.start_time,
         1: timecell.end_time
     }
-    firebase.database().ref(dbDIR + '/').push(requestData);
+    firebase.database().ref(dbDIR).once('value', function (snap) {
+        var oldarr = snap.val();
+        oldarr.append(requestData);
+        firebase.database().ref(dbDIR).set(oldarr);
+    });    
+    //firebase.database().ref(dbDIR + '/').push(requestData);
+    console.log("accpet");
     initializeTimeTable();
 };
 
 
 //send message to sender // add time to my timetable
 function accept_request(idx) {
-    req_cnt--; 
+    req_cnt--;
     $("#id_" + idx).remove();
     console.log("id:", idx);
     firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
-        var req = snap.val();
+        if (snap.exists()) {
+            var req = snap.val();
 
-        /* TODO: inbox 오류로 확인하기 어려움
-        
-        if (req.queueKey) {
-            var queuedbDIR = '/userpool/'+user_id+'/requestQueue/'+requestValue.queueKey;
-            firebase.database().ref(queuedbDIR).remove();
-        }
-        */
-
-        /* push to thisweek database */
-        var day = date2Day(req.date);
-        var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+day;
-
-        firebase.database().ref(thisweekdbDIR).once("value", function (snap) {
-            var thisweekValue = snap.val();
-            var index = thisweekValue === null ? 0 : thisweekValue.length;
-
-            var start_row = time2Row(req.start_time);
-            var end_row = time2Row(req.end_time) - 1;
-            var thisweekData = {
-                0: start_row,
-                1: end_row
+            if (req.queueKey) {
+                var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
+                firebase.database().ref(queuedbDIR).remove();
             }
+            
+            var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
+            remove_hover_cell(timecell);
+            push_time_toDB(timecell);
+            firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
+        //var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
+        //newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
 
-            firebase.database().ref(thisweekdbDIR+'/'+index+'/').set(thisweekData);
 
-            /* initialize timetable */
-            location.reload();
-        });
-        /*
-        var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
-        newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
-
-        var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
-        remove_hover_cell(timecell);
+        }
         
-        */
-        //i!!!! implement to be in receiver's timetable
-    }).then(function () {
-        firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
-        });
-    
-    //i!!!! implement to be in sender's timetable
-
+    });
     $("#inbox_count").html(req_cnt);
-    
 }
+
 
 //hover effect
 function draw_one_req(req) {
@@ -201,13 +226,13 @@ function draw_one_req(req) {
     $(cap).appendTo($(temp));
 
     if (req.reward == "") {
-        $(txt).append("Can you to work at" + "<b> " + req.date + " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
+        $(txt).append("Can you to work at" + "<b> " + req.day +" "+ req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
         $(txt).append(acpt);
         $(txt).append(del);
         $(temp).append($(txt));
         $(temp).appendTo($("#no_reward"));
     } else {
-        $(txt).append(" Can you to work at" + "<b> " + req.date + " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
+        $(txt).append(" Can you to work at" + "<b> " + req.day+" "+req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
         //$(txt).append("you can get " + "<b> " + req.reward + " </b>");
         $(acpt).attr('value', 'accept with ' + req.reward);
         $(txt).append(acpt);
@@ -289,11 +314,16 @@ $(document).ready(function () {
     id = global_params.split('uid=')[1];
     
     console.log("fin");
-    
-    get_received_req();
+
+    init_req();
+
+    //get_received_req();
     get_received_rew();
+
+    
     
 });
+
 
 
 function makeURL(str) {

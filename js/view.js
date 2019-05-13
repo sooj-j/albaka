@@ -39,7 +39,7 @@ const btnReplacementModalHTML = {
 }
 
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
-const requestInterval = 2000
+const requestInterval = 10000;
 
 /* status of sent request changes for a certain time intervals. */
 const statusChangeInterval = 2000;
@@ -136,6 +136,7 @@ $(document).ready(function () {
         firebase.database().ref(dbDIR).set(requestValue);
 
         var timer = setTimeout(function() {
+          // reward-todo: 위처럼 보낸 reward db에 저장
           openAcceptModal(message);
         }, 2500);
         timers.push(timer);
@@ -151,6 +152,8 @@ $(document).ready(function () {
 
     $("#btn-reject-request").click(function() {
       pendRequestReceived();
+      // TODO: received_req에 push
+      // TODO: requestReceived에서 remove
       closeReceiveReplacementModal();
       setTimeout(pushRequestReceivedFromQueue, requestInterval);
     })
@@ -176,18 +179,43 @@ function pendRequestReceived() {
   var receiveddbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
   var queuedbDIR = '/userpool/'+user_id+'/requestQueue/';
   
-  firebase.database().ref(receiveddbDIR).update({
-    isPending: true,
-  });
+  var newRequestQueueRef; 
 
   /* if request without reward is rejected, then push the request with reward <beer> to queue */
   firebase.database().ref(receiveddbDIR).once("value", function (snap) {
     var requestQueueValue = snap.val();
-    if(!requestQueueValue.reward) {
+    if(requestQueueValue && !requestQueueValue.reward) {
       requestQueueValue.reward = rewardList[Math.floor(Math.random()*rewardList.length)];;
       requestQueueValue.day = currentRequestReceivedDay;
-      firebase.database().ref(queuedbDIR).push(requestQueueValue);
+
+      newRequestQueueRef = firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }
+    
+    // TODO: start_time, end_time, date 변환하기
+
+    console.log('push to pendingDB')
+    var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
+    var pendingData = {
+      date: 'date',
+      start_time: 'start_time',
+      end_time: 'end_time',
+      from: requestQueueValue.sender,
+      reward: requestQueueValue.reward
+    }
+
+    if (newRequestQueueRef) {
+      pendingData.queueKey = newRequestQueueRef.key
+    }
+
+    var newPendingRequestRef = firebase.database().ref(pendingdbDIR).push(pendingData);
+
+    if (newRequestQueueRef) {
+      firebase.database().ref(queuedbDIR+'/'+newRequestQueueRef.key).update({
+        pendingKey: newPendingRequestRef.key
+      });
+    }
+
+    firebase.database().ref(receiveddbDIR).remove();
   });
 
   initializeTimeTable();
@@ -246,11 +274,18 @@ function pushRequestReceivedFromQueue() {
     delete firstRequest.day
     firstRequest.isPending = false
 
+    if (firstRequest.pendingKey) {
+      var pendingdbDIR = '/userpool/'+user_id+'/received_req/'+firstRequest.pendingKey;
+      firebase.database().ref(pendingdbDIR).remove();
+    }
+
     /* push new request to request received DB */
     firebase.database().ref(receiveddbDIR+'/'+day).once("value", function (snap) {
       requestValue = snap.val();
       /* if there is an existing request which has same < start time, end time, sender > with new request from queue,
          then delete the existing request ( pending request is updated with reward ) */
+      
+      /*
       if (requestValue) {
         for (key in requestValue) {
           if (requestValue[key][0] === firstRequest[0] &&
@@ -260,6 +295,7 @@ function pushRequestReceivedFromQueue() {
           }
         }
       }
+      */
       firebase.database().ref(receiveddbDIR+'/'+day).push(firstRequest);
       initializeTimeTable();
     });
@@ -538,6 +574,7 @@ function findCurrentRequestSent(element) {
 
 function setDraggingSelector() {
   var isMouseDown = false;
+  var prev;
 
   $(document).on('mousedown','.timetable-entry',function(e) {
     dragged=[];
@@ -552,6 +589,7 @@ function setDraggingSelector() {
       dragged.push(this);
       $(this).addClass("timetable-view-drag-slot");
       isMouseDown = true;
+      prev = this;
       return false;
     }
   });
@@ -561,10 +599,9 @@ function setDraggingSelector() {
       if (this.classList.contains("timetable-view-drag-slot")) {
         isMouseDown = false;
         openReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
-      } else if (this.classList.contains("timetable-view-slot")){
+      } else if (this.classList.contains("timetable-view-slot") && (this.cellIndex == prev.cellIndex)){
         dragged.push(this);
-        //$(this).toggleClass("timetable-view-drag-slot");
-          $(this).addClass("timetable-view-drag-slot");
+        $(this).addClass("timetable-view-drag-slot");
       }
     }
   });
@@ -815,6 +852,8 @@ function deleteRequestReceived() {
 
   var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+day+'/'+key;
   firebase.database().ref(requestdbDIR).remove();
+
+  // reward-todo: 받은 reward 저장
 
   // TODO: 필요?
   currentRequestReceivedDay = null;

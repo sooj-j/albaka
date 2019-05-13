@@ -43,12 +43,23 @@ function get_received_req() {//get when change happen in received requests
         });
     });
 }
+
 //need confirm message
 function del_request(idx) {
     req_cnt--;
+
+    firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
+        var requestValue = snap.val();
+        console.log('requestValue', requestValue);
+
+        if (requestValue.queueKey) {
+            var queuedbDIR = '/userpool/'+user_id+'/requestQueue/'+queueKey;
+            firebase.database().ref(queuedbDIR).remove();
+        }
+    });
     //firebase.database().ref("userpool/" + id + '/received_req').child(idx-1).remove();
     console.log("del:", idx);
-    $("#id_" + idx).remove();
+    // $("#id_" + idx).remove();
     //notify it to the sender
 
     $("#inbox_count").html(req_cnt);
@@ -64,8 +75,34 @@ function accept_request(idx) {
         console.log("accept:", snap);
         var req = snap.val();
         console.log("accept:", req);
+
+        if (req.queueKey) {
+            var queuedbDIR = '/userpool/'+user_id+'/requestQueue/'+queueKey;
+            firebase.database().ref(queuedbDIR).remove();
+        }
+
+        // TODO: req로부터 day(요일 int), s_row(시작 row int), e_row(끝나는 row int) 변환
+        var day = 0;
+        var s_row = 0;
+        var e_row = 1;
+
+        var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+day;
+        var thisweekData = {
+            0: s_row,
+            1: e_row
+        }
+
+        firebase.database().ref(thisweekdbDIR).once("value", function (snap) {
+            var thisweekValue = snap.val();
+            var index = thisweekValue === "null" ? 0 : thisweekValue.length;
+
+            firebase.database().ref(thisweekdbDIR+'/'+index+'/').set(thisweekData);
+        });
+
+        /*
         var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
         newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
+        */
         //i!!!! implement to be in receiver's timetable
     }).then(function () {
         firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();

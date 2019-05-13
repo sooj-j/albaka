@@ -15,18 +15,17 @@ function clearInbox() {
     $(".has_reward").text("");
     $(".no_reward").text("");
 };
-
-function get_received_req() {//get when change happen in received requests
-    clearInbox();
-    firebase.database().ref("userpool/" + id).child('received_req').on("value", function (snapshot) {
-        var index = 0;
+function init_req() {
+    firebase.database().ref("userpool/" + id).child('received_req').once("value", function (snapshot) {
+        console.log("Req00", snapshot.val());//whole array
+        
         snapshot.forEach((snap) => {
-            req = snap.val();
-            console.log("Req", req);
-            firebase.database().ref("userpool").child(req.from).once("value", function (snap) {
-                if (snap.exists()) {
-                    info = snap.val();
-                    req2 = {
+            console.log("Req01", snap.key);//one req
+            var req = snap.val();
+            firebase.database().ref("userpool/"+req.from).once("value", function (s) {
+                if (s.exists()) {
+                    var info = s.val();
+                    var req2 = {
                         'img': info.img,
                         'id': info.id,
                         'name': info.name,
@@ -34,17 +33,24 @@ function get_received_req() {//get when change happen in received requests
                         'end_time': req.end_time,
                         'reward': req.reward,
                         'date': req.date,
-                        'index': index,
+                        'index': snap.key,
 
                     };
                     console.log("draw req:", req2);
                     draw_one_req(req2);
-                    index += 1;
+                    //index += 1;
                 }
-
             });
-
         });
+    });
+}
+function get_received_req() {//get when change happen in received requests
+    clearInbox();
+    init_req();
+    firebase.database().ref("userpool/" + id).child('received_req').on('child_changed', function (snapshot) {
+        console.log("changed received_Req");
+        clearInbox();
+        init_req();
     });
 };
 function clearReward() {
@@ -56,6 +62,7 @@ function get_received_rew() {//get when change happen in received rewards
     firebase.database().ref("userpool/" + id).child('reward_Received').on("value", function (snapshot) {
         var index = 0;
         snapshot.forEach((snap) => {
+            
             req = snap.val();
             firebase.database().ref("userpool").child(req.sender).once("value", function (snap) {
                 if (snap.exists()) {
@@ -93,6 +100,18 @@ function del_request(idx) {
     
 }
 
+function push_time_toDB(timecell) {
+    var day = day_to_07(timecell.day);
+    var dbDIR = '/userpool/' + user_id + '/thisweek/' + day;
+    var requestData = {
+        0: timecell.start_time,
+        1: timecell.end_time
+    }
+    firebase.database().ref(dbDIR + '/').push(requestData);
+    initializeTimeTable();
+};
+
+
 //send message to sender // add time to my timetable
 function accept_request(idx) {
     req_cnt--; 
@@ -102,6 +121,10 @@ function accept_request(idx) {
         var req = snap.val();
         var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
         newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
+        var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
+        remove_hover_cell(timecell);
+
+        
         //i!!!! implement to be in receiver's timetable
     }).then(function () {
         firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();

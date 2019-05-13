@@ -50,6 +50,20 @@ function datetocell(json) {
     };
     scrollTocell($(timetable.rows[i + 1].cells[day + 1]));
 }
+function day_to_07(strday) {
+    var day;
+    switch (strday) {
+        case "MON": day = 0; break;
+        case "TUE": day = 1; break;
+        case "WED": day = 2; break;
+        case "THU": day = 3; break;
+        case "FRI": day = 4; break;
+        case "SAT": day = 5; break;
+        case "SUN": day = 6; break;
+    };
+    return day;
+}
+
 
 function remove_hover_cell(json) {
     console.log("re,",json);

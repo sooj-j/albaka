@@ -39,7 +39,7 @@
 }
 .navbar-nav {
     position: absolute;
-    left: 565px !important;
+    left: 645px !important;
     top:5px;
 }
 .nav-down {
@@ -52,8 +52,8 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 560px;
-    top: 23px;
+    left: 458px;
+    top: 20px;
     background-color: dimgray;
     border-radius: 30%;
     width: 12px;
@@ -75,8 +75,8 @@
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    left: 605px;
-    top: 23px;
+    left: 498px;
+    top: 20px;
     background-color: dimgray;
     border-radius: 30%;
     width: 12px;
@@ -179,13 +179,13 @@
 }
 .nav-item{
     margin-right:10px;
-    width:200px;
+    width:150px;
     font-size:12px;
     text-align:center;
 }
 
 .nav-link {
-    font-size: 14px;
+    font-size: 12px!important;
     cursor: pointer;
 }
 

@@ -27,6 +27,18 @@ function scrollTocell(cell) {
     }, 300);
 }
 
+function date2Day(date) {
+  switch (date.slice(0, 3)) {
+    case "MON": day = 0; break;
+    case "TUE": day = 1; break;
+    case "WED": day = 2; break;
+    case "THU": day = 3; break;
+    case "FRI": day = 4; break;
+    case "SAT": day = 5; break;
+    case "SUN": day = 6; break;
+  };
+  return day
+}
 
 function datetocell(json) {
     var day;

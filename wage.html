@@ -30,31 +30,31 @@
     </div>
 
 
-    <div class="col-md-12 col-sm-12 well pull-right-lg" id="goal-zone">
+    <div class="col-md-12 col-sm-12 well pull-right-lg mt-3" id="goal-zone" >
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-5" id="bar">
+            <div class="col-md-5 mt-2" id="bar">
                 <div class="progress">
-                    <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">10%</div>
+                    <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>
             </div>
             <div class="col-md-2">
-                <p class="mx-3" id="division">40$/400$</p>
+                <p class="mx-3" id="division">$/$</p>
             </div>
-            <div class="col-md-1">
-                <button type="button" class="btn btn-info btn-sm" id="change-button">set again</button>
+            <div class="col-md-1" >
+                <button type="button" class="btn btn-info" id="change-button" style = "height: 26px; width: 100px; padding:1px;">set again</button>
             </div>
             <div class="col-md-2"></div>
         </div>
     </div>
 
-    <div class="col-md-12 col-sm-12 well pull-right-lg" id="set-zone">
+    <div class="col-md-12 col-sm-12 well pull-right-lg" id="set-zone" >
         <div class="row">
             <div class="col-md-7"></div>
-            <div class="col-md-2">
+            <div class="col-md-2 my-2" >
                 <input type="text" id="goal-input">
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1 my-2">
                 <button type="button" class="btn btn-info btn-sm mx-3" id="set-button">set</button>
             </div>
             <div class="col-md-2"></div>
@@ -66,11 +66,15 @@
 
     <div class="col-md-12 col-sm-12 well pull-right-lg">
         <div class="row">
-            <div class="col-sm-2"></div>
+            <div class="col-sm-2" ></div>
             <div class="table-responsive col-md-8" style="padding:0px;">
                 <table class="table table-style">
                     <tr>
-                        <th colspan="8"><p class="text-dark mb-0">MAY-2019</p></th>
+                        <th colspan="8">
+                            <a href="javascript:makeURL('wage_april.html')" class="previous round" style="display:inline-block;">&#8249;</a>
+                            <p class="text-dark my-0 mx-5" style="display:inline-block;">MAY-2019</p>
+                            <a style="display:inline-block;" href="#" class="previous round">&#8250;</a>
+                        </th>
                     </tr>
                     <tr>
                         <th><p class="font-weight-bold small text-dark mb-0">Mon</p></th>
@@ -136,18 +140,18 @@
 
                 </table>
             </div>
-            <div class="col-sm-2"></div>
+            <div class="col-sm-2" ></div>
         </div>
     </div>
 
     <br>
 
-    <div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid">
+    <div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid;">
         <div class="row">
             <div class="col-md-8"></div>
-            <div class="col-md-2" id= "total-wage">
+            <div class="col-md-2"  id= "total-wage">
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-2" ></div>
         </div>
 
     </div>

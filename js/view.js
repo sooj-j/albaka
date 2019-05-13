@@ -38,8 +38,18 @@ const btnReplacementModalHTML = {
   cancel: 'CANCEL all requests'
 }
 
+const dayToDateString = {
+  0: 'MON 5/6',
+  1: 'TUE 5/7',
+  2: 'WED 5/8',
+  3: 'THU 5/9',
+  4: 'FRI 5/10',
+  5: 'SAT 5/11',
+  6: 'SUN 5/12'
+};
+
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
-const requestInterval = 2000
+const requestInterval = 15000;
 
 /* status of sent request changes for a certain time intervals. */
 const statusChangeInterval = 2000;
@@ -137,6 +147,16 @@ $(document).ready(function () {
         firebase.database().ref(dbDIR).set(requestValue);
 
         var timer = setTimeout(function() {
+          // reward-todo: 위처럼 보낸 reward db에 저장
+          var rewarddbDIR = '/userpool/'+user_id+'/rewardSent/';
+
+          if (requestValue.reward) {
+            firebase.database().ref(rewarddbDIR).push({
+              reward: requestValue.reward,
+              sender: 'testDayeon'
+            });
+          }
+
           openAcceptModal(message);
         }, 2500);
         timers.push(timer);
@@ -152,6 +172,8 @@ $(document).ready(function () {
 
     $("#btn-reject-request").click(function() {
       pendRequestReceived();
+      // TODO: received_req에 push
+      // TODO: requestReceived에서 remove
       closeReceiveReplacementModal();
       setTimeout(pushRequestReceivedFromQueue, requestInterval);
     })
@@ -177,18 +199,53 @@ function pendRequestReceived() {
   var receiveddbDIR = '/userpool/'+user_id+'/requestReceived/'+currentRequestReceivedDay+'/'+currentRequestReceivedKey;
   var queuedbDIR = '/userpool/'+user_id+'/requestQueue/';
   
-  firebase.database().ref(receiveddbDIR).update({
-    isPending: true,
-  });
+  var newRequestQueueRef; 
 
   /* if request without reward is rejected, then push the request with reward <beer> to queue */
   firebase.database().ref(receiveddbDIR).once("value", function (snap) {
     var requestQueueValue = snap.val();
-    if(!requestQueueValue.reward) {
+    if(requestQueueValue && !requestQueueValue.reward) {
       requestQueueValue.reward = rewardList[Math.floor(Math.random()*rewardList.length)];;
       requestQueueValue.day = currentRequestReceivedDay;
-      firebase.database().ref(queuedbDIR).push(requestQueueValue);
+
+      newRequestQueueRef = firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }
+    
+    var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
+    var pendingData = {
+      date: dayToDateString[currentRequestReceivedDay],
+      start_time: getTimeStr(requestQueueValue[0]),
+      end_time: getTimeStr(requestQueueValue[1]),
+      from: 'test' + requestQueueValue.sender,
+      reward: requestQueueValue.reward
+    }
+
+    if (newRequestQueueRef) {
+      pendingData.queueKey = newRequestQueueRef.key
+    }
+
+    firebase.database().ref(pendingdbDIR).once("value", function (snap) {
+      var requestPendingValue = snap.val();
+
+      if (!requestPendingValue) {
+        requestPendingValue = [];
+      }
+      // console.log('push to pendingDB > value', requestPendingValue, pendingData)
+
+      requestPendingValue.push(pendingData);
+
+      var pendingKey = requestPendingValue.length - 1;
+
+      if (newRequestQueueRef) {
+        firebase.database().ref(queuedbDIR+'/'+newRequestQueueRef.key).update({
+          pendingKey: pendingKey
+        });
+      }
+      firebase.database().ref(pendingdbDIR).remove()
+      firebase.database().ref(pendingdbDIR).set(requestPendingValue)
+    });
+
+    firebase.database().ref(receiveddbDIR).remove();
   });
 
   initializeTimeTable();
@@ -200,21 +257,18 @@ function initializeRequestQueue() {
     0: 0,
     1: 3,
     day: 4,
-    isPending: false,
     sender: "Heeju",
     reward: null
   }, {
     0: 12,
     1: 16,
     day: 2,
-    isPending: false,
     sender: "Hyunjoo",
     reward: null
   }, {
     0: 0,
     1: 2,
     day: 3,
-    isPending: false,
     sender: "Dayeon",
     reward: null
   }];
@@ -245,13 +299,19 @@ function pushRequestReceivedFromQueue() {
 
     day = firstRequest.day
     delete firstRequest.day
-    firstRequest.isPending = false
+
+    if (firstRequest.pendingKey) {
+      var pendingdbDIR = '/userpool/'+user_id+'/received_req/'+firstRequest.pendingKey;
+      firebase.database().ref(pendingdbDIR).remove();
+    }
 
     /* push new request to request received DB */
     firebase.database().ref(receiveddbDIR+'/'+day).once("value", function (snap) {
       requestValue = snap.val();
       /* if there is an existing request which has same < start time, end time, sender > with new request from queue,
          then delete the existing request ( pending request is updated with reward ) */
+      
+      /*
       if (requestValue) {
         for (key in requestValue) {
           if (requestValue[key][0] === firstRequest[0] &&
@@ -261,6 +321,7 @@ function pushRequestReceivedFromQueue() {
           }
         }
       }
+      */
       firebase.database().ref(receiveddbDIR+'/'+day).push(firstRequest);
       initializeTimeTable();
     });
@@ -448,11 +509,6 @@ function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
       rcKeyList.forEach((rcKey) => {
         var requestComponent = requestValue[dayKey][rcKey]
 
-        if (isRequestReceived && requestComponent.isPending) {
-          // TODO: push in inbox
-          return;
-        }
-
         var cellblock=[]
         var start=requestComponent[0];
         var end=requestComponent[1];
@@ -481,19 +537,15 @@ function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
 }
 
 function getTimeBar(start, end) {
-  if (start % 2 == 0){
-    s_time = timeAxis[start/2];
-  } else {
-    s_time = time30Axis[(start-1) / 2];
-  }
+  return getTimeStr(start) + " ~ "+ getTimeStr(end);
+}
 
-  if ((end+1) % 2 == 0){
-    e_time = timeAxis[(end+1)/2];
+function getTimeStr(time) {
+  if (time % 2 == 0){
+    return timeAxis[time/2];
   } else {
-    e_time = time30Axis[end / 2];
+    return time30Axis[(time-1) / 2];
   }
-
-  return s_time + " ~ "+ e_time;
 }
 
 function initializeTimeTableHeader() {
@@ -539,6 +591,7 @@ function findCurrentRequestSent(element) {
 
 function setDraggingSelector() {
   var isMouseDown = false;
+  var prev;
 
   $(document).on('mousedown','.timetable-entry',function(e) {
     dragged=[];
@@ -553,6 +606,7 @@ function setDraggingSelector() {
       dragged.push(this);
       $(this).addClass("timetable-view-drag-slot");
       isMouseDown = true;
+      prev = this;
       return false;
     }
   });
@@ -562,10 +616,9 @@ function setDraggingSelector() {
       if (this.classList.contains("timetable-view-drag-slot")) {
         isMouseDown = false;
         openReplacementModal(e.pageX, e.pageY - $(window).scrollTop());
-      } else if (this.classList.contains("timetable-view-slot")){
+      } else if (this.classList.contains("timetable-view-slot") && (this.cellIndex == prev.cellIndex)){
         dragged.push(this);
-        //$(this).toggleClass("timetable-view-drag-slot");
-          $(this).addClass("timetable-view-drag-slot");
+        $(this).addClass("timetable-view-drag-slot");
       }
     }
   });
@@ -618,7 +671,6 @@ function openReceiveReplacementModal(x, y) {
   });
 }
 
-// TODO: remove timeComponent param
 function openReplacementModal(x, y) {
   var requestStatus = $(".btn-request-status")
   var requestReward = $(".btn-request-reward");
@@ -725,12 +777,6 @@ function pushRequestToDatabase() {
   e_row = time2Row(($(endCell).parent())[0].cells[0].id);
 
   /* TODO: drag upward */
-  /*
-  requestSentCellList[day].push({
-    key: rcKey,
-    cellblock: cellblock,
-  });
-  */
 
   var dbDIR = '/userpool/'+user_id+'/requestSent/'+day;
   var requestData = {
@@ -811,12 +857,23 @@ function deleteRequestReceived() {
   var day = currentRequestReceivedDay;
   var key = currentRequestReceivedKey;
 
-    var index = requestReceivedCellList.findIndex((element) => { element.key === key; });
-    console.log("ind", index);
+  var index = requestReceivedCellList.findIndex((element) => { element.key === key; });
   requestReceivedCellList.splice(index, 1);
 
   var requestdbDIR = '/userpool/'+user_id+'/requestReceived/'+day+'/'+key;
-  firebase.database().ref(requestdbDIR).remove();
+  var rewarddbDIR = '/userpool/'+user_id+'/rewardReceived/';
+
+  firebase.database().ref(requestdbDIR).once("value", function (snap) {
+    var requestValue = snap.val();
+    
+    if (requestValue.reward) {
+      firebase.database().ref(rewarddbDIR).push({
+        reward: requestValue.reward,
+        sender: 'test' + requestValue.sender
+      });
+    }
+    firebase.database().ref(requestdbDIR).remove();
+  });
 
   // TODO: 필요?
   currentRequestReceivedDay = null;

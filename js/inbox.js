@@ -57,6 +57,7 @@ function clearReward() {
     $(".has_reward").text("reward_to_send");
     $(".no_reward").text("reward_to_receive");
 }
+
 function get_received_rew() {//get when change happen in received rewards
     clearReward();
     firebase.database().ref("userpool/" + id).child('reward_Received').on("value", function (snapshot) {
@@ -84,15 +85,12 @@ function get_received_rew() {//get when change happen in received rewards
     })
 }
 
-
 //need confirm message
 function del_request(idx) {
     req_cnt--;
     console.log("idx", idx);
-
     //checked the firebase removed!!
     //firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
-
     $("#id_" + idx).remove();
     //notify it to the sender
 
@@ -119,12 +117,43 @@ function accept_request(idx) {
     console.log("id:", idx);
     firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
         var req = snap.val();
+
+        /* TODO: inbox 오류로 확인하기 어려움
+        
+        if (req.queueKey) {
+            var queuedbDIR = '/userpool/'+user_id+'/requestQueue/'+requestValue.queueKey;
+            firebase.database().ref(queuedbDIR).remove();
+        }
+        */
+
+        /* push to thisweek database */
+        var day = date2Day(req.date);
+        var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+day;
+
+        firebase.database().ref(thisweekdbDIR).once("value", function (snap) {
+            var thisweekValue = snap.val();
+            var index = thisweekValue === null ? 0 : thisweekValue.length;
+
+            var start_row = time2Row(req.start_time);
+            var end_row = time2Row(req.end_time) - 1;
+            var thisweekData = {
+                0: start_row,
+                1: end_row
+            }
+
+            firebase.database().ref(thisweekdbDIR+'/'+index+'/').set(thisweekData);
+
+            /* initialize timetable */
+            location.reload();
+        });
+        /*
         var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
         newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
+
         var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
         remove_hover_cell(timecell);
-
         
+        */
         //i!!!! implement to be in receiver's timetable
     }).then(function () {
         firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
@@ -262,7 +291,7 @@ $(document).ready(function () {
     console.log("fin");
     
     get_received_req();
-    get_receiver_rew();
+    get_received_rew();
     
 });
 

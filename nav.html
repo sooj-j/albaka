@@ -1,9 +1,9 @@
 <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet" />
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:whitesmoke;">
     <div class="container">
         <a class="navbar-brand" href="javascript:makeURL('view.html')">ALBAKA</a>
-        
+
         <div id="navbarSupportedContent">
             <div class="navbar-nav">
                 <div class="nav-item">
@@ -57,7 +57,7 @@
 
 
     </div>
-    
+
 </nav>
 <script type="text/javascript">
     var inbox_click = true;
@@ -80,7 +80,7 @@
         $("#reward_close").click(closeReward);
 
         $('.big_inbox').on('mouseenter', '.inbox_content_row', function () {
-            
+
             var usertext = $(this).children('.img_text').html();
             if (usertext != "") {
                 var found = usertext.match(re)[0].split(" ");
@@ -94,7 +94,7 @@
                 console.log(json2);
                 hover_on_view(json2);
             };
-            
+
 
         });
 
@@ -143,9 +143,7 @@
             reward_click = true;
         }
     });
-    
+
 
 </script>
 <script src="js/inbox.js"></script>
-
-

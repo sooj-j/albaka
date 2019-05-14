@@ -1,34 +1,5 @@
 //test push
 
-var goal;
-var database = firebase.database();
-var user_info;
-
-var mayfirst = ['may1','may2','may3','may4', 'may5'];
-var maysecond = ['may6','may7','may8','may9', 'may10','may11','may12'];
-var maythird = ['may13','may14','may15','may16', 'may17','may18','may19'];
-var mayfourth = ['may20','may21','may22','may23', 'may24','may25','may26'];
-var mayfifth = ['may27','may28','may29','may31', 'may31'];
-
-var weeks_list = ['mayfirst', 'maysecond', 'maythird', 'mayfourth', 'mayfifth']
-var calender = {
-'mayfirst': mayfirst,
-'maysecond': maysecond,
-'maythird': maythird,
-'mayfourth': mayfourth,
-'mayfifth':mayfifth
-}
-function findUser() {
-    global_params = window.location.href.split('?')[1];
-    user_id = global_params.split('uid=')[1];
-    console.log("user_id: ", user_id);
-
-    return firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
-        user_info = snap.val();
-        console.log("user_info: ")
-        console.log(user_info); //user_info.id
-    });
-};
 /*
 var weeks = {
     'mayfirst':{
@@ -91,11 +62,42 @@ var weeks = {
 }
 */
 
+var goal;
+var database = firebase.database();
+var user_info;
+
+var mayfirst = ['may1','may2','may3','may4', 'may5'];
+var maysecond = ['may6','may7','may8','may9', 'may10','may11','may12'];
+var maythird = ['may13','may14','may15','may16', 'may17','may18','may19'];
+var mayfourth = ['may20','may21','may22','may23', 'may24','may25','may26'];
+var mayfifth = ['may27','may28','may29','may31', 'may31'];
+
+var weeks_list = ['mayfirst', 'maysecond', 'maythird', 'mayfourth', 'mayfifth']
+var calender = {
+'mayfirst': mayfirst,
+'maysecond': maysecond,
+'maythird': maythird,
+'mayfourth': mayfourth,
+'mayfifth':mayfifth
+}
+function findUser() {
+    global_params = window.location.href.split('?')[1];
+    user_id = global_params.split('uid=')[1];
+    console.log("user_id: ", user_id);
+
+    return firebase.database().ref("userpool").child(user_id).once("value", function (snap) {
+        user_info = snap.val();
+        console.log("user_info: ")
+        console.log(user_info); //user_info.id
+    });
+};
+
 var weeks;
 var may_sum;
 
 $(document).ready(function(){
     $("#set-zone").hide();
+    $("#set-zone-1").hide();
 
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[2].classList.add("nav-item-active");
@@ -174,11 +176,13 @@ $(document).ready(function(){
 
 $(document).on("click", "#change-button", function(){
     $("#set-zone").show();
+    $("#set-zone-1").show();
     $("#goal-zone").hide();
 });
 
 $(document).on("click", "#set-button", function(){
     $("#set-zone").hide();
+    $("#set-zone-1").hide();
     $("#goal-zone").show();
 
 
@@ -187,7 +191,20 @@ $(document).on("click", "#set-button", function(){
     if(goal != ""){
         database.ref('userpool/test1/wage/may/goal').set(goal);
         $("#goal-input").val("");
+        }
+
+    if(parseInt(goal) > 500){
+        $("#error").html("The goal seems too high");
+        setTimeout(function(){$("#error").html("");}, 3000);
     }
+
+    else{
+        $("#error").html("");
+    }
+
+
+
+
     database.ref('userpool/test1/wage/may/').once('value').then(function(snapshot) {
         may_sum = snapshot.val()['sum'];
         goal = snapshot.val()['goal'];
@@ -196,6 +213,7 @@ $(document).on("click", "#set-button", function(){
         $('#progress').html(percentage + "%");
         $("#progress").css("width", percentage+'%')
     });
+
 
 });
 

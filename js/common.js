@@ -23,7 +23,7 @@ function scrollTocell(cell) {
     //$(document).scrollTop(scrollPosition);
 
     $([document.documentElement, document.body]).animate({
-        scrollTop: scrollPosition - 230
+        scrollTop: scrollPosition - 260
     }, 500);
 }
 

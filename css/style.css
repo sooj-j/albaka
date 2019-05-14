@@ -286,6 +286,15 @@
 }
 
 /* helper */
+.start_task3 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    z-index: 50;
+    width: 140px;
+}
 .helper {
     position: -webkit-sticky;
     position: sticky;
@@ -298,7 +307,7 @@
     border: 2px solid var(--darker-grey);
     padding: 5px;
     display: none;
-    background-color:white;
+    background-color: white;
 }
 .helper_title {
     position: -webkit-sticky;
@@ -314,6 +323,7 @@
 .helper_button {
     border: none;
     background-color: var(--darker-grey);
+    border:1px solid white;
     padding: 2px 5px;
     margin: 2px;
     color: white;
@@ -331,6 +341,16 @@
         background-color: var(--view-drag-slot-color);
         color: white;
     }
+#request_inbox_helper {
+    width: 300px;
+    margin-top: 270px;
+    margin-left: 900px;
+}
+#reward_inbox_helper {
+    width: 300px;
+    margin-top: 270px;
+    margin-left: 900px;
+}
 /* view page */
 .container-view {
     padding-top: 91px;

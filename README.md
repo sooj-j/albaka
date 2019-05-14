@@ -21,7 +21,7 @@ albaka is a weekly scheduling system for part-timers
 
         pages
         │
-        ├── page 다 여기에 옮기는게 어떨까욤?.?
+        ├── page 다 여기에 옮기자! 다음번에!>.<
 
         css
         │

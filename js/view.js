@@ -57,13 +57,13 @@ const requestQueueDefault = [{
 }, {
   0: 12,
   1: 16,
-  day: 2,
+  day: 1,
   sender: "Hyunjoo",
   reward: null
 }, {
-  0: 0,
-  1: 2,
-  day: 3,
+  0: 2,
+  1: 5,
+  day: 6,
   sender: "Dayeon",
   reward: null
 }];

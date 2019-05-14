@@ -287,17 +287,49 @@
 
 /* helper */
 .helper {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
     position: absolute;
-    bottom: 0px;
+    bottom: 40px;
     left: 1100px;
     z-index: 50;
     width: 300px;
     border: 2px solid var(--darker-grey);
+    padding: 5px;
+    display: none;
 }
+.helper_title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    position: absolute;
+    bottom: 5px;
+    left: 1100px;
+}
+.helper_button {
+    border: none;
+    background-color: var(--darker-grey);
+    padding: 2px 5px;
+    margin: 2px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+    .helper_button:hover {
+        background-color: var(--view-drag-slot-color);
+        color: white;
+    }
 /* view page */
 .container-view {
     padding-top: 91px;
 }
+
 
 
 /* time table */

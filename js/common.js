@@ -131,4 +131,10 @@ function hover_on_view(json) {
 
 };
 
+function open_helper(id) {
+    $(id).css("display", "block");
+}
+function close_helper(id) {
+    $(id).css("display", "none");
+}
 

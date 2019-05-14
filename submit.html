@@ -82,8 +82,15 @@
                 <tr></tr>
             </table>
         </div>
+
+        <div class="helper_title"> 
+            COLOR
+            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)">?</button>
+        </div>        
         <div class="helper" id="competition_rate_helper">
-            darker greyish color means higher competition rate
+            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
+            Green: Your selected color as available time.<br />
+            Grey : Darker greyish tone means higher competition rate
         </div>
     </div>
     </div>

@@ -15,7 +15,7 @@ $(document).ready(function () {
     firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
-        remain = goal - may_sum;
+        remain = parsedInt((goal - may_sum)*7/19);
         console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
     });
 

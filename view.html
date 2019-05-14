@@ -27,29 +27,36 @@
     <div id="nav-placeholder"></div>
     <div class="container container-background">
 
-    <!-- Top fixed contents below the navigation bar -->
-    <div class="top-placeholder">
-        <table class="table" id="timetable-header">
-            <tr></tr>
-        </table>
-    </div>
+        <!-- Top fixed contents below the navigation bar -->
+        <div class="top-placeholder">
+            <table class="table" id="timetable-header">
+                <tr></tr>
+            </table>
+        </div>
 
-    <div class="container-view">
-        <table class="table" id="timetable">
-            <tr></tr>
-        </table>
-    </div>
-    <div class="helper_title">
-        COLOR
-        <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)">?</button>
-    </div>
-    <div class="helper" id="competition_rate_helper">
-        <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
-        <span style="background-color: var(--view-slot-color); word-spacing:10px"> &nbsp;</span>: your scheduled time slot<br />
-        <span style="background-color: var(--view-drag-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you requested for replacement<br />
-        <span style="background-color: var(--view-request-received-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you received request fort<br />
+        <div class="container-view">
+            <table class="table" id="timetable">
+                <tr></tr>
+            </table>
+        </div>
+        <!-- for the helper(tutorial) function-->
+        <div class="helper_title">
+            COLOR
+            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)">?</button>
+        </div>
+        <div class="helper" id="competition_rate_helper">
+            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
+            <span style="background-color: var(--view-slot-color); word-spacing:10px"> &nbsp;</span>: your scheduled time slot<br />
+            <span style="background-color: var(--view-drag-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you requested for replacement<br />
+            <span style="background-color: var(--view-request-received-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you received request fort<br />
+
+        </div>
+
+        <!-- for the task 3 start -->
+        <div class="start_task3">
+            <button type="button" class="btn helper_button" onclick="initializeAutoRequest()">CLICK HERE TO START TASK 3</button>
+        </div>
         
-    </div>
     </div>
 
     <div id="overlay"></div>

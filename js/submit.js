@@ -99,7 +99,7 @@ function progress_change() {
       division.innerHTML = "$"+sum*10 + " / $"+remain;
       division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
       var percentage = ((sum*10)/remain *100);
-      if (percentage <= 100){
+      if (percentage < 100){
         percentage = percentage.toPrecision(2)
         progress.innerHTML = percentage + "%";
         progress.style.width = percentage + "%";

@@ -251,7 +251,7 @@ function pendRequestReceived() {
       if (!requestPendingValue) {
         requestPendingValue = [];
       }
-      // console.log('push to pendingDB > value', requestPendingValue, pendingData)
+       console.log('push to pendingDB > value', requestPendingValue, pendingData)
 
       requestPendingValue.push(pendingData);
 

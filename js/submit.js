@@ -358,7 +358,13 @@ function readFromDatabase(){
                 t_time = (end+1-start)/2;
                 sum += t_time;
                 //timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+ Number(t_time)+"H"+" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
-                timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                if (tab_id == "submitted"){
+                  timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time;
+                }
+                else{
+                  timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                }
+
                 if (t_time > 0.5 ) {timeTable.rows[row+1].cells[day].innerHTML = Number(t_time)+"H"+" ";}
               }
             }

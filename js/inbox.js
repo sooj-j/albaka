@@ -243,15 +243,18 @@ function del_sent_reward(idx) {
 
 
 function push_time_toDB(timecell) {
-    var day = day_to_07(timecell.day)+1;
+    var day = day_to_07(timecell.day);
     console.log(timecell, day);
     var dbDIR = '/userpool/' + user_id + '/thisweek/' + day;
-    var requestData = {
-        0: timecell.start_time,
-        1: timecell.end_time
-    }
+    var requestData = [
+        timecell.start_time,
+        timecell.end_time
+    ];
     firebase.database().ref(dbDIR).once('value', function (snap) {
         var oldarr = snap.val();
+        if (oldarr == "null") {
+            oldarr = [];
+        };
         oldarr.push(requestData);
         oldarr.sort();
         firebase.database().ref(dbDIR).set(oldarr);

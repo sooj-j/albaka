@@ -58,20 +58,19 @@
                     <table style="background-color:#ffffff;">
                         <tr style="height : 30px;">
                             <td style= "width:110px;"></td>
-                            <td colspan = "6" style="padding-left: 10px;">
-                                <div class="progress" style="width:735px; left-margine:200px;">
+                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:130px;padding-left: 10px;padding-top: 5px;">
+                              Expectation
+                              <button type="button" class="btn helper_ex_button" onclick=""><i class="fas fa-question-circle"></i></button>
+                            </td>
+                            <td colspan = "6" style="padding-left: 10px;padding-top: 5px;">
+                                <div class="progress" style="width:605px;">
                                     <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
-                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:110px;padding-left: 10px;"></td>
+                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:110px;padding-left: 10px;padding-top: 5px;"></td>
                         </tr>
                     </table>
                     <table class="table" id="timetable-header">
-                        <!--tr>
-                            <div class="progress">
-                                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">%</div>
-                            </div>
-                        </tr-->
                         <tr></tr>
                     </table>
                 </div>
@@ -81,6 +80,20 @@
             <table class="table" id="timetable">
                 <tr></tr>
             </table>
+        </div>
+
+        <div class="helper_title">
+            COLOR
+            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
+        </div>
+        <div class="helper" id="competition_rate_helper">
+            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
+            <span style="background-color: var(--tab-slot-color); word-spacing:10px"> &nbsp;</span>: Your selected color as available timet<br /><br />
+            Darker greyish tone means higher competition rate<br />
+            <span style="background-color: var(--competition-rate-1); word-spacing:10px"> &nbsp;</span>: competition rate between 1.0 and 2.0<br />
+            <span style="background-color: var(--competition-rate-2); word-spacing:10px"> &nbsp;</span>: competition rate between 2.0 and 3.0<br />
+            <span style="background-color: var(--competition-rate-3); word-spacing:10px"> &nbsp;</span>: competition rate over 3.0<br />
+
         </div>
     </div>
     </div>
@@ -95,7 +108,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-storage.js"></script>
-    
+
     <!-- TODO: Add SDKs for Firebase products that you want to use
          https://firebase.google.com/docs/web/setup#config-web-app -->
     <script>

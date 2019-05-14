@@ -57,13 +57,13 @@ const requestQueueDefault = [{
 }, {
   0: 12,
   1: 16,
-  day: 2,
+  day: 1,
   sender: "Hyunjoo",
   reward: null
 }, {
-  0: 0,
-  1: 2,
-  day: 3,
+  0: 2,
+  1: 5,
+  day: 6,
   sender: "Dayeon",
   reward: null
 }];
@@ -251,7 +251,7 @@ function pendRequestReceived() {
       if (!requestPendingValue) {
         requestPendingValue = [];
       }
-      // console.log('push to pendingDB > value', requestPendingValue, pendingData)
+       console.log('push to pendingDB > value', requestPendingValue, pendingData)
 
       requestPendingValue.push(pendingData);
 
@@ -906,7 +906,7 @@ function initializeAutoRequest() {
   firebase.database().ref(requestdbDIR).remove();
 
   var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
-  // firebase.database().ref(pendingdbDIR).remove();
+  firebase.database().ref(pendingdbDIR).set([]);
 
   requestQueueDefault.forEach((element) => {
     var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+element.day+'/';
@@ -921,13 +921,14 @@ function initializeAutoRequest() {
           firebase.database().ref(thisweekdbDIR).remove();
 
           if (thisweekValue.length === 0) {
-            firebase.database().ref(thisweekdbDIR).set("null");
+              firebase.database().ref(thisweekdbDIR).set("null");
           } else {
             firebase.database().ref(thisweekdbDIR).set(thisweekValue);
           }
         }
       })
-      initializeTimeTable();
+        initializeTimeTable();
+        location.reload();
     });
   });
 }

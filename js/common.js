@@ -22,9 +22,9 @@ function scrollTocell(cell) {
 
     //$(document).scrollTop(scrollPosition);
 
-    $("html.body").animate({
-        scrollTop: scrollPosition
-    }, 300);
+    $([document.documentElement, document.body]).animate({
+        scrollTop: scrollPosition - 260
+    }, 500);
 }
 
 function date2Day(date) {
@@ -57,10 +57,7 @@ function datetocell(json) {
             $(timetable.rows[i + 1].cells[day + 1]).text("CAN YOU WORK? :D");
         };
         $(timetable.rows[i + 1].cells[day + 1]).toggleClass("timetable-view-request-hover-slot");
-        
-        
     };
-    scrollTocell($(timetable.rows[i + 1].cells[day + 1]));
 }
 function day_to_07(strday) {
     var day;
@@ -134,4 +131,10 @@ function hover_on_view(json) {
 
 };
 
+function open_helper(id) {
+    $(id).css("display", "block");
+}
+function close_helper(id) {
+    $(id).css("display", "none");
+}
 

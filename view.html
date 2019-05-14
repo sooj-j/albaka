@@ -27,19 +27,37 @@
     <div id="nav-placeholder"></div>
     <div class="container container-background">
 
-    <!-- Top fixed contents below the navigation bar -->
-    <div class="top-placeholder">
+        <!-- Top fixed contents below the navigation bar -->
+        <div class="top-placeholder">
             <table class="table" id="timetable-header">
                 <tr></tr>
             </table>
-    </div>
+        </div>
 
-    <div class="container-view">
-        <table class="table" id="timetable">
-            <tr></tr>
-        </table>
+        <div class="container-view">
+            <table class="table" id="timetable">
+                <tr></tr>
+            </table>
+        </div>
+        <!-- for the helper(tutorial) function-->
+        <div class="helper_title">
+            COLOR
+            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
+        </div>
+        <div class="helper" id="competition_rate_helper">
+            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
+            <span style="background-color: var(--view-slot-color); word-spacing:10px"> &nbsp;</span>: your scheduled time slot<br />
+            <span style="background-color: var(--view-drag-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you requested for replacement<br />
+            <span style="background-color: var(--view-request-received-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you received request fort<br />
+
+        </div>
+
+        <!-- for the task 3 start -->
+        <div class="start_task3">
+            <button type="button" class="btn helper_button" onclick="initializeAutoRequest()">CLICK HERE TO START TASK 3</button>
+        </div>
+
     </div>
-</div>
 
     <div id="overlay"></div>
 
@@ -55,17 +73,22 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-body-element">
-                        <i class="fas fa-user-circle"></i> Dayeon
+                        <img class="view_img" id="Dayeon" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37918321_1727035794076430_4980779109660491776_o.jpg?_nc_cat=106&_nc_ht=scontent-icn1-1.xx&oh=a1ec33b8b111a516e332d4b6ab35c124&oe=5D54BDFB" align="left">
+                        Dayeon
                         <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
                         <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-coffee"></i> </button>
                     </div>
                     <div class="modal-body-element">
-                        <i class="fas fa-user-circle"></i> Heeju
+                        <img class="view_img" id="Heeju" src="https://scontent-icn1-1.xx.fbcdn.net/v/t31.0-1/c379.0.1290.1290a/1402926_10150004552801901_469209496895221757_o.jpg?_nc_cat=1&_nc_ht=scontent-icn1-1.xx&oh=0fe9ddccc826108bb82d42c0d5344f1b&oe=5D60FF9E" align="left">
+
+                        Heeju
                         <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
                         <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-drumstick-bite"></i> </button>
                     </div>
                     <div class="modal-body-element">
-                        <i class="fas fa-user-circle"></i> Hyunjoo
+                        <img class="view_img" id="Hyunjoo" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/17522649_912924672181861_8303819015364202753_n.jpg?_nc_cat=111&_nc_ht=scontent-icn1-1.xx&oh=4fa5a2a473edb6f671040170f183b070&oe=5D693A5B" align="left">
+
+                        Hyunjoo
                         <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
                         <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-beer"></i> </button>
                     </div>
@@ -138,7 +161,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="btn-accept-request" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
-                    
+
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <button id="btn-reject-request" class="btn btn-secondary" type="button">reject</button>
@@ -151,7 +174,7 @@
                             <option value="meal">meal</option>
                         </select>
                     </div>
-                    
+
                     <!--<button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>-->
                 </div>
             </div>

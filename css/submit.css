@@ -21,10 +21,19 @@
   text-shadow: 0.5px -0.5px 0.5px grey;
 }
 #division:hover {
-  cursor: pointer;
-  position: relative;
+  /* cursor: pointer;
+  position: relative; */
+}
+#expectation {
+  /* color: var(--submit-slot-color); */
+  text-shadow: 0.5px -0.5px 0.5px grey;
+}
+#expectation:hover {
+  /* cursor: pointer;
+  position: relative; */
   /* text-decoration: underline; */
 }
+.fa-question-circle {cursor: pointer;}
 
 /* [data-toggle="tooltip"]:hover:after {
   background-color: #000000;

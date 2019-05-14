@@ -58,12 +58,15 @@
                     <table style="background-color:#ffffff;">
                         <tr style="height : 30px;">
                             <td style= "width:110px;"></td>
-                            <td colspan = "6" style="padding-left: 10px;">
-                                <div class="progress" style="width:735px; left-margine:200px;">
+                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:120px;padding-left: 10px;padding-top: 5px;">
+                              Expectation <i class="fas fa-question-circle" id = "ex_question"></i>
+                            </td>
+                            <td colspan = "6" style="padding-left: 10px;padding-top: 5px;">
+                                <div class="progress" style="width:615px; left-margine:200px;">
                                     <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
-                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:110px;padding-left: 10px;"></td>
+                            <td id = "division" style= "width:110px;padding-left: 10px;padding-top: 5px;"></td>
                         </tr>
                     </table>
                     <table class="table" id="timetable-header">
@@ -95,7 +98,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-storage.js"></script>
-    
+
     <!-- TODO: Add SDKs for Firebase products that you want to use
          https://firebase.google.com/docs/web/setup#config-web-app -->
     <script>

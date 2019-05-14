@@ -323,7 +323,7 @@
 .helper_button {
     border: none;
     background-color: var(--darker-grey);
-    border:1px solid white;
+    /* border:1px solid white; */
     padding: 1px 4px 0px 4px; /*top right bottom left*/
     /* margin: 1px; */
     color: white;
@@ -340,6 +340,7 @@
     .helper_button:hover {
         background-color: var(--view-drag-slot-color);
         color: white;
+        box-shadow: 0.5px -0.5px 1px grey;
     }
 #request_inbox_helper {
     width: 300px;

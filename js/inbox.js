@@ -5,6 +5,16 @@ var req_arr;
 var rew_cnt = 0;
 var req_cnt = 0;
 
+//only used in reward inbox
+var index_to_key = {};
+const rewardToBigIconHTML = {
+    coffee: ' <i class="fas fa-coffee fa-2x icon"></i>',
+    beer: ' <i class="fas fa-beer fa-2x icon "></i>',
+    chicken: ' <i class="fas fa-drumstick-bite fa-2x icon"></i>',
+    meal: ' <i class="fas fa-concierge-bell fa-2x icon"></i>'
+};
+
+
 
 function getUserinfo(userid) {
     return firebase.database().ref("userpool").orderByChild("id").equalTo(userid).once("value", function (snap) {
@@ -77,11 +87,10 @@ function init_req() {
 }
 
 function init_rew() {
+    var reward_idx = 0;
     firebase.database().ref("userpool/" + id).child('rewardReceived').once('value', function (snapshot) {
-        console.log("once", snapshot.val());//whole array
         clearRewardReceived();
         snapshot.forEach((snap) => {
-            console.log("Req01", snap.key);//one req
             var req = snap.val();
             firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
                 if (s.exists()) {
@@ -91,20 +100,20 @@ function init_rew() {
                         'id': info.id,
                         'name': info.name,
                         'reward': req.reward,
-                        'index': snap.key,
+                        'index': reward_idx,
                     };
                     console.log("draw rew:", req2);
                     draw_one_rewReceived(req2);
+                    index_to_key[reward_idx] = snap.key;
+                    reward_idx++;
                 }
             });
         });
     });
 
-    firebase.database().ref("userpool/" + id).child('received_req').on('child_changed', function (snapshot) {
-        console.log("once", snapshot.val());//whole array
+    firebase.database().ref("userpool/" + id).child('rewardReceived').on('child_changed', function (snapshot) {
         clearRewardReceived();
         snapshot.forEach((snap) => {
-            console.log("Req01", snap.key);//one req
             var req = snap.val();
             firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
                 if (s.exists()) {
@@ -114,10 +123,56 @@ function init_rew() {
                         'id': info.id,
                         'name': info.name,
                         'reward': req.reward,
-                        'index': snap.key,
+                        'index': reward_idx,
                     };
-                    console.log("draw rew:", req2);
                     draw_one_rewReceived(req2);
+                    index_to_key[reward_idx] = snap.key;
+                    reward_idx++;
+                }
+            });
+        });
+    });
+    firebase.database().ref("userpool/" + id).child('rewardSent').once('value', function (snapshot) {
+        clearRewardReceived();
+        snapshot.forEach((snap) => {
+            var req = snap.val();
+            firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
+                if (s.exists()) {
+                    var info = s.val();
+                    var req2 = {
+                        'img': info.img,
+                        'id': info.id,
+                        'name': info.name,
+                        'reward': req.reward,
+                        'index': reward_idx,
+                    };
+                    draw_one_rewSend(req2);
+                    index_to_key[reward_idx] = snap.key;
+                    reward_idx++;
+                }
+            });
+        });
+    });
+
+    firebase.database().ref("userpool/" + id).child('rewardSent').on('child_changed', function (snapshot) {
+        console.log("on", snapshot.val());//whole array
+        clearRewardReceived();
+        snapshot.forEach((snap) => {
+            console.log("Req01on", snap.key);//one req
+            var req = snap.val();
+            firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
+                if (s.exists()) {
+                    var info = s.val();
+                    var req2 = {
+                        'img': info.img,
+                        'id': info.id,
+                        'name': info.name,
+                        'reward': req.reward,
+                        'index': reward_idx,
+                    };
+                    draw_one_rewSend(req2);
+                    index_to_key[reward_idx] = snap.key;
+                    reward_idx++;
                 }
             });
         });
@@ -162,13 +217,29 @@ function del_reward(idx) {
     rew_cnt--;
     console.log("idx", idx);
     //checked the firebase removed!!
-
-    $("#id_" + idx).remove();
-    firebase.database().ref("userpool/" + id + '/rewardReceived').child(idx).remove();
-
+    if (!(idx in index_to_key)) {
+        console.log("error");
+        return;
+    };
+    
+    firebase.database().ref("userpool/" + id + '/rewardReceived').child(index_to_key[idx]).remove();
+    $("#gid_" + idx).remove();
     $("#reward_count").html(rew_cnt);
 }
 
+function del_sent_reward(idx) {
+    rew_cnt--;
+    console.log("idx", idx);
+    //checked the firebase removed!!
+    if (!(idx in index_to_key)) {
+        console.log("error");
+        return;
+    };
+
+    firebase.database().ref("userpool/" + id + '/rewardSent').child(index_to_key[idx]).remove();
+    $("#gid_" + idx).remove();
+    $("#reward_count").html(rew_cnt);
+}
 
 
 function push_time_toDB(timecell) {
@@ -212,10 +283,7 @@ function accept_request(idx) {
             firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
         //var newreq = firebase.database().ref("userpool/" + req.from + '/change').push();
         //newreq.set({ "receiver": id, "date": req.date, "start_time": req.start_time, "end_time": req.end_time, "reward": req.reward });
-
-
         }
-        
     });
     $("#inbox_count").html(req_cnt);
 }
@@ -231,14 +299,14 @@ function draw_one_req(req) {
     var del = $('<input>', {
         type: "button",
         value: "remove forever",
-        class: "btn button",
+        class: "btn inbox_button",
         onclick: "del_request(" + req.index +")",
         style: "margin: 3px; font-size:10px",
     });
     var acpt = $('<input>', {
         type: "button",
-        value: "accept",
-        class: "btn button",
+        value: "accept with " + req.reward,
+        class: "btn inbox_button",
         onclick: "accept_request("+req.index+")",
         style: "margin: 3px; right: 2px;font-size:10px"
     });
@@ -265,7 +333,7 @@ function draw_one_req(req) {
     } else {
         $(txt).append(" Can you to work at" + "<b> " + req.day+" "+req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
         //$(txt).append("you can get " + "<b> " + req.reward + " </b>");
-        $(acpt).attr('value', 'accept with ' + req.reward);
+        //$(acpt).html();
         $(txt).append(acpt);
         $(txt).append(del);
         $(temp).append($(txt));
@@ -279,56 +347,60 @@ function draw_one_rewReceived(req) {
    
     var del = $('<input>', {
         type: "button",
-        value: "Already Received.",
-        class: "btn button",
+        value: "received",
+        class: "btn inbox_button",
         onclick: "del_reward(" + req.index + ")",
         style: "margin: 3px; font-size:10px",
     });
     var give = $('<input>', {
         type: "button",
-        value: "Notify "+req.name+ " to send",
-        class: "btn button",
+        value: "Notify Again",
+        class: "btn inbox_button",
         onclick: "noti_reward(" + req.index + ")", //implement to notify alarm
         style: "margin: 3px; font-size:10px",
     });
-
+    var icon = rewardToBigIconHTML[req.reward];
     var temp = document.createElement('div');
     var txt = document.createElement('div');
     $(temp).attr("class", "reward_content_row");
-    //$(txt).attr("class", "img_text");
-    $(temp).attr("id", "id_" + req.index);
+    $(txt).attr("class", "gift_text");
+    $(temp).attr("id", "gid_" + req.index);
 
     rew_cnt++;
-    $(txt).append("<b>" + req.name +" </b>"+"has to give you " + "<b>" + req.reward + "</b><br>");
+    $(txt).append(icon);
+    $(txt).append("Receive " + "<b>" + req.reward + "</b>"+" from "+"<b>" + req.name +" </b>");
 
-    $(txt).append(del);
-    $(txt).append(give);
+    //$(txt).append(del);
+    //$(txt).append(give);
     $(temp).append($(txt));
+    $(temp).append(del);
     $(temp).appendTo($("#reward_to_receive"));
     $("#reward_count").html(rew_cnt);
     
 };
-function draw_one_rew_to_send(req) {
+function draw_one_rewSend(req) {
 
     var del = $('<input>', {
         type: "button",
-        value: "I already sent.",
-        class: "btn button",
-        onclick: "del_reward(" + req.index + ")",
+        value: "already sent",
+        class: "btn inbox_button",
+        onclick: "del_sent_reward(" + req.index + ")",
         style: "margin: 3px; font-size:10px",
     });
-
+    var icon = rewardToBigIconHTML[req.reward];
     var temp = document.createElement('div');
     var txt = document.createElement('div');
     $(temp).attr("class", "reward_content_row");
-    //$(txt).attr("class", "img_text");
-    $(temp).attr("id", "id_" + req.index);
+    $(txt).attr("class", "gift_text");
+    $(temp).attr("id", "gid_" + req.index);
 
     rew_cnt++;
-    $(txt).append("you have to give <b> " + req.reward + " </b> to "+req.sender + " </b> <br>");
+    $(txt).append(icon);
+    $(txt).append("Give <b> " + req.reward + " </b> to <b>"+req.name + " </b>");
 
-    $(txt).append(del);
+    //$(txt).append(del);
     $(temp).append($(txt));
+    $(temp).append(del);
     $(temp).appendTo($("#reward_to_send"));
     $("#reward_count").html(req_cnt);
 

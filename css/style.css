@@ -7,19 +7,17 @@
     --view-slot-color: #FFA473;
     --view-drag-slot-color: #FF825C;
     --view-request-received-slot-color: #7B8FE0;
-    --warning-color: #FF2601;
+    --warning-color: #c8102e; 
     --competition-rate-1: #FFE6E6;
     --competition-rate-2: #FFCFCF;
     --competition-rate-3: #FFABAB;
     --competition-rate-4: #FF8F8F;
     --competition-rate-5: #FF6969;
-
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
     --darker-grey-2: #707070;
     --darker-grey-3: #595959;
     --darker-grey-4: #4A4A4A;
-
     --body-color: #FFFFEC;
 }
 
@@ -51,6 +49,7 @@
     font-size: 14px;
 }
 
+/*inbox => reward, request box*/
 #inbox_count {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
@@ -71,7 +70,7 @@
 }
 #reward {
     position: fixed;
-    width: 340px;
+    width: 300px;
     right: 5px;
 }
 #reward_count {
@@ -87,13 +86,22 @@
     text-align: center;
     color: white;
 }
+.reward_category {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    padding-left:5px;
+    text-align:left;
+    background-color: var(--darker-grey);
+    color: white;
+    font-weight:bold;
+    z-index: 32;
+}
 .close {
     border: none;
     padding: 2px 3px;
     width: 15px;
     background-color: none;
-    color: dimgrey;
-
+    color: whitesmoke !important;
     text-align: center;
     padding: 2px 3px;
     margin: 0px;
@@ -104,7 +112,7 @@
     cursor: pointer;
     -webkit-transition-duration: 0.1s;
     transition-duration: 0.1s;
-    z-index:31;
+    z-index: 31;
 }
 .close:hover {
     font-weight: bold;
@@ -125,9 +133,9 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     border-bottom: 1px solid var(--table-border-color);
-    list-style-type: none;
-    overflow: auto;
+    padding-bottom: 3px;
     z-index: 32;
+    text-align: left;
 }
 .inbox_img {
     padding: 3px;
@@ -143,10 +151,28 @@
     float: left;
 }
 .img_text {
+    font-family: 'Open Sans', sans-serif;
     width: 260px;
     display: block;
     float: left;
-    margin-top:8px;
+    margin-top: 3px;
+    line-height: 2.0em;
+}
+.icon {
+    width: 30px !important;
+    text-align: center;
+    margin: 5px 5px 0px 0px !important;
+}
+.gift_text {
+    font-family: 'Open Sans', sans-serif;
+    width:200px;
+    display: inline-block;
+    margin-top: 1px;
+    margin-left:5px;
+    text-align:left;
+}
+.big_inbox {
+    border-bottom: 2px solid var(--darker-grey);
 }
 .inbox_content_header {
     font-family: 'Open Sans', sans-serif;
@@ -154,12 +180,43 @@
     padding: 3px;
     list-style-type: none;
     font-weight: bold;
-    border-bottom: 2px solid var(--table-border-color);
+    color: white;
+    border-bottom: 2px solid var(--darker-grey);
+    background-color: var(--darker-grey) !important;
+}
+.reward_content_header {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    padding: 3px;
+    list-style-type: none;
+    font-weight: bold;
+    color: white;
+    border-bottom: 2px solid white;
+    background-color: var(--darker-grey) !important;
 }
 
 #inbox.li:hover{
     font-weight:bold;
 }
+.inbox_button {
+    border: none;
+    background-color: var(--darker-grey);
+    padding: 5px 12px;
+    margin: 8px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+    .inbox_button:hover {
+        background-color: var(--view-drag-slot-color);
+        color: white;
+    }
 .nav-down a{
     cursor: pointer;
     font-weight: bold;
@@ -177,14 +234,15 @@
     list-style: none;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
-    border: 2px solid var(--table-border-color);
+    border: 2px solid var(--darker-grey);
+    border-bottom: 0px solid white;
     background-color: white;
     padding-left: 0px;
     position: absolute;
-    left:1080px;
+    left: 1080px;
     text-align: center;
     top: 50px;
-    z-index:31;
+    z-index: 31;
 }
 .hide.visible {
     display: block;

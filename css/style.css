@@ -1,9 +1,9 @@
 :root {
     --light-table-border-color: #EDF0F5;
     --table-border-color: #dee2e6;
-    --tab-slot-color: #BEF5A4;
-    --tab-drag-color: #D5F5C6;
-    --submit-slot-color: #7BE19A;
+    --tab-slot-color: #dfa995;
+    --tab-drag-color: #e6b9a1;
+    --submit-slot-color: #66CCC4;
     --view-slot-color: #FFA473;
     --view-drag-slot-color: #FF825C;
     --view-request-received-slot-color: #808fcc;
@@ -15,7 +15,7 @@
     --competition-rate-5: #FF6969;
     --neutral-color: #EFEFEF;
     --darker-grey: #A9A9A9;
-    --darker-grey-2: #707070;
+    --darker-grey-2: #A9A9A9;
     --darker-grey-3: #595959;
     --darker-grey-4: #4A4A4A;
     --body-color: #FFFFEC;
@@ -375,6 +375,7 @@
     border-top: none;
     font-size: 11px;
     padding: 5px;
+    color:white;
 }
 
 .timetable-header {
@@ -383,11 +384,13 @@
     text-align: center;
     border-bottom: 2px solid var(--table-border-color);
     background-color: white;
+    color: black !important;
 }
 
 .timetable-header-dates {
     font-size: 14px;
     font-weight: bold;
+    color:black;
 }
 
 .timetable-row {
@@ -396,6 +399,7 @@
 
 .timetable-axis-entry {
     text-align: right;
+    color: black !important;
 }
 
 .timetable-hour-entry {

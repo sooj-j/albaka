@@ -316,7 +316,7 @@
     font-size: 10px;
     text-align:left;
     width:300px;
-    
+
     bottom: 5px;
     margin-left: 1000px;
 }
@@ -324,8 +324,8 @@
     border: none;
     background-color: var(--darker-grey);
     border:1px solid white;
-    padding: 2px 5px;
-    margin: 2px;
+    padding: 1px 4px 0px 4px; /*top right bottom left*/
+    /* margin: 1px; */
     color: white;
     text-align: center;
     text-decoration: none;

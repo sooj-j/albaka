@@ -98,8 +98,8 @@ function progress_change() {
       var expectation = document.getElementById('expectation');
       // division.innerHTML = sum+"H * 10 = "+sum*10+"$ / "+remain+"$";
       division.innerHTML = "$"+sum*10 + " / $"+remain;
-
-      expectation.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+      division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+      
       var percentage = ((sum*10)/remain *100);
       if (percentage < 100){
         percentage = percentage.toPrecision(2)

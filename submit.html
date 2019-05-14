@@ -58,23 +58,19 @@
                     <table style="background-color:#ffffff;">
                         <tr style="height : 30px;">
                             <td style= "width:110px;"></td>
-                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:120px;padding-left: 10px;padding-top: 5px;">
-                              Expectation <i class="fas fa-question-circle" id = "ex_question"></i>
+                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:130px;padding-left: 10px;padding-top: 5px;">
+                              Expectation
+                              <button type="button" class="btn helper_ex_button" onclick=""><i class="fas fa-question-circle"></i></button>
                             </td>
                             <td colspan = "6" style="padding-left: 10px;padding-top: 5px;">
-                                <div class="progress" style="width:615px; left-margine:200px;">
+                                <div class="progress" style="width:605px; left-margine:200px;">
                                     <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
-                            <td id = "division" style= "width:110px;padding-left: 10px;padding-top: 5px;"></td>
+                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:110px;padding-left: 10px;padding-top: 5px;"></td>
                         </tr>
                     </table>
                     <table class="table" id="timetable-header">
-                        <!--tr>
-                            <div class="progress">
-                                <div id="progress" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">%</div>
-                            </div>
-                        </tr-->
                         <tr></tr>
                     </table>
                 </div>
@@ -88,8 +84,8 @@
 
         <div class="helper_title">
             COLOR
-            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)">?</button>
-        </div>        
+            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
+        </div>
         <div class="helper" id="competition_rate_helper">
             <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
             <span style="background-color: var(--tab-slot-color); word-spacing:10px"> &nbsp;</span>: Your selected color as available timet<br /><br />

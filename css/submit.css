@@ -1,4 +1,27 @@
 /* submit page */
+.helper_ex_button {
+    /* border: none; */
+  background-color: var(--darker-grey);
+  border:1px solid white;
+  padding: 1px 4px 0px 4px; /*top right bottom left*/
+  /* margin: 1px; */
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+}
+
+.helper_ex_button:hover {
+  background-color: var(--submit-slot-color);
+  color: white;
+}
+
+
 
 .progress-bar {
   color: black;
@@ -21,8 +44,8 @@
   text-shadow: 0.5px -0.5px 0.5px grey;
 }
 #division:hover {
-  /* cursor: pointer;
-  position: relative; */
+  cursor: pointer;
+  position: relative;
 }
 #expectation {
   /* color: var(--submit-slot-color); */

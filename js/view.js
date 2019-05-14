@@ -906,7 +906,7 @@ function initializeAutoRequest() {
   firebase.database().ref(requestdbDIR).remove();
 
   var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
-  // firebase.database().ref(pendingdbDIR).remove();
+  firebase.database().ref(pendingdbDIR).set([]);
 
   requestQueueDefault.forEach((element) => {
     var thisweekdbDIR = '/userpool/'+user_id+'/thisweek/'+element.day+'/';
@@ -921,13 +921,14 @@ function initializeAutoRequest() {
           firebase.database().ref(thisweekdbDIR).remove();
 
           if (thisweekValue.length === 0) {
-            firebase.database().ref(thisweekdbDIR).set("null");
+              firebase.database().ref(thisweekdbDIR).set("null");
           } else {
             firebase.database().ref(thisweekdbDIR).set(thisweekValue);
           }
         }
       })
-      initializeTimeTable();
+        initializeTimeTable();
+        location.reload();
     });
   });
 }

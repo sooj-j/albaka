@@ -16,7 +16,7 @@ $(document).ready(function () {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
         //remain = parsedInt((goal - may_sum)*7/19);
-        remain = ((goal - may_sum)*7/19).toFixed(0);
+        remain = ((goal - may_sum)*7/19).toFixed(0);//
         console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
     });
 

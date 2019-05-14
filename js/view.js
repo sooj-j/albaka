@@ -917,10 +917,17 @@ function initializeAutoRequest() {
 
       Object.keys(thisweekValue).forEach((key) => {
         if (thisweekValue[key][0] <= element[0] && thisweekValue[key][1] >= element[1]) {
-          firebase.database().ref(thisweekdbDIR+key).remove();
-          return;
+          thisweekValue.splice(key, 1);
+          firebase.database().ref(thisweekdbDIR).remove();
+
+          if (thisweekValue.length === 0) {
+            firebase.database().ref(thisweekdbDIR).set("null");
+          } else {
+            firebase.database().ref(thisweekdbDIR).set(thisweekValue);
+          }
         }
       })
+      initializeTimeTable();
     });
   });
 }

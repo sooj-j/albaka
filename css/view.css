@@ -1,13 +1,18 @@
 /* modal */
 .modal-dialog {
     margin: 0;
-    width: 300px !important;
+    width: 296px !important;
     
+}
+.modal-content {
+    border-radius: .4rem;
+    border: 2px solid var(--darker-grey) ;
 }
 
 .modal-header {
     background-color: var(--darker-grey) !important;
     color:white;
+    border-bottom:none;
 }
 .modal-header .close {
     margin: -1rem;
@@ -25,12 +30,12 @@
 }
 
 .modal-body-element {
-    margin-top: 0.5em;
-    margin-bottom: 0.5rem;
+    margin-top: 0.3em;
+    margin-bottom: 0.3rem;
     font-size: 12px;
 
     line-height: 34px;
-    height: 34px;
+    height: 44px;
 }
 
 .modal-body-description {
@@ -96,14 +101,16 @@
 
 .accept-modal-content {
     background: white;
-    border: 5px solid var(--warning-color);
-}
-.modal-content {
-    border: none;
 }
 
 .fa-reward {
     color: red;
+}
+.view_img {
+    padding: 3px;
+    width: 45px;
+    height: 45px;
+    margin-right:10px;
 }
 
 .btn-secondary {

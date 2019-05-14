@@ -29,6 +29,14 @@
         </div>
     </div>
 
+    <div class="col-md-12 col-sm-12 well pull-right-lg mt-3" id = "error-zone">
+        <div class = "row">
+            <div class = "col-md-5"></div>
+            <div class = "col-md-2"><p class = " text-danger" id = "error"></p></div>
+            <div class = "col-md-5"></div>
+        </div>
+    </div>
+
 
     <div class="col-md-12 col-sm-12 well pull-right-lg mt-3" id="goal-zone" >
         <div class="row">
@@ -48,9 +56,22 @@
         </div>
     </div>
 
+    <div class="col-md-12 col-sm-12 well pull-right-lg" id="set-zone-1" >
+        <div class="row">
+            <div class="col-md-7"></div>
+            <!--div class = "col-md-2 pt-3 small text-dark"> goal-recommendation : 200$</div-->
+            <div class="col-md-2 my-2 small" >
+                goal-recommendation : 200$
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
     <div class="col-md-12 col-sm-12 well pull-right-lg" id="set-zone" >
         <div class="row">
             <div class="col-md-7"></div>
+            <!--div class = "col-md-2 pt-3 small text-dark"> goal-recommendation : 200$</div-->
+            <!--div class = "col-md-1"></div-->
             <div class="col-md-2 my-2" >
                 <input type="text" id="goal-input">
             </div>
@@ -68,7 +89,7 @@
         <div class="row">
             <div class="col-sm-2" ></div>
             <div class="table-responsive col-md-8" style="padding:0px;">
-                <table class="table table-style">
+                <table class="table table-style table-sm">
                     <tr>
                         <th colspan="8">
                             <a href="javascript:makeURL('wage_april.html')" class="previous round" style="display:inline-block;">&#8249;</a>
@@ -76,7 +97,7 @@
                             <a style="display:inline-block;" href="#" class="previous round">&#8250;</a>
                         </th>
                     </tr>
-                    <tr>
+                    <tr style = "height:30px;">
                         <th><p class="font-weight-bold small text-dark mb-0">Mon</p></th>
                         <th><p class="font-weight-bold small text-dark mb-0">Tue</p></th>
                         <th><p class="font-weight-bold small text-dark mb-0">Wed</p></th>
@@ -86,53 +107,53 @@
                         <th><p class="font-weight-bold small text-dark mb-0">Sun</p></th>
                         <th><p class="font-weight-bold small text-dark mb-0">Total Wage</p></th>
                     </tr>
-                    <tr style="height: 80px;">
-                        <th><p class="small text-dark mb-0 align-items-start"></p> <p class="small text-info mb-3 m-5"> </p></th>
-                        <th><p class="small text-dark mb-0 align-items-start"></p> <p class="small text-info mb-3 m-5"> </p></th>
-                        <th><p class="small text-dark mb-0">1</p> <p class="small text-info m-2" id="may1"> </p></th>
-                        <th><p class="small text-dark mb-0">2</p> <p class="small text-info m-2" id="may2"> </p></th>
-                        <th><p class="small text-dark mb-0">3</p> <p class="small text-info m-2" id="may3"></p></th>
-                        <th><p class="small text-dark mb-0">4</p> <p class="small text-info m-2" id="may4"></p></th>
-                        <th><p class="small text-dark mb-0">5</p> <p class="small text-info m-2" id="may5"> </p></th>
+                    <tr style = "height:70px;">
+                        <th><p class="small text-dark mb-0"></p> <p class="small text-info mx-4 my-0"> </p></th>
+                        <th><p class="small text-dark mb-0"></p> <p class="small text-info mx-4 my-0"> </p></th>
+                        <th><p class="small text-dark mb-0">1</p> <p class="small text-info mx-4 my-0" id="may1"> </p></th>
+                        <th><p class="small text-dark mb-0">2</p> <p class="small text-info mx-4 my-0" id="may2"> </p></th>
+                        <th><p class="small text-dark mb-0">3</p> <p class="small text-info mx-4 my-0" id="may3"></p></th>
+                        <th><p class="small text-dark mb-0">4</p> <p class="small text-info mx-4 my-0" id="may4"></p></th>
+                        <th><p class="small text-dark mb-0">5</p> <p class="small text-info mx-4 my-0" id="may5"> </p></th>
                         <th><br><p class="text-info small p-0" id="mayfirst"></p></th>
                     </tr>
-                    <tr style="height: 80px;">
-                        <th><p class="small text-dark mb-0">6</p><p class="small text-info m-1" id="may6"> </p></th>
-                        <th><p class="small text-dark mb-0">7</p><p class="small text-info m-1" id="may7"> </p></th>
-                        <th><p class="small text-dark mb-0">8</p><p class="small text-info m-1" id="may8"> </p></th>
-                        <th><p class="small text-dark mb-0">9</p><p class="small text-info m-1" id="may9"> </p></th>
-                        <th><p class="small text-dark mb-0">10</p><p class="small text-info m-1" id="may10"> </p></th>
-                        <th><p class="small text-dark mb-0">11</p><p class="small text-info m-1" id="may11"> </p></th>
-                        <th><p class="small text-dark mb-0">12</p><p class="small text-info m-1" id="may12"> </p></th>
+                    <tr style = "height:70px;">
+                        <th><p class="small text-dark mb-0">6</p><p class="small text-info mx-4 my-0" id="may6"> </p></th>
+                        <th><p class="small text-dark mb-0">7</p><p class="small text-info mx-4 my-0" id="may7"> </p></th>
+                        <th><p class="small text-dark mb-0">8</p><p class="small text-info mx-4 my-0" id="may8"> </p></th>
+                        <th><p class="small text-dark mb-0">9</p><p class="small text-info mx-4 my-0" id="may9"> </p></th>
+                        <th><p class="small text-dark mb-0">10</p><p class="small text-info mx-4 my-0" id="may10"> </p></th>
+                        <th><p class="small text-dark mb-0">11</p><p class="small text-info mx-4 my-0" id="may11"> </p></th>
+                        <th><p class="small text-dark mb-0">12</p><p class="small text-info mx-4 my-0" id="may12"> </p></th>
                         <th><p class="small text-dark mb-0" id="maysecond"></p></th>
 
                     </tr>
-                    <tr style="height: 80px;">
-                        <th><p class="small text-dark mb-0">13</p><p class="small text-info m-1" id="may13"> </p></th>
-                        <th><p class="small text-dark mb-0">14</p><p class="small text-info m-1" id="may14"> </p></th>
-                        <th><p class="small text-dark mb-0">15</p><p class="small text-info m-1" id="may15"> </p></th>
-                        <th><p class="small text-dark mb-0">16</p><p class="small text-info m-1" id="may16"> </p></th>
-                        <th><p class="small text-dark mb-0">17</p><p class="small text-info m-1" id="may17"> </p></th>
-                        <th><p class="small text-dark mb-0">18</p><p class="small text-info m-1" id="may18"> </p></th>
-                        <th><p class="small text-dark mb-0">19</p><p class="small text-info m-1" id="may19"> </p></th>
+                    <tr style = "height:70px;">
+                        <th><p class="small text-dark mb-0">13</p><p class="small text-info mx-4 my-0" id="may13"> </p></th>
+                        <th><p class="small text-dark mb-0">14</p><p class="small text-info mx-4 my-0" id="may14"> </p></th>
+                        <th><p class="small text-dark mb-0">15</p><p class="small text-info mx-4 my-0" id="may15"> </p></th>
+                        <th><p class="small text-dark mb-0">16</p><p class="small text-info mx-4 my-0" id="may16"> </p></th>
+                        <th><p class="small text-dark mb-0">17</p><p class="small text-info mx-4 my-0" id="may17"> </p></th>
+                        <th><p class="small text-dark mb-0">18</p><p class="small text-info mx-4 my-0" id="may18"> </p></th>
+                        <th><p class="small text-dark mb-0">19</p><p class="small text-info mx-4 my-0" id="may19"> </p></th>
                         <th><p class="small text-dark mb-0" id="maythird"></p></th>
                     </tr>
-                    <tr style="height: 80px;">
-                        <th><p class="small text-dark mb-0">20</p><p class="small text-info m-1" id="may20"> </p></th>
-                        <th><p class="small text-dark mb-0">21</p><p class="small text-info m-1" id="may21"> </p></th>
-                        <th><p class="small text-dark mb-0">22</p><p class="small text-info m-1" id="may22"> </p></th>
-                        <th><p class="small text-dark mb-0">23</p><p class="small text-info m-1" id="may23"> </p></th>
-                        <th><p class="small text-dark mb-0">24</p><p class="small text-info m-1" id="may24"> </p></th>
-                        <th><p class="small text-dark mb-0">25</p><p class="small text-info m-1" id="may25"> </p></th>
-                        <th><p class="small text-dark mb-0">26</p><p class="small text-info m-1" id="may26"> </p></th>
+                    <tr style = "height:70px;">
+                        <th><p class="small text-dark mb-0">20</p><p class="small text-info mx-4 my-0" id="may20"> </p></th>
+                        <th><p class="small text-dark mb-0">21</p><p class="small text-info mx-4 my-0" id="may21"> </p></th>
+                        <th><p class="small text-dark mb-0">22</p><p class="small text-info mx-4 my-0" id="may22"> </p></th>
+                        <th><p class="small text-dark mb-0">23</p><p class="small text-info mx-4 my-0" id="may23"> </p></th>
+                        <th><p class="small text-dark mb-0">24</p><p class="small text-info mx-4 my-0" id="may24"> </p></th>
+                        <th><p class="small text-dark mb-0">25</p><p class="small text-info mx-4 my-0" id="may25"> </p></th>
+                        <th><p class="small text-dark mb-0">26</p><p class="small text-info mx-4 my-0" id="may26"> </p></th>
                         <th><p class="small text-dark mb-0" id="mayfourth"></p></th>
                     </tr>
-                    <tr style="height: 80px;">
-                        <th><p class="small text-dark mb-0">27</p><p class="small text-info m-1" id="may27"> </p></th>
-                        <th><p class="small text-dark mb-0">28</p><p class="small text-info m-1" id="may28"> </p></th>
-                        <th><p class="small text-dark mb-0">29</p><p class="small text-info m-1" id="may29"> </p></th>
-                        <th><p class="small text-dark mb-0">30</p><p class="small text-info m-1" id="may30"> </p></th>
-                        <th><p class="small text-dark mb-0">31</p><p class="small text-info m-1" id="may31"> </p></th>
+                    <tr style = "height:70px;">
+                        <th><p class="small text-dark mb-0">27</p><p class="small text-info mx-4 my-0" id="may27"> </p></th>
+                        <th><p class="small text-dark mb-0">28</p><p class="small text-info mx-4 my-0" id="may28"> </p></th>
+                        <th><p class="small text-dark mb-0">29</p><p class="small text-info mx-4 my-0" id="may29"> </p></th>
+                        <th><p class="small text-dark mb-0">30</p><p class="small text-info mx-4 my-0" id="may30"> </p></th>
+                        <th><p class="small text-dark mb-0">31</p><p class="small text-info mx-4 my-0" id="may31"> </p></th>
                         <th><p class="small text-dark mb-0"></p></th>
                         <th><p class="small text-dark mb-0"></p></th>
                         <th><p class="small text-dark mb-0" id="mayfifth"></p></th>
@@ -149,7 +170,7 @@
     <div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid;">
         <div class="row">
             <div class="col-md-8"></div>
-            <div class="col-md-2"  id= "total-wage">
+            <div class="col-md-2 h5"  id= "total-wage">
             </div>
             <div class="col-md-2" ></div>
         </div>

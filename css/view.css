@@ -1,9 +1,14 @@
 /* modal */
 .modal-dialog {
     margin: 0;
-    width: 300px;
+    width: 300px !important;
+    
 }
 
+.modal-header {
+    background-color: var(--darker-grey) !important;
+    color:white;
+}
 .modal-header .close {
     margin: -1rem;
 }
@@ -90,9 +95,21 @@
 }
 
 .accept-modal-content {
-    background: lightgoldenrodyellow;
+    background: white;
+    border: 5px solid var(--warning-color);
+}
+.modal-content {
+    border: none;
 }
 
 .fa-reward {
     color: red;
 }
+
+.btn-secondary {
+    background-color: var(--darker-grey) !important;
+    border: none !important;
+}
+    .btn-secondary:hover {
+        background-color: var(--view-drag-slot-color);
+    }

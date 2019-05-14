@@ -15,7 +15,7 @@ $(document).ready(function () {
     firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
-        remain = goal - may_sum;
+        remain = parsedInt((goal - may_sum)*7/19);
         console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
     });
 
@@ -95,9 +95,11 @@ $(function () {
 function progress_change() {
       var division = document.getElementById('division');
       var progress = document.getElementById('progress');
+      var expectation = document.getElementById('expectation');
       // division.innerHTML = sum+"H * 10 = "+sum*10+"$ / "+remain+"$";
       division.innerHTML = "$"+sum*10 + " / $"+remain;
       division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+      
       var percentage = ((sum*10)/remain *100);
       if (percentage < 100){
         percentage = percentage.toPrecision(2)

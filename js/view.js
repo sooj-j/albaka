@@ -551,7 +551,7 @@ function readFromDatabase(storeToList, dbDIR, className, isRequestReceived) {
 }
 
 function getTimeBar(start, end) {
-  return getTimeStr(start) + " ~ "+ getTimeStr(end);
+  return getTimeStr(start) + " ~ "+ getTimeStr(end + 1);
 }
 
 function getTimeStr(time) {

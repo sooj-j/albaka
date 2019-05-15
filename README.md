@@ -16,6 +16,7 @@ albaka is a weekly scheduling system for part-timers
         |                                 - initializeTimeTable: draw the empty timetable
         |                                 - readFromDatabase: load from Database / make & color & write time on time blocks / calculate the sum of time blocks
         ├── view.js                     view this week timetable
+        |                                 - can send and receive replacement request
         ├── wage.js, wage_april.js, wage_march.js, wage_february.js                     
         ├── inbox.js                    remained request/ remained rewards to deal with
         ├── hover.js                    hover effect for remained request/reward box work in submit.html and view.html
@@ -26,8 +27,8 @@ albaka is a weekly scheduling system for part-timers
         ├── index.html                  UI for login
         ├── nav.html                    UI for top menu navbar
         ├── signup.html                 UI for signup
-        ├── submit.html                 UI for submitting next week's timetable
-        ├── view.html                   UI for viewing this week's timetable
+        ├── submit.html                 UI for submitting next week timetable
+        ├── view.html                   UI for viewing this week timetable
         ├── wage.html                   UI for checking the previous wage
         └── wage_april.html, wage_march.html, wage_february.html
 

@@ -1,4 +1,3 @@
-
 var user_info; //user information struct => key:  id, pw, name, workplace,img
 var user_id;
 var timeArray;
@@ -67,18 +66,18 @@ const requestQueueDefault = [{
 	sender: "Dayeon",
 	reward: "beer"
 }, {
-		0: 0,
-		1: 2,
-		day: 0,
-		sender: "Hyunjoo",
-		reward: "coffee"
-	}, {
-		0: 6,
-		1: 9,
-		day: 4,
-		sender: "Dayeon",
-		reward: "meal"
-	},
+	0: 0,
+	1: 2,
+	day: 0,
+	sender: "Hyunjoo",
+	reward: "coffee"
+}, {
+	0: 6,
+	1: 9,
+	day: 4,
+	sender: "Dayeon",
+	reward: "meal"
+},
 ];
 
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
@@ -248,7 +247,7 @@ function pendRequestReceived() {
 			date: dayToDateString[currentRequestReceivedDay].split(' ')[1],
 			day: dayToDateString[currentRequestReceivedDay].split(' ')[0],
 			start_time: getTimeStr(requestQueueValue[0]),
-			end_time: getTimeStr(requestQueueValue[1]+1),
+			end_time: getTimeStr(requestQueueValue[1] + 1),
 			from: 'test' + requestQueueValue.sender,
 		}
 

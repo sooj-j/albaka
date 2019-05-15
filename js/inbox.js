@@ -198,11 +198,12 @@ function del_request(idx) {
         if (snap.exists()) {
             var req = snap.val();
             console.log(req);
-
+            /*
             if (req.queueKey) {
                 var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
                 firebase.database().ref(queuedbDIR).remove();
             };
+            */
             var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
             remove_hover_cell(timecell);
             
@@ -275,10 +276,12 @@ function accept_request(idx) {
         if (snap.exists()) {
             var req = snap.val();
 
+            /*
             if (req.queueKey) {
                 var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
                 firebase.database().ref(queuedbDIR).remove();
             }
+            */
             
             var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
             remove_hover_cell(timecell);
@@ -308,7 +311,7 @@ function draw_one_req(req) {
     });
     var acpt = $('<input>', {
         type: "button",
-        value: "accept with " + req.reward,
+        value: req.reward ? "accept with " + req.reward : "accept",
         class: "btn inbox_button",
         onclick: "accept_request("+req.index+")",
         style: "margin: 3px; right: 2px;font-size:10px"

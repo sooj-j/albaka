@@ -65,7 +65,7 @@ const requestQueueDefault = [{
   1: 5,
   day: 6,
   sender: "Dayeon",
-  reward: null
+  reward: "beer"
 }];
 
 /* user receives requests for a certain time intervals, in the order in the LIFO queue. */
@@ -192,8 +192,6 @@ $(document).ready(function () {
 
     $("#btn-reject-request").click(function() {
       pendRequestReceived();
-      // TODO: received_req에 push
-      // TODO: requestReceived에서 remove
       closeReceiveReplacementModal();
       setTimeout(pushRequestReceivedFromQueue, requestInterval);
     })
@@ -224,12 +222,14 @@ function pendRequestReceived() {
   /* if request without reward is rejected, then push the request with reward <beer> to queue */
   firebase.database().ref(receiveddbDIR).once("value", function (snap) {
     var requestQueueValue = snap.val();
+    /*
     if(requestQueueValue && !requestQueueValue.reward) {
       requestQueueValue.reward = rewardList[Math.floor(Math.random()*rewardList.length)];;
       requestQueueValue.day = currentRequestReceivedDay;
 
       newRequestQueueRef = firebase.database().ref(queuedbDIR).push(requestQueueValue);
     }
+    */
     
     var pendingdbDIR = '/userpool/'+user_id+'/received_req/';
     var pendingData = {
@@ -238,12 +238,17 @@ function pendRequestReceived() {
       start_time: getTimeStr(requestQueueValue[0]),
       end_time: getTimeStr(requestQueueValue[1]),
       from: 'test' + requestQueueValue.sender,
-      reward: requestQueueValue.reward
     }
 
+    if (requestQueueValue.reward) {
+      pendingData.reward = requestQueueValue.reward
+    }
+
+    /*
     if (newRequestQueueRef) {
       pendingData.queueKey = newRequestQueueRef.key
     }
+    */
 
     firebase.database().ref(pendingdbDIR).once("value", function (snap) {
       var requestPendingValue = snap.val();
@@ -251,10 +256,10 @@ function pendRequestReceived() {
       if (!requestPendingValue) {
         requestPendingValue = [];
       }
-       console.log('push to pendingDB > value', requestPendingValue, pendingData)
-
+      
       requestPendingValue.push(pendingData);
 
+      /*
       var pendingKey = requestPendingValue.length - 1;
 
       if (newRequestQueueRef) {
@@ -262,6 +267,7 @@ function pendRequestReceived() {
           pendingKey: pendingKey
         });
       }
+      */
       firebase.database().ref(pendingdbDIR).remove()
         firebase.database().ref(pendingdbDIR).set(requestPendingValue).then(function () {
             firebase.database().ref(receiveddbDIR).remove().then(function () { location.reload(); });
@@ -307,10 +313,12 @@ function pushRequestReceivedFromQueue() {
     day = firstRequest.day
     delete firstRequest.day
 
+    /*
     if (firstRequest.pendingKey) {
       var pendingdbDIR = '/userpool/'+user_id+'/received_req/'+firstRequest.pendingKey;
       firebase.database().ref(pendingdbDIR).remove();
     }
+    */
 
     /* push new request to request received DB */
     firebase.database().ref(receiveddbDIR+'/'+day).once("value", function (snap) {
@@ -916,7 +924,7 @@ function initializeAutoRequest() {
       if (thisweekValue === null) return;
 
       Object.keys(thisweekValue).forEach((key) => {
-        if (thisweekValue[key][0] <= element[0] && thisweekValue[key][1] >= element[1]) {
+        if (thisweekValue[key][0] == element[0] && thisweekValue[key][1] == element[1]) {
           thisweekValue.splice(key, 1);
           firebase.database().ref(thisweekdbDIR).remove();
 

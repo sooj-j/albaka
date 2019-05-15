@@ -86,7 +86,7 @@ function remove_hover_cell(json) {
         case "SAT": day = 5; break;
         case "SUN": day = 6; break;
     };
-    for (var i = json.start_time; i <= json.end_time; i++) {
+    for (var i = json.start_time; i < json.end_time; i++) {
         if (i == json.start_time) {
             
             if (json.start_time % 2 == 0) {
@@ -121,7 +121,7 @@ function hover_on_view(json) {
         case "SAT": day = 5; break;
         case "SUN": day = 6; break;
     };
-    for (var i = json.start_time; i <= json.end_time; i++) {
+    for (var i = json.start_time; i < json.end_time; i++) {
         if (i == json.start_time) {
             $(timetable.rows[i + 1].cells[day + 1]).text("Can you work ?");
         };

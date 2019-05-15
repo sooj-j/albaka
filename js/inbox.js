@@ -31,25 +31,39 @@ function init_req() {
         clearInbox();
 
         snapshot.forEach((snap) => {
-            console.log("Req01", snap.key);//one req
-            var req = snap.val();
+            
+					var req = snap.val();
+					console.log("Req01", req);//one req
             firebase.database().ref("userpool/" + req.from).once("value", function (s) {
                 if (s.exists()) {
-                    var info = s.val();
-                    var req2 = {
-                        'img': info.img,
-                        'id': info.id,
-                        'name': info.name,
-                        'start_time': req.start_time,
-                        'end_time': req.end_time,
-                        'reward': req.reward,
-                        'date': req.date,
-                        'day': req.day,
-                        'index': snap.key,
-
-                    };
-                    console.log("draw req:", req2);
-                    draw_one_req(req2);
+									var info = s.val();
+									if (!('reward' in req)) {
+										var req2 = {
+											'img': info.img,
+											'id': info.id,
+											'name': info.name,
+											'start_time': req.start_time,
+											'end_time': req.end_time,
+											'date': req.date,
+											'day': req.day,
+											'index': snap.key,
+										};
+										draw_one_req(req2,0);
+									} else {
+										var req2 = {
+											'img': info.img,
+											'id': info.id,
+											'name': info.name,
+											'start_time': req.start_time,
+											'end_time': req.end_time,
+											'reward': req.reward,
+											'date': req.date,
+											'day': req.day,
+											'index': snap.key,
+										};
+										draw_one_req(req2,1);
+									}
+                    
                     //index += 1;
                 }
             });
@@ -66,20 +80,32 @@ function init_req() {
             firebase.database().ref("userpool/"+req.from).once("value", function (s) {
                 if (s.exists()) {
                     var info = s.val();
-                    var req2 = {
-                        'img': info.img,
-                        'id': info.id,
-                        'name': info.name,
-                        'start_time': req.start_time,
-                        'end_time': req.end_time,
-                        'reward': req.reward,
-                        'date': req.date,
-                        'index': snap.key,
-
-                    };
-                    console.log("draw req:", req2);
-                    draw_one_req(req2);
-                    //index += 1;
+									if (!('reward' in req) ){
+										var req2 = {
+											'img': info.img,
+											'id': info.id,
+											'name': info.name,
+											'start_time': req.start_time,
+											'end_time': req.end_time,
+											'date': req.date,
+											'day': req.day,
+											'index': snap.key,
+										};
+										draw_one_req(req2, 0);
+									} else {
+										var req3 = {
+											'img': info.img,
+											'id': info.id,
+											'name': info.name,
+											'start_time': req.start_time,
+											'end_time': req.end_time,
+											'reward': req.reward,
+											'date': req.date,
+											'day': req.day,
+											'index': snap.key,
+										};
+										draw_one_req(req3, 1);
+									}
                 }
             });
         });
@@ -293,7 +319,7 @@ function accept_request(idx) {
 
 
 //hover effect
-function draw_one_req(req) {
+function draw_one_req(req,rew_ox) {
     var i = $('<img>', {
         class: "inbox_img",
         src : req.img,
@@ -305,14 +331,27 @@ function draw_one_req(req) {
         class: "btn inbox_button",
         onclick: "del_request(" + req.index +")",
         style: "margin: 3px; font-size:10px",
-    });
-    var acpt = $('<input>', {
-        type: "button",
-        value: "accept with " + req.reward,
-        class: "btn inbox_button",
-        onclick: "accept_request("+req.index+")",
-        style: "margin: 3px; right: 2px;font-size:10px"
-    });
+	});
+	var acpt;
+	if (!rew_ox) {
+		acpt = $('<input>', {
+			type: "button",
+			value: "accept",
+			class: "btn inbox_button",
+			onclick: "accept_request(" + req.index + ")",
+			style: "margin: 3px; right: 2px;font-size:10px"
+		});
+	} else {
+		console.log("acr", req);
+		acpt = $('<input>', {
+			type: "button",
+			value: "accept with " + req.reward,
+			class: "btn inbox_button",
+			onclick: "accept_request(" + req.index + ")",
+			style: "margin: 3px; right: 2px;font-size:10px"
+		});
+	}
+    
     var cap = document.createElement('div');
     $(cap).attr("class", "caption alignleft");
 
@@ -327,7 +366,7 @@ function draw_one_req(req) {
     $(cap).append("<b> " + req.name + " </b>");
     $(cap).appendTo($(temp));
 
-    if (req.reward == "") {
+	if (!rew_ox) {
         $(txt).append("Can you to work at" + "<b> " + req.day +" "+ req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
         $(txt).append(acpt);
         $(txt).append(del);

@@ -17,7 +17,7 @@
 }
 
 .helper_ex_button:hover {
-  background-color: var(--submit-slot-color);
+  background-color: var(--tab-slot-color);
   color: white;
   box-shadow: 0.5px -0.5px 1px grey;
 }

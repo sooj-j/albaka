@@ -15,7 +15,8 @@ $(document).ready(function () {
     firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
-        remain = parsedInt((goal - may_sum)*7/19);
+        //remain = parsedInt((goal - may_sum)*7/19);
+        remain = ((goal - may_sum)*7/19).toFixed(0);//
         console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
     });
 
@@ -97,9 +98,44 @@ function progress_change() {
       var progress = document.getElementById('progress');
       var expectation = document.getElementById('expectation');
       // division.innerHTML = sum+"H * 10 = "+sum*10+"$ / "+remain+"$";
+
+
+        /*
+      firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
+        goal = snapshot.val()['goal'];
+        may_sum = snapshot.val()['sum'];
+        remain = parsedInt((goal - may_sum)*7/19);
+        //console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
+
       division.innerHTML = "$"+sum*10 + " / $"+remain;
       division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
-      
+
+      var percentage = ((sum*10)/remain *100);
+      if (percentage < 100){
+        percentage = percentage.toPrecision(2)
+        progress.innerHTML = percentage + "%";
+        progress.style.width = percentage + "%";
+      }
+      else {
+        percentage = percentage.toPrecision(3)
+        progress.innerHTML = "Congraturations!! "+percentage + "%";
+        progress.style.width = "100%";
+      }
+
+      if (tab_id == "submitted"){
+        progress.classList.add("progress-bar_submit");
+        progress.classList.remove("progress-bar_tab");
+      }
+      else {
+        progress.classList.add("progress-bar_tab");
+        progress.classList.remove("progress-bar_submit");
+      }
+      });
+      */
+
+      division.innerHTML = "$"+sum*10 + " / $"+remain;
+      division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+
       var percentage = ((sum*10)/remain *100);
       if (percentage < 100){
         percentage = percentage.toPrecision(2)

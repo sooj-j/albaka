@@ -37,32 +37,20 @@ function init_req() {
             firebase.database().ref("userpool/" + req.from).once("value", function (s) {
                 if (s.exists()) {
 									var info = s.val();
-									if (!('reward' in req)) {
-										var req2 = {
-											'img': info.img,
-											'id': info.id,
-											'name': info.name,
-											'start_time': req.start_time,
-											'end_time': req.end_time,
-											'date': req.date,
-											'day': req.day,
-											'index': snap.key,
-										};
-										draw_one_req(req2,0);
-									} else {
-										var req2 = {
-											'img': info.img,
-											'id': info.id,
-											'name': info.name,
-											'start_time': req.start_time,
-											'end_time': req.end_time,
-											'reward': req.reward,
-											'date': req.date,
-											'day': req.day,
-											'index': snap.key,
-										};
-										draw_one_req(req2,1);
-									}
+									
+									var req2 = {
+										'img': info.img,
+										'id': info.id,
+										'name': info.name,
+										'start_time': req.start_time,
+										'end_time': req.end_time,
+										'reward': req.reward,
+										'date': req.date,
+										'day': req.day,
+										'index': snap.key,
+									};
+									draw_one_req(req2);
+									
                     
                     //index += 1;
                 }
@@ -79,35 +67,22 @@ function init_req() {
             var req = snap.val();
             firebase.database().ref("userpool/"+req.from).once("value", function (s) {
                 if (s.exists()) {
-                    var info = s.val();
-									if (!('reward' in req) ){
-										var req2 = {
-											'img': info.img,
-											'id': info.id,
-											'name': info.name,
-											'start_time': req.start_time,
-											'end_time': req.end_time,
-											'date': req.date,
-											'day': req.day,
-											'index': snap.key,
-										};
-										draw_one_req(req2, 0);
-									} else {
-										var req3 = {
-											'img': info.img,
-											'id': info.id,
-											'name': info.name,
-											'start_time': req.start_time,
-											'end_time': req.end_time,
-											'reward': req.reward,
-											'date': req.date,
-											'day': req.day,
-											'index': snap.key,
-										};
-										draw_one_req(req3, 1);
-									}
-                }
-            });
+									var info = s.val();
+									var req2 = {
+										'img': info.img,
+										'id': info.id,
+										'name': info.name,
+										'start_time': req.start_time,
+										'end_time': req.end_time,
+										'reward': req.reward,
+										'date': req.date,
+										'day': req.day,
+										'index': snap.key,
+									};
+									draw_one_req(req2);
+									
+								}
+                })
         });
     });
 }
@@ -224,11 +199,12 @@ function del_request(idx) {
         if (snap.exists()) {
             var req = snap.val();
             console.log(req);
-
+            /*
             if (req.queueKey) {
                 var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
                 firebase.database().ref(queuedbDIR).remove();
             };
+            */
             var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
             remove_hover_cell(timecell);
             
@@ -301,10 +277,12 @@ function accept_request(idx) {
         if (snap.exists()) {
             var req = snap.val();
 
+            /*
             if (req.queueKey) {
                 var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
                 firebase.database().ref(queuedbDIR).remove();
             }
+            */
             
             var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
             remove_hover_cell(timecell);
@@ -319,7 +297,7 @@ function accept_request(idx) {
 
 
 //hover effect
-function draw_one_req(req,rew_ox) {
+function draw_one_req(req) {
     var i = $('<img>', {
         class: "inbox_img",
         src : req.img,
@@ -331,27 +309,14 @@ function draw_one_req(req,rew_ox) {
         class: "btn inbox_button",
         onclick: "del_request(" + req.index +")",
         style: "margin: 3px; font-size:10px",
-	});
-	var acpt;
-	if (!rew_ox) {
-		acpt = $('<input>', {
-			type: "button",
-			value: "accept",
-			class: "btn inbox_button",
-			onclick: "accept_request(" + req.index + ")",
-			style: "margin: 3px; right: 2px;font-size:10px"
-		});
-	} else {
-		console.log("acr", req);
-		acpt = $('<input>', {
-			type: "button",
-			value: "accept with " + req.reward,
-			class: "btn inbox_button",
-			onclick: "accept_request(" + req.index + ")",
-			style: "margin: 3px; right: 2px;font-size:10px"
-		});
-	}
-    
+    });
+    var acpt = $('<input>', {
+        type: "button",
+        value: req.reward ? "accept with " + req.reward : "accept",
+        class: "btn inbox_button",
+        onclick: "accept_request("+req.index+")",
+        style: "margin: 3px; right: 2px;font-size:10px"
+    });
     var cap = document.createElement('div');
     $(cap).attr("class", "caption alignleft");
 
@@ -366,7 +331,7 @@ function draw_one_req(req,rew_ox) {
     $(cap).append("<b> " + req.name + " </b>");
     $(cap).appendTo($(temp));
 
-	if (!rew_ox) {
+	if (!req.reward) {
         $(txt).append("Can you to work at" + "<b> " + req.day +" "+ req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
         $(txt).append(acpt);
         $(txt).append(del);

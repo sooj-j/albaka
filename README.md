@@ -5,30 +5,38 @@
 
 albaka is a weekly scheduling system for part-timers
 
-### directory layout
+### directory layout and simple descriptions
 
         js
         │
-        ├── constant.js                 define timeAxis and day array
+        ├── constant.js                 define timeAxis and date array
         ├── login.js                    login and signup functions
         ├── submit.js                   submit for next week timetable
-        │                                 - can add time slots by dragging / delete time slots by clicking X button
+        │                                 - can add time slots by dragging / delete time slots by clicking X btn on time blocks
+        |                                 - initializeTimeTable: draw the empty timetable
+        |                                 - readFromDatabase: load from Database / make & color & write time on time blocks / calculate the sum of time blocks
         ├── view.js                     view this week timetable
-        ├── wage.js                     @
+        ├── wage.js, wage_april.js, wage_march.js, wage_february.js                     
         ├── inbox.js                    remained request/ remained rewards to deal with
         ├── hover.js                    hover effect for remained request/reward box work in submit.html and view.html
-        └── common.js                   submit과 view에서 동시에 사용 가능한.... 것들... 말고도...괜츈....
+        └── common.js                   submit과 view에서 동시에 사용 가능한 functions
 
-        pages
+        htmls (not a directory)
         │
-        ├── page 다 여기에 옮기자! 다음번에!>.<
+        ├── index.html                  UI for login
+        ├── nav.html                    UI for top menu navbar
+        ├── signup.html                 UI for signup
+        ├── submit.html                 UI for submitting next week's timetable
+        ├── view.html                   UI for viewing this week's timetable
+        ├── wage.html                   UI for checking the previous wage
+        └── wage_april.html, wage_march.html, wage_february.html
 
         css
         │
-        ├── style.css                   for common css; top-menu, inbox, table, and other basic frames
-        ├── submit.css                  submit html 및 js에서 사용하는 css
-        ├── view.css                    view page 및 js에서 사용하는 css
-        └── wage.css                    @
+        ├── style.css                   for common css; top-menu, inbox, table, color, and other basic frames
+        ├── submit.css                  css for submit.html, submit.js
+        ├── view.css                    css for view.html, view.js
+        └── wage.css                    css for wage.html, wage.js
 
 
         docs

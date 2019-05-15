@@ -195,7 +195,7 @@ $(document).on("click", "#set-button", function(){
 
     if(parseInt(goal) > 500){
         $("#error").html("The goal seems too high");
-        setTimeout(function(){$("#error").html("");}, 3000);
+        setTimeout(function(){$("#error").html("");}, 800);
     }
 
     else{

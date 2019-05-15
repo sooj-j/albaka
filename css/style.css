@@ -1,9 +1,9 @@
 :root {
     --light-table-border-color: #EDF0F5;
     --table-border-color: #dee2e6;
-    --tab-slot-color: #dfa995;
-    --tab-drag-color: #e6b9a1;
-    --submit-slot-color: #66CCC4;
+    --tab-slot-color: #6CCDEB; /* 히주:#dfa995 원래:#BEF5A4 */
+    --tab-drag-color: #96D7EB; /* 히주:#e6b9a1 원래:#D5F5C */
+    --submit-slot-color: #48D986; /* 히주:#66CCC4 원래:#7BE19A */
     --view-slot-color: #FFA473;
     --view-drag-slot-color: #FF825C;
     --view-request-received-slot-color: #808fcc;

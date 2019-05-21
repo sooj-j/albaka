@@ -3,9 +3,37 @@
 .table-style th:nth-of-type(1),td:nth-of-type(1) {color: red;}
 .table-style tr:first-child th{background-color:#F6F6F6; text-align:center; font-size: 15px;}
 
-
-.col-md-12 {
-  background-color: white;
+.bg-info {
+	background-color: var(--view-slot-color) !important;
 }
-
-
+.col-md-12 {
+	background-color: white;
+	font-family: 'Open Sans', sans-serif;
+}
+.col-md-2 {
+	font-family: 'Open Sans', sans-serif;
+}
+.topmargin{
+	margin-top: 4rem !important;
+}
+.danger {
+	z-index: 100;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:bold;
+	width:400px;
+	position: absolute;
+	left:600px;
+	top:0px;
+}
+#goal-input{
+	width:120px;
+}
+#set-zone-1 {
+	display: none;
+}
+#set-zone {
+	display: none;
+}
+#goal-zone {
+	display: none;
+}

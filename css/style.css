@@ -173,10 +173,15 @@
     z-index: 32;
     text-align: left;
 }
+.noti_empty{
+	text-align:center;
+	padding-bottom:6px;
+	padding-top:6px;
+}
 .inbox_img {
-    padding: 3px;
-    width: 45px;
-    height: 45px
+	padding: 3px;
+	width: 45px;
+	height: 45px
 }
 
 .caption {
@@ -496,21 +501,24 @@
 .login td {
     padding: 6px;
 }
+#img_message {
+	color: var(--warning-color);
+}
 .fileSubmit {
-    overflow: hidden;
-    display: block;
-    float: center;
-    text-align: center;
-    font-size: 10px;
-    font-family: 'Open Sans', sans-serif;
-    background-color: white;
-    border: 2px solid var(--view-drag-slot-color);
-    cursor: pointer;
-    color: black;
-    border-radius: .5em;
-    padding: .5em;
-    width: 70%;
-    margin: auto;
+	overflow: hidden;
+	display: block;
+	float: center;
+	text-align: center;
+	font-size: 10px;
+	font-family: 'Open Sans', sans-serif;
+	background-color: white;
+	border: 2px solid var(--view-drag-slot-color);
+	cursor: pointer;
+	color: black;
+	border-radius: .5em;
+	padding: .5em;
+	width: 70%;
+	margin: auto;
 }
     .fileSubmit [type=file] {
 
@@ -522,3 +530,4 @@
         position: absolute;
 
     }
+

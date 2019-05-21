@@ -108,6 +108,7 @@ $(document).ready(function () {
 	/* click accept modal close button */
 	$('#btn-close-accept-modal').click(function () {
 		$("#accept-modal").css("display", "none");
+		location.reload(); //for reward to send refresh 
 	});
 
 	$('#btn-close-receive-replacement-modal').click(function () {
@@ -200,6 +201,7 @@ $(document).ready(function () {
 		deleteRequestReceived();
 		closeReceiveReplacementModal();
 		setTimeout(pushRequestReceivedFromQueue, requestInterval);
+		//location.reload();
 	})
 
 	$("#btn-reject-request").click(function () {
@@ -212,6 +214,7 @@ $(document).ready(function () {
 function closeReceiveReplacementModal() {
 	$("#overlay").css("display", "none");
 	$("#receive-replacement-modal").css("display", "none");
+	
 }
 
 function closeReplacementModal() {
@@ -266,10 +269,20 @@ function pendRequestReceived() {
 
 			if (!requestPendingValue) {
 				requestPendingValue = [];
-			}
-
-			requestPendingValue.push(pendingData);
-
+				requestPendingValue.push(pendingData);
+			} else {
+				var check = 0;
+				for (var idx = 0; idx < requestPendingValue.length; idx++) {
+					if (requestPendingValue[idx] == null) {
+						requestPendingValue[idx]=pendingData;
+						check = 1;
+						break;
+					}
+				};
+				if (!check) {
+					requestPendingValue.push(pendingData);
+				}
+			};
       /*
       var pendingKey = requestPendingValue.length - 1;
       if (newRequestQueueRef) {
@@ -289,9 +302,6 @@ function pendRequestReceived() {
 	});
 
 	initializeTimeTable();
-
-	//init_req();
-
 }
 
 
@@ -436,6 +446,8 @@ function initializeTimeTable() {
 	readThisweekFromDatabase();
 	readRequestSentFromDatabase();
 	readRequestReceivedFromDatabase();
+	
+	
 }
 
 function readThisweekFromDatabase() {
@@ -855,6 +867,8 @@ function deleteRequest() {
 					firebase.database().ref(thisweekdbDIR).set(Object.assign({}, thisweekValue));
 					firebase.database().ref(requestdbDIR).remove();
 
+					
+
 					initializeTimeTable();
 				}
 			}
@@ -903,9 +917,11 @@ function deleteRequestReceived() {
 			firebase.database().ref(rewarddbDIR).push({
 				reward: requestValue.reward,
 				sender: 'test' + requestValue.sender
-			});
+			}).then(() => { firebase.database().ref(requestdbDIR).remove().then(() => { location.reload(); }); });
+		} else {
+			firebase.database().ref(requestdbDIR).remove().then(() => { location.reload(); });
 		}
-		firebase.database().ref(requestdbDIR).remove();
+		
 	});
 
 	// TODO: 필요?
@@ -946,7 +962,6 @@ function initializeAutoRequest() {
 				}
 			})
 			initializeTimeTable();
-			location.reload();
 		});
 	});
 }

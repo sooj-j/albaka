@@ -18,17 +18,18 @@
 
                 <div class="nav-down" id="inbox_menu">
                     <a class="nav-link" id="inbox_icon"><i class="fas fa-inbox fa-2x"></i><div id="inbox_count">2</div></a>
-                    <div class="hide" id="inbox">
-                        <div class="inbox_content_header">
-                            REMAINING REQUESTS
-                            <button type="button" class="btn helper_button" id ="req_helper"><i class="fas fa-question-circle"></i></button>
+										<div class="hide" id="inbox">
+											<div class="inbox_content_header">
+												REMAINING REQUESTS
+												<button type="button" class="btn helper_button" id="req_helper"><i class="fas fa-question-circle"></i></button>
 
-                            <input type="button" value="X" class="close btn" id="inbox_close" />
-                        </div>
-                        <div class="big_inbox" id="has_reward"></div>
-                        <div class="big_inbox" id="no_reward"></div>
+												<input type="button" value="X" class="close btn" id="inbox_close" />
+											</div>
+											<div class="inbox_content_row noti_empty" id="no_request">No request to deal with.</div>
+											<div class="big_inbox" id="has_reward"></div>
+											<div class="big_inbox" id="no_reward"></div>
 
-                    </div>
+										</div>
                 </div>
                 <div class="nav-down" id="reward_menu">
                     <a class="nav-link" id="reward_icon"><i class="fas fa-gift fa-2x"></i><div id="reward_count">2</div></a>
@@ -38,15 +39,17 @@
                             <button type="button" class="btn helper_button" id="rew_helper"><i class="fas fa-question-circle"></i></button>
                             <input type="button" value="X" class="close btn" id="reward_close" />
                         </div>
-                        <div class="big_inbox" id="empty_reward"></div>
-                        <div class="reward_category"> TO SEND</div>
-                        <div class="big_inbox" id="reward_to_send">
+												<div class="big_inbox" id="empty_reward">
+												</div>
+                        <div class="reward_category" id="reward_send_category"> TO SEND</div>
+												<div class="big_inbox" id="reward_to_send">
+													<div class="reward_content_row noti_empty" id="no_reward_tosend">No reward to SEND.</div>
+												</div>
 
-                        </div>
-
-                        <div class="reward_category"> TO RECEIVE</div>
-                        <div class="big_inbox" id="reward_to_receive">
-                        </div>
+                        <div class="reward_category" id="reward_receive_category"> TO RECEIVE</div>
+												<div class="big_inbox" id="reward_to_receive">
+													<div class="reward_content_row noti_empty" id="no_reward_toreceive">No reward to RECEIVE.</div>
+												</div>
 
                     </div>
                 </div>

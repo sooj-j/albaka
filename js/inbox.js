@@ -2,7 +2,8 @@
 var id;
 
 var req_arr;
-var rew_cnt = 0;
+var rew_r_cnt = 0;
+var rew_s_cnt = 0;
 var req_cnt = 0;
 
 //only used in reward inbox
@@ -147,7 +148,8 @@ function init_rew() {
                         'reward': req.reward,
                         'index': reward_idx,
                     };
-                    draw_one_rewSend(req2);
+									draw_one_rewSend(req2);
+									console.log("draw send", rew_cnt);
                     index_to_key[reward_idx] = snap.key;
                     reward_idx++;
                 }
@@ -181,6 +183,7 @@ function init_rew() {
 }
 
 function clearRewardReceived() {
+
     $('#reward_to_receive').text('');
 }
 function clearNoReward() {
@@ -195,28 +198,26 @@ function del_request(idx) {
     //checked the firebase removed!!
     
     $("#id_" + idx).remove();
-    firebase.database().ref("userpool/" + id + '/received_req').child(idx).once("value", function (snap) {
-        if (snap.exists()) {
-            var req = snap.val();
-            console.log(req);
-            /*
-            if (req.queueKey) {
-                var queuedbDIR = '/userpool/' + id + '/requestQueue/' + req.queueKey;
-                firebase.database().ref(queuedbDIR).remove();
-            };
-            */
-            var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
-            remove_hover_cell(timecell);
-            
-        }
-    }).then(function () {
-        //firebase.database().ref("userpool/" + id + '/received_req').child(idx).remove();
-    });
-    $("#inbox_count").html(req_cnt);
+	firebase.database().ref("userpool/" + id + '/received_req').once("value", function (snap) {
+		if (snap.exists()) {
+			var req_arr = snap.val();
+			var req = req_arr[idx];
+			console.log(req);
+
+			var timecell = { "day": req.day, "start_time": time2Row(req.start_time), "end_time": time2Row(req.end_time) };
+			remove_hover_cell(timecell);
+			req_arr[idx] = {};
+			firebase.database().ref("userpool/" + id + '/received_req').set(req_arr);
+		}
+	});
+	$("#inbox_count").html(req_cnt);
+	if (req_cnt == 0) {
+		$('#no_request').css("display", "block");
+	}
 }
 
 function del_reward(idx) {
-    rew_cnt--;
+    rew_r_cnt--;
     console.log("idx", idx);
     //checked the firebase removed!!
     if (!(idx in index_to_key)) {
@@ -225,12 +226,15 @@ function del_reward(idx) {
     };
     
     firebase.database().ref("userpool/" + id + '/rewardReceived').child(index_to_key[idx]).remove();
-    $("#gid_" + idx).remove();
-    $("#reward_count").html(rew_cnt);
+	$("#gid_" + idx).remove();
+	if (rew_r_cnt == 0) {
+		$("#no_reward_toreceive").css("display", "block");
+	}
+	$("#reward_count").html(rew_r_cnt + rew_s_cnt);
 }
 
 function del_sent_reward(idx) {
-    rew_cnt--;
+    rew_s_cnt--;
     console.log("idx", idx);
     //checked the firebase removed!!
     if (!(idx in index_to_key)) {
@@ -239,8 +243,11 @@ function del_sent_reward(idx) {
     };
 
     firebase.database().ref("userpool/" + id + '/rewardSent').child(index_to_key[idx]).remove();
-    $("#gid_" + idx).remove();
-    $("#reward_count").html(rew_cnt);
+	$("#gid_" + idx).remove();
+	if (rew_s_cnt == 0) {
+		$("#no_reward_tosend").css("display", "block");
+	}
+	$("#reward_count").html(rew_r_cnt + rew_s_cnt);
 }
 
 
@@ -347,7 +354,8 @@ function draw_one_req(req) {
         $(temp).appendTo($("#has_reward"));
 
     }
-    $("#inbox_count").html(req_cnt);
+	$("#inbox_count").html(req_cnt);
+	$('#no_request').css("display", "none");
 };
 
 function draw_one_rewReceived(req) {
@@ -373,7 +381,7 @@ function draw_one_rewReceived(req) {
     $(txt).attr("class", "gift_text");
     $(temp).attr("id", "gid_" + req.index);
 
-    rew_cnt++;
+    rew_r_cnt++;
     $(txt).append(icon);
     $(txt).append("Receive " + "<b>" + req.reward + "</b>"+" from "+"<b>" + req.name +" </b>");
 
@@ -382,7 +390,10 @@ function draw_one_rewReceived(req) {
     $(temp).append($(txt));
     $(temp).append(del);
     $(temp).appendTo($("#reward_to_receive"));
-    $("#reward_count").html(rew_cnt);
+	$("#reward_count").html(rew_r_cnt + rew_s_cnt);
+	$("#no_reward_toreceive").css("display", "none");
+	
+	
     
 };
 function draw_one_rewSend(req) {
@@ -401,7 +412,7 @@ function draw_one_rewSend(req) {
     $(txt).attr("class", "gift_text");
     $(temp).attr("id", "gid_" + req.index);
 
-    rew_cnt++;
+    rew_s_cnt++;
     $(txt).append(icon);
     $(txt).append("Give <b> " + req.reward + " </b> to <b>"+req.name + " </b>");
 
@@ -409,7 +420,10 @@ function draw_one_rewSend(req) {
     $(temp).append($(txt));
     $(temp).append(del);
     $(temp).appendTo($("#reward_to_send"));
-    $("#reward_count").html(req_cnt);
+	$("#reward_count").html(rew_r_cnt + rew_s_cnt);
+	$("#no_reward_tosend").css("display", "none");
+	
+	
 
 };
 
@@ -418,15 +432,13 @@ function draw_one_rewSend(req) {
 
 $(document).ready(function () {
 
-    $("#inbox_count").html(req_cnt);
-    $("#reward_count").html(rew_cnt);
-    global_params = window.location.href.split('?')[1];
-    id = global_params.split('uid=')[1];
-    
-    console.log("fin");
-
-    init_req();
-    init_rew();    
+	$("#inbox_count").html(req_cnt);
+	$("#reward_count").html(rew_s_cnt + rew_r_cnt);
+  global_params = window.location.href.split('?')[1];
+  id = global_params.split('uid=')[1];
+	console.log("here");
+  init_req();
+	init_rew();
     //get_received_req();
     //get_received_rew();
 

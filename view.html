@@ -23,197 +23,196 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <div id="nav-placeholder"></div>
-    <div class="container container-background">
+	<!-- Navigation bar -->
+	<div id="nav-placeholder"></div>
+	<div class="container container-background">
 
-        <!-- Top fixed contents below the navigation bar -->
-        <div class="top-placeholder">
-            <table class="table" id="timetable-header">
-                <tr></tr>
-            </table>
-        </div>
+		<!-- Top fixed contents below the navigation bar -->
+		<div class="top-placeholder">
+			<table class="table" id="timetable-header">
+				<tr></tr>
+			</table>
+		</div>
 
-        <div class="container-view">
-            <table class="table" id="timetable">
-                <tr></tr>
-            </table>
-        </div>
-        <!-- for the helper(tutorial) function-->
-        <div class="helper_title">
-            COLOR
-            <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
-        </div>
-        <div class="helper" id="competition_rate_helper">
-            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
-            <span style="background-color: var(--view-slot-color); word-spacing:10px"> &nbsp;</span>: your scheduled time slot<br />
-            <span style="background-color: var(--view-drag-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you requested for replacement<br />
-            <span style="background-color: var(--view-request-received-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you received request fort<br />
+		<div class="container-view">
+			<table class="table" id="timetable">
+				<tr></tr>
+			</table>
+		</div>
+		<!-- for the helper(tutorial) function-->
+		<div class="helper_title">
+			COLOR
+			<button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
+		</div>
+		<div class="helper" id="competition_rate_helper">
+			<button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> X </button>
+			<span style="background-color: var(--view-slot-color); word-spacing:10px"> &nbsp;</span>: your scheduled time slot<br />
+			<span style="background-color: var(--view-drag-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you requested for replacement<br />
+			<span style="background-color: var(--view-request-received-slot-color); word-spacing:10px"> &nbsp;</span>: time slot that you received request fort<br />
 
-        </div>
+		</div>
 
-        <!-- for the task 3 start -->
-        <div class="start_task3">
-            <button type="button" class="btn helper_button" onclick="initializeAutoRequest()">CLICK HERE TO START TASK 3</button>
-        </div>
+		<!-- for the task 3 start -->
+		<div class="start_task3">
+			<button type="button" class="btn helper_button" onclick="initializeAutoRequest()">CLICK HERE TO START TASK 3</button>
+		</div>
 
-    </div>
+	</div>
 
-    <div id="overlay"></div>
+	<div id="overlay"></div>
 
-    <!-- Replacement modal -->
-    <div id="replacement-modal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-sync-alt"></i> GET REPLACEMENT</h5>
-                    <button id="btn-close-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-body-element">
-                        <img class="view_img" id="Dayeon" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37918321_1727035794076430_4980779109660491776_o.jpg?_nc_cat=106&_nc_ht=scontent-icn1-1.xx&oh=a1ec33b8b111a516e332d4b6ab35c124&oe=5D54BDFB" align="left">
-                        Dayeon
-                        <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
-                        <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-coffee"></i> </button>
-                    </div>
-                    <div class="modal-body-element">
-                        <img class="view_img" id="Heeju" src="https://scontent-icn1-1.xx.fbcdn.net/v/t31.0-1/c379.0.1290.1290a/1402926_10150004552801901_469209496895221757_o.jpg?_nc_cat=1&_nc_ht=scontent-icn1-1.xx&oh=0fe9ddccc826108bb82d42c0d5344f1b&oe=5D60FF9E" align="left">
+	<!-- Replacement modal -->
+	<div id="replacement-modal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="fas fa-sync-alt"></i> GET REPLACEMENT</h5>
+					<button id="btn-close-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body-element">
+						<img class="view_img" id="Dayeon" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/37918321_1727035794076430_4980779109660491776_o.jpg?_nc_cat=106&_nc_ht=scontent-icn1-1.xx&oh=a1ec33b8b111a516e332d4b6ab35c124&oe=5D54BDFB" align="left">
+						Dayeon
+						<button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+						<button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-coffee"></i> </button>
+					</div>
+					<div class="modal-body-element">
+						<img class="view_img" id="Heeju" src="https://scontent-icn1-1.xx.fbcdn.net/v/t31.0-1/c379.0.1290.1290a/1402926_10150004552801901_469209496895221757_o.jpg?_nc_cat=1&_nc_ht=scontent-icn1-1.xx&oh=0fe9ddccc826108bb82d42c0d5344f1b&oe=5D60FF9E" align="left">
 
-                        Heeju
-                        <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
-                        <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-drumstick-bite"></i> </button>
-                    </div>
-                    <div class="modal-body-element">
-                        <img class="view_img" id="Hyunjoo" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/17522649_912924672181861_8303819015364202753_n.jpg?_nc_cat=111&_nc_ht=scontent-icn1-1.xx&oh=4fa5a2a473edb6f671040170f183b070&oe=5D693A5B" align="left">
+						Heeju
+						<button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+						<button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-drumstick-bite"></i> </button>
+					</div>
+					<div class="modal-body-element">
+						<img class="view_img" id="Hyunjoo" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/17522649_912924672181861_8303819015364202753_n.jpg?_nc_cat=111&_nc_ht=scontent-icn1-1.xx&oh=4fa5a2a473edb6f671040170f183b070&oe=5D693A5B" align="left">
 
-                        Hyunjoo
-                        <button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
-                        <button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-beer"></i> </button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">SEND all requests</button>
-                </div>
-            </div>
-        </div>
-    </div>
+						Hyunjoo
+						<button type="button" class="btn btn-request-status btn-request-status-yet" disabled> not requested yet </button>
+						<button type="button" class="btn btn-request-reward" style="display: none;" disabled> <i class="fa-reward fas fa-beer"></i> </button>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">SEND all requests</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Reward modal -->
-    <div id="reward-modal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="reward-modal-content modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-gift"></i> SEND REWARD</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-body-description">
-                        All users rejected your replacement request.
-                        Do you want to send request again with the reward?
-                    </div>
-                    <div class="modal-body-element">
-                        <select id="select-reward" class="custom-select">
-                            <option value="none" selected>select the reward</option>
-                            <option value="coffee">coffee (1)</option>
-                            <option value="beer">beer (1)</option>
-                            <option value="chicken">chicken (1)</option>
-                            <option value="meal">meal</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btn-send-reward" type="button" class="btn btn-secondary" data-dismiss="modal" disabled>send</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Reward modal -->
+	<div id="reward-modal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="reward-modal-content modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="fas fa-gift"></i> SEND REWARD</h5>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body-description">
+						All users rejected your replacement request.
+						Do you want to send request again with the reward?
+					</div>
+					<div class="modal-body-element">
+						<select id="select-reward" class="custom-select">
+							<option value="none" selected>select the reward</option>
+							<option value="coffee">coffee (1)</option>
+							<option value="beer">beer (1)</option>
+							<option value="chicken">chicken (1)</option>
+							<option value="meal">meal</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn-send-reward" type="button" class="btn btn-secondary" data-dismiss="modal" disabled>send</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Accept modal -->
-    <div class="modal" id="accept-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered accept-modal-dialog" role="document">
-            <div class="accept-modal-content modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Congraturations!</h5>
-                    <button id="btn-close-accept-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="accept-modal-description" class="modal-body-description"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Accept modal -->
+	<div class="modal" id="accept-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered accept-modal-dialog" role="document">
+			<div class="accept-modal-content modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Congraturations!</h5>
+					<button id="btn-close-accept-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="accept-modal-description" class="modal-body-description"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Recieve replacement modal -->
-    <div id="receive-replacement-modal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-sync-alt"></i> RECEIVE REPLACEMENT</h5>
-                    <button id="btn-close-receive-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="receive-replacement-modal-description" class="modal-body-description"></div>
-                </div>
-                <div class="modal-footer">
-                    <button id="btn-accept-request" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
+	<!-- Recieve replacement modal -->
+	<div id="receive-replacement-modal" class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="fas fa-sync-alt"></i> RECEIVE REPLACEMENT</h5>
+					<button id="btn-close-receive-replacement-modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="receive-replacement-modal-description" class="modal-body-description"></div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn-accept-request" type="button" class="btn btn-secondary" data-dismiss="modal">accept</button>
 
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <button id="btn-reject-request" class="btn btn-secondary" type="button">reject</button>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect03">
-                            <option value="none" selected>reward</option>
-                            <option value="coffee">coffee</option>
-                            <option value="beer">beer</option>
-                            <option value="chicken">chicken</option>
-                            <option value="meal">meal</option>
-                        </select>
-                    </div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<button id="btn-reject-request" class="btn btn-secondary" type="button">reject</button>
+						</div>
+						<select class="custom-select" id="inputGroupSelect03">
+							<option value="none" selected>reward</option>
+							<option value="coffee">coffee</option>
+							<option value="beer">beer</option>
+							<option value="chicken">chicken</option>
+							<option value="meal">meal</option>
+						</select>
+					</div>
 
-                    <!--<button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>-->
-                </div>
-            </div>
-        </div>
-    </div>
+					<!--<button id="btn-send-all-requests" type="button" class="btn btn-secondary" data-dismiss="modal">reject</button>-->
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <script src="js/view.js"></script>
-    <script src="js/constants.js"></script>
-    <script src="js/common.js"></script>
+	<script src="js/view.js"></script>
+	<script src="js/constants.js"></script>
+	<script src="js/common.js"></script>
+	<!--<script src="js/inbox.js"></script>-->
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-storage.js"></script>
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+			 https://firebase.google.com/docs/web/setup#config-web-app -->
+	<script>
+		var firebaseConfig = {
+			apiKey: "AIzaSyB9Ibvo2HC_lI9HREIlCtoUYF47t7cXC4M",
+			authDomain: "albaka.firebaseapp.com",
+			databaseURL: "https://albaka.firebaseio.com",
+			projectId: "albaka",
+			storageBucket: "albaka.appspot.com",
+			messagingSenderId: "650544065422"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+	</script>
 
-    <!--<script src="js/inbox.js"></script>-->
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-storage.js"></script>
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#config-web-app -->
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyB9Ibvo2HC_lI9HREIlCtoUYF47t7cXC4M",
-            authDomain: "albaka.firebaseapp.com",
-            databaseURL: "https://albaka.firebaseio.com",
-            projectId: "albaka",
-            storageBucket: "albaka.appspot.com",
-            messagingSenderId: "650544065422"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
-
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+					integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+					crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+					integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+					crossorigin="anonymous"></script>
 
 
 </body>

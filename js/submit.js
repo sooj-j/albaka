@@ -94,7 +94,6 @@ $(function () {
 
 
 function progress_change() {
-      console.log(progress_change);
       var division = document.getElementById('division');
       var progress = document.getElementById('progress');
       var expectation = document.getElementById('expectation');

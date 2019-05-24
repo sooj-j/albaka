@@ -142,9 +142,14 @@ function progress_change() {
         progress.innerHTML = percentage + "%";
         progress.style.width = percentage + "%";
       }
+      else if (percentage == 100) {
+        percentage = percentage.toPrecision(3)
+        progress.innerHTML = "Congraturations!! "+ percentage + "%";
+        progress.style.width = "100%";
+      }
       else {
         percentage = percentage.toPrecision(3)
-        progress.innerHTML = "Congraturations!! "+percentage + "%";
+        progress.innerHTML = "Congraturations!! "+"100% +";
         progress.style.width = "100%";
       }
 
@@ -157,6 +162,13 @@ function progress_change() {
       }
       console.log("in progress_change");
       console.log("sum: ", sum,", percentage: ", percentage);
+}
+
+function open_helper_ex(id) {
+    $(id).css("display", "block");
+}
+function close_helper_ex(id) {
+    $(id).css("display", "none");
 }
 
 function pushToDatabase(drag) {
@@ -536,7 +548,6 @@ function reset() {
   });
   alert("Reset Completed!");
   initializeTimeTable();
-
 }
 
 function submit() {

@@ -1,4 +1,20 @@
 /* submit page */
+
+.helper_ex {
+    position: -webkit-sticky;
+    position: sticky;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    bottom: 550px;
+    margin-left: 1000px;
+    z-index: 50;
+    width: 300px;
+    border: 2px solid var(--darker-grey);
+    padding: 5px;
+    display: none;
+    background-color: white;
+}
+
 .helper_ex_button {
   border: none;
   background-color: var(--darker-grey);
@@ -65,7 +81,7 @@
 } */
 
 .tabbox {
-    padding: 6.5px;
+    padding: 5.5px;
     padding-left: 120px;
     /* text-align: left; */
     position: fixed;

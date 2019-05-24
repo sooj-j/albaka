@@ -9,12 +9,19 @@ function putuser(user) {
 		user.thisweek = [[[6, 11], [20, 23]], "null", [[0, 3], [5, 8], [12, 16]], [[5, 9], [15, 18]], "null", [[3, 9]], "null"];
 		user.wage = global_test.wage;
 		user.wage.may.goal = "";
+		user.nextweek.tab.tab1.0 ="null"
+		user.nextweek.tab.tab1.1 ="null"
+		user.nextweek.tab.tab1.2 ="null"
+		user.nextweek.tab.tab1.3 ="null"
+		user.nextweek.tab.tab1.4 ="null"
+		user.nextweek.tab.tab1.5 ="null"
+		user.nextweek.tab.tab1.6 ="null"
 
 		firebase.database().ref('userpool/').child(user.id).set(user).then(function () {
 			window.location = "view.html?" + "uid=" + user.id;
 		});
 	});
-  
+
 }
 
 function login() {
@@ -45,7 +52,7 @@ function register() {
 	if (id == null || name == null || pw == null || wp == null || uimg == null) {
 		alert("You have to fill out all of the forms. Please fill in them all.");
 	};
-    
+
 
     var newuser = {
         "id": id,
@@ -82,15 +89,15 @@ function dataURItoBlob(dataURI,uid) {
 
 function img_resize(target_file,uid) {
 	var file_type = target_file.type;
-	
+
 	if (file_type && file_type.substr(0, 5) == "image") {
-		
+
 		var img = document.createElement("img");
 		var reader = new FileReader();
 		reader.readAsDataURL(target_file);
 		reader.onload = function () {
 			img.src = reader.result;
-			
+
 			img.onload = function () {
 				var MAX_WIDTH = 100;
 				var MAX_HEIGHT = 100;
@@ -135,7 +142,7 @@ function preview() {
 
     //find file by user id in storage
 	if (file) {
-		
+
     const task = storageRef.child(id).put(file);
     task.then(snap => storageRef.child(id).getDownloadURL())
         .then((url) => {

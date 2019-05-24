@@ -342,11 +342,12 @@
     transition-duration: 0.2s;
 }
 
-    .helper_button:hover {
-        background-color: var(--view-drag-slot-color);
-        color: white;
-        box-shadow: 0.5px -0.5px 1px grey;
-    }
+.helper_button:hover {
+    background-color: var(--view-drag-slot-color);
+    color: white;
+    box-shadow: 0.5px -0.5px 1px grey;
+}
+
 #request_inbox_helper {
     width: 300px;
     margin-top: 270px;
@@ -520,14 +521,11 @@
 	width: 70%;
 	margin: auto;
 }
-    .fileSubmit [type=file] {
 
-
-        filter: alpha(opacity=0);
-        min-height: 0%;
-        min-width: 0%;
-        opacity: 0;
-        position: absolute;
-
-    }
-
+.fileSubmit [type=file] {
+  filter: alpha(opacity=0);
+  min-height: 0%;
+  min-width: 0%;
+  opacity: 0;
+  position: absolute;
+}

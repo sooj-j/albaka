@@ -46,7 +46,6 @@ const dayToDateString = {
 	5: 'SAT 5/18',
 	6: 'SUN 5/19'
 };
-
 const requestQueueDefault = [{
 	0: 0,
 	1: 3,

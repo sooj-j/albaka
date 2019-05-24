@@ -38,13 +38,13 @@ const btnReplacementModalHTML = {
 }
 
 const dayToDateString = {
-	0: 'MON 5/6',
-	1: 'TUE 5/7',
-	2: 'WED 5/8',
-	3: 'THU 5/9',
-	4: 'FRI 5/10',
-	5: 'SAT 5/11',
-	6: 'SUN 5/12'
+	0: 'MON 5/13',
+	1: 'TUE 5/14',
+	2: 'WED 5/15',
+	3: 'THU 5/16',
+	4: 'FRI 5/17',
+	5: 'SAT 5/18',
+	6: 'SUN 5/19'
 };
 
 const requestQueueDefault = [{
@@ -108,7 +108,7 @@ $(document).ready(function () {
 	/* click accept modal close button */
 	$('#btn-close-accept-modal').click(function () {
 		$("#accept-modal").css("display", "none");
-		location.reload(); //for reward to send refresh 
+		location.reload(); //for reward to send refresh
 	});
 
 	$('#btn-close-receive-replacement-modal').click(function () {
@@ -214,7 +214,7 @@ $(document).ready(function () {
 function closeReceiveReplacementModal() {
 	$("#overlay").css("display", "none");
 	$("#receive-replacement-modal").css("display", "none");
-	
+
 }
 
 function closeReplacementModal() {
@@ -446,8 +446,8 @@ function initializeTimeTable() {
 	readThisweekFromDatabase();
 	readRequestSentFromDatabase();
 	readRequestReceivedFromDatabase();
-	
-	
+
+
 }
 
 function readThisweekFromDatabase() {
@@ -598,7 +598,7 @@ function initializeTimeTableHeader() {
 	var newCell = newRow.insertCell(0);
 
 	// TODO: current dates
-	var dates = ['5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12'];
+	var dates = ['5/13', '5/14', '5/15', '5/16', '5/17', '5/18', '5/19'];
 
 	for (var i = 0; i < 7; i++) {
 		newCell = newRow.insertCell(i + 1);
@@ -867,7 +867,7 @@ function deleteRequest() {
 					firebase.database().ref(thisweekdbDIR).set(Object.assign({}, thisweekValue));
 					firebase.database().ref(requestdbDIR).remove();
 
-					
+
 
 					initializeTimeTable();
 				}
@@ -921,7 +921,7 @@ function deleteRequestReceived() {
 		} else {
 			firebase.database().ref(requestdbDIR).remove().then(() => { location.reload(); });
 		}
-		
+
 	});
 
 	// TODO: 필요?

@@ -441,7 +441,7 @@ function initializeTimeTableHeader() {
     var newCell = newRow.insertCell(0);
 
     // TODO: current dates
-    var dates = ['4/8', '4/9', '4/10', '4/11', '4/12', '4/13', '4/14'];
+    var dates = ['5/20', '5/21', '5/22', '5/23', '5/24', '5/25', '5/26'];
 
     for (var i = 0; i < 7; i++) {
         newCell = newRow.insertCell(i + 1);

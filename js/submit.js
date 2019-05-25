@@ -142,9 +142,14 @@ function progress_change() {
         progress.innerHTML = percentage + "%";
         progress.style.width = percentage + "%";
       }
+      else if (percentage == 100) {
+        percentage = percentage.toPrecision(3)
+        progress.innerHTML = "Congraturations!! "+ percentage + "%";
+        progress.style.width = "100%";
+      }
       else {
         percentage = percentage.toPrecision(3)
-        progress.innerHTML = "Congraturations!! "+percentage + "%";
+        progress.innerHTML = "Congraturations!! "+"100% +";
         progress.style.width = "100%";
       }
 
@@ -157,6 +162,13 @@ function progress_change() {
       }
       console.log("in progress_change");
       console.log("sum: ", sum,", percentage: ", percentage);
+}
+
+function open_helper_ex(id) {
+    $(id).css("display", "block");
+}
+function close_helper_ex(id) {
+    $(id).css("display", "none");
 }
 
 function pushToDatabase(drag) {
@@ -429,7 +441,7 @@ function initializeTimeTableHeader() {
     var newCell = newRow.insertCell(0);
 
     // TODO: current dates
-    var dates = ['4/8', '4/9', '4/10', '4/11', '4/12', '4/13', '4/14'];
+    var dates = ['5/20', '5/21', '5/22', '5/23', '5/24', '5/25', '5/26'];
 
     for (var i = 0; i < 7; i++) {
         newCell = newRow.insertCell(i + 1);
@@ -536,7 +548,6 @@ function reset() {
   });
   alert("Reset Completed!");
   initializeTimeTable();
-
 }
 
 function submit() {

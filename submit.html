@@ -58,16 +58,20 @@
                     <table style="background-color:#ffffff;">
                         <tr style="height : 30px;">
                             <td style= "width:110px;"></td>
-                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:140px;padding-left: 10px;padding-top: 5px;">
+                            <td id = "expectation" data-toggle="tooltip" data-placement="right" title="" style= "width:107px;padding-left: 10px;padding-top: 5px;">
                               Expect Wage
-                              <button type="button" class="btn helper_ex_button" onclick=""><i class="fas fa-question-circle"></i></button>
                             </td>
                             <td colspan = "6" style="padding-left: 10px;padding-top: 5px;">
-                                <div class="progress" style="width:605px;">
+                                <div class="progress" style="width:600px;">
                                     <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
-                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:110px;padding-left: 10px;padding-top: 5px;"></td>
+                            <td id = "division" data-toggle="tooltip" data-placement="right" title="" style= "width:103px;padding-left: 10px;padding-top: 5px;"></td>
+                            <td>
+                              <button type="button" class="btn helper_ex_button" onclick="open_helper_ex(expect_wage_helper)" style="z-index:100;"><i class="fas fa-question-circle"></i></button>
+                            </td>
+
+
                         </tr>
                     </table>
                     <table class="table" id="timetable-header">
@@ -87,14 +91,23 @@
             <button type="button" class="btn helper_button" onclick="open_helper(competition_rate_helper)"><i class="fas fa-question-circle"></i></button>
         </div>
         <div class="helper" id="competition_rate_helper">
-            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> <i class="fas fa-question-circle"></i> </button>
-            <span style="background-color: var(--tab-slot-color); word-spacing:10px"> &nbsp;</span>: Your selected color as available timet<br /><br />
+            <button type="button" class="btn helper_button" onclick="close_helper(competition_rate_helper)" style="float:right"> <i class="fas fa-times-circle"></i> </button>
+            <span style="background-color: var(--tab-slot-color); word-spacing:10px"> &nbsp;</span>: Your selected color as available time<br /><br />
             Darker greyish tone means higher competition rate<br />
             <span style="background-color: var(--competition-rate-1); word-spacing:10px"> &nbsp;</span>: competition rate between 1.0 and 2.0<br />
             <span style="background-color: var(--competition-rate-2); word-spacing:10px"> &nbsp;</span>: competition rate between 2.0 and 3.0<br />
             <span style="background-color: var(--competition-rate-3); word-spacing:10px"> &nbsp;</span>: competition rate over 3.0<br />
 
         </div>
+        <div class="helper_ex" id="expect_wage_helper">
+            <button type="button" class="btn helper_ex_button" onclick="close_helper_ex(expect_wage_helper)" style="float:right"> <i class="fas fa-times-circle"></i> </button>
+            Expect Wage is calculated with your goal in My Wage<br /><br />
+            Calculation is done as follow<br />
+            <span> &nbsp;</span>Calculation<br />
+
+
+        </div>
+
     </div>
     </div>
 

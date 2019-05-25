@@ -54,6 +54,14 @@
     font-size: 12px;
     text-align: center;
 }
+.nav-text {
+	margin-left: 10px;
+	width: 150px;
+	font-size: 12px;
+	text-align: center;
+	cursor: default !important;
+	color: var(--warning-color) !important;
+}
 
 .nav-link {
     font-size: 12px !important;

@@ -387,7 +387,7 @@ function readFromDatabase(){
         var myKey = keyList[j];
         var dayblock = [];
         console.log("in readFromDatabase, myKey: ",myKey, "tableValue[myKey]: ", tabValue[myKey]);
-        if (tabValue[myKey]=="null"){
+        if (tabValue[myKey]=="null" || tabValue[myKey][0]=="null"){
           console.log("Empty day: ", myKey);
         }
         else {

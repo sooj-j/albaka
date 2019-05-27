@@ -149,7 +149,6 @@ function init_rew() {
                         'index': reward_idx,
                     };
 									draw_one_rewSend(req2);
-									console.log("draw send", rew_cnt);
                     index_to_key[reward_idx] = snap.key;
                     reward_idx++;
                 }
@@ -359,6 +358,7 @@ function draw_one_req(req) {
 };
 
 function draw_one_rewReceived(req) {
+	console.log("draw", req);
    
     var del = $('<input>', {
         type: "button",

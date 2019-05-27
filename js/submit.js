@@ -12,7 +12,7 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[1].classList.add("nav-item-active");
     });
-    firebase.database().ref('userpool/test1/wage/may/').once('value').then(function (snapshot) {
+    firebase.database().ref('userpool/'+tab_id+'/wage/may/').once('value').then(function (snapshot) {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
         //remain = parsedInt((goal - may_sum)*7/19);

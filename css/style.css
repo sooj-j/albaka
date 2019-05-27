@@ -64,9 +64,12 @@
 }
 
 .nav-link {
-    font-size: 12px !important;
+    font-size: 13px !important;
     cursor: pointer;
 }
+	.nav-link: hover{
+		font-weight: bold;
+	}
 
 .nav-item-active {
     font-weight: bold;

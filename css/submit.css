@@ -67,6 +67,7 @@
 #expectation {
   /* color: var(--submit-slot-color); */
   text-shadow: 0.5px -0.5px 0.5px grey;
+	font-size:14px;
 }
 #expectation:hover {
   /* cursor: pointer;

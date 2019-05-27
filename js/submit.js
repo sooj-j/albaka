@@ -56,8 +56,8 @@ $(function () {
     if ((! this.classList.contains("timetable-tab-slot")) && (tab_id !="submitted")){
       dragged.push(this);
       console.log("mousedown: ", this); //cell
-      $(this).toggleClass("timetable-tab-drag-slot");
-      //$(this).addClass("timetable-tab-drag-slot");
+      //$(this).toggleClass("timetable-tab-drag-slot");
+      $(this).addClass("timetable-tab-drag-slot");
       prev = this;
       return false; // prevent text selection
     }
@@ -69,8 +69,8 @@ $(function () {
         console.log("mouseover: ", this);
         dragged.push(this);
         prev = this;
-        $(this).toggleClass("timetable-tab-drag-slot");
-        //$(this).addClass("timetable-tab-drag-slot");
+        //$(this).toggleClass("timetable-tab-drag-slot");
+        $(this).addClass("timetable-tab-drag-slot");
       }
     }
   });
@@ -79,8 +79,8 @@ $(function () {
     isMouseDown = false;
     console.log("mouseup");
     for(var i=0;i<dragged.length;i++) {
-        $(dragged[i]).toggleClass("timetable-tab-drag-slot");
-        //$(dragged[i]).addClass("timetable-tab-drag-slot");
+        //$(dragged[i]).toggleClass("timetable-tab-drag-slot");
+        $(dragged[i]).addClass("timetable-tab-drag-slot");
         //$(dragged[i]).classList.remove("timetable-tab-drag-slot");
     }
     if (tab_id != "submitted" && dragged.length >= 1){

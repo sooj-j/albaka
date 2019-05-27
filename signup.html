@@ -41,53 +41,56 @@
     </nav>
 
     <div class="container container-view ">
-        <div class="textbox">
-            <b>SIGN UP FORM</b> <br />
+			<div class="textbox">
+				<b>SIGN UP FORM</b> <br />
+				Filling the blank with * is mandatory.<br />
 
-                           <table class="login">
-                               <tr>
-                                   <td><b>Id *</b></td>
-                                   <td><input type="text" placeholder="Id" id="uid" required></td>
+				<table class="login">
+					<tr>
+						<td><b>ID *</b></td>
+						<td><input type="text" placeholder="Id" id="uid" required></td>
 
-                               </tr>
-                               <tr>
-                                   <td><b>Full Name *</b></td>
-                                   <td><input type="text" placeholder="Your real name" id="uname" required></td>
+					</tr>
+					<tr>
+						<td><b>FULL NAME *</b></td>
+						<td><input type="text" placeholder="Your real name" id="uname" required></td>
 
-                               </tr>
-                               <tr>
-                                   <td><b>Password *</b></td>
-                                   <td><input type="password" placeholder="Password" id="psw" required></td>
-                               </tr>
-                               <tr>
-                                   <td><b>Face Image *</b></td>
-                                   <td><label class="fileSubmit">Select Image<input type="file" id="getimg" accept="image/*" required></label></td>
-                               </tr>
-                               <tr>
-                                   <td colspan="2">
-                                       <img id="pre_img" style="height:50px; width: 50px;">
-																		   <div id= "img_message">please wait until image is loaded..</div>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td><b>Work Place *</b></td>
-                                   <td><select id="workplace" >
-                                        <option value="">Choose your work place.</option>
-                                        <option value="wp1">KAIST Lotteria</option>
-                                        <option value="wp2">KAIST Library</option>
-                                        <option value="wp3">KAIST Swimming Pool</option>
-                                    </select></td>
-                               </tr>
-                               <tr>
-                                   <td colspan="2">
-                                       <input type="button" value="SIGNUP" class="btn button" onclick="register()" />
-                                       <a class="btn button" href="index.html">GO BACK TO LOGIN</a>
+					</tr>
+					<tr>
+						<td><b>PW *</b></td>
+						<td><input type="password" placeholder="Password" id="psw" required></td>
+					</tr>
+					<tr>
+						<td><b>FACE IMAGE *</b></td>
+						<td><label class="fileSubmit">SELECT IMAGE<input type="file" id="getimg" accept="image/*" required></label></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<img id="pre_img" style="height:50px; width: 50px;">
+							<div id="img_message">please <b>wait</b>  until image is loaded..</div>
+						</td>
+					</tr>
+					<tr>
+						<td><b>WORK PLACE *</b></td>
+						<td>
+							<select id="workplace">
+								<option value="">Choose your work place.</option>
+								<option value="wp1">KAIST Lotteria</option>
+								<option value="wp2">KAIST Library</option>
+								<option value="wp3">KAIST Swimming Pool</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="button" value="SIGNUP" class="btn button" onclick="register()" />
+							<a class="btn button" href="index.html">GO BACK TO LOGIN</a>
 
-                                   </td>
-                               </tr>
+						</td>
+					</tr>
 
-                           </table>
-        </div>
+				</table>
+			</div>
         
 
 

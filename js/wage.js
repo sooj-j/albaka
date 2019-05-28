@@ -114,7 +114,7 @@ $(document).ready(function () {
 			$("#goal-zone").show();
 		}
         may_sum = snapshot.val()['sum'];
-        $("#division").html(may_sum+"$/"+goal+"$");
+        $("#division").html("$"+may_sum+"/$"+goal);
         var percentage = (may_sum/goal *100).toPrecision(2);
         $('#progress').html(percentage + "%");
         $("#progress").css("width", percentage+'%')
@@ -136,12 +136,12 @@ $(document).ready(function () {
                     if (day_wage != 0)
                     {
                         //console.log();
-                        $("#"+day).html(day_wage+"$");
+                        $("#"+day).html("$" + day_wage);
                     }
                 }
                 weeks[id]['total'] = total;
                 if (total!=0){
-                    $("#"+id).html(total + "$");
+                    $("#"+id).html( "$" + total);
                 }
 
                 sum += total;

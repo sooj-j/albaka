@@ -97,7 +97,7 @@ var may_sum;
 
 $(document).ready(function () {
 	findUser();
-	var user_id = global_params.split('uid=')[1];
+	//var user_id = global_params.split('uid=')[1];
     //$("#set-zone").hide();
     //$("#set-zone-1").hide();
 
@@ -108,8 +108,8 @@ $(document).ready(function () {
 	database.ref('userpool/' + user_id+'/wage/may/').once('value').then(function (snapshot) {
 		goal = snapshot.val()['goal'];
 		if (goal == "") {
-			$("#set-zone").show();
-			$("#set-zone-1").show();
+			//$("#set-zone").show();
+			//$("#set-zone-1").show();
 		} else {
 			$("#goal-zone").show();
 		}

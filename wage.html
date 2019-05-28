@@ -97,7 +97,7 @@
 						<th><p class="font-weight-bold small text-dark mb-0">FRI</p></th>
 						<th><p class="font-weight-bold small text-dark mb-0">SAT</p></th>
 						<th><p class="font-weight-bold small text-dark mb-0">SUN</p></th>
-						<th><p class="font-weight-bold small text-dark mb-0">SUM PER WEEK</p></th>
+						<th bgcolor="F8F8F8"><p class="font-weight-bold small text-dark mb-0">SUM PER WEEK</p></th>
 					</tr>
 					<tr style="height:70px;" class="font-weight-normal text-dark mb-0">
 						<th><p class="font-weight-normal text-dark mb-0"></p> <p class="font-weight-normal text-info mx-4 my-0"> </p></th>
@@ -107,7 +107,7 @@
 						<th><p class="font-weight-normal text-dark mb-0">3</p> <p class="font-weight-normal text-info mx-4 my-0" id="may3"></p></th>
 						<th><p class="font-weight-normal text-dark mb-0">4</p> <p class="font-weight-normal text-info mx-4 my-0" id="may4"></p></th>
 						<th><p class="font-weight-normal text-dark mb-0">5</p> <p class="font-weight-normal text-info mx-4 my-0" id="may5"> </p></th>
-						<th><br><p class="text-info font-weight-normal p-0" id="mayfirst"></p></th>
+						<th bgcolor="F8F8F8"><br><p class="text-info font-weight-normal p-0" id="mayfirst"></p></th>
 					</tr>
 					<tr style="height:70px;">
 						<th><p class="font-weight-normal text-dark mb-0">6</p><p class="font-weight-normal text-info mx-4 my-0" id="may6"> </p></th>
@@ -117,7 +117,7 @@
 						<th><p class="font-weight-normal text-dark mb-0">10</p><p class="font-weight-normal text-info mx-4 my-0" id="may10"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">11</p><p class="font-weight-normal text-info mx-4 my-0" id="may11"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">12</p><p class="font-weight-normal text-info mx-4 my-0" id="may12"> </p></th>
-						<th><br><p class="text-info font-weight-normal p-0" id="maysecond"></p></th>
+						<th bgcolor="F8F8F8"><br><p class="text-info font-weight-normal p-0" id="maysecond"></p></th>
 
 					</tr>
 					<tr style="height:70px;">
@@ -128,7 +128,7 @@
 						<th><p class="font-weight-normal text-dark mb-0">17</p><p class="font-weight-normal text-info mx-4 my-0" id="may17"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">18</p><p class="font-weight-normal text-info mx-4 my-0" id="may18"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">19</p><p class="font-weight-normal text-info mx-4 my-0" id="may19"> </p></th>
-						<th><br><p class="text-info font-weight-normal p-0" id="maythird"></p></th>
+						<th bgcolor="F8F8F8"><br><p class="text-info font-weight-normal p-0" id="maythird"></p></th>
 					</tr>
 					<tr style="height:70px;">
 						<th><p class="font-weight-normal text-dark mb-0">20</p><p class="font-weight-normal text-info mx-4 my-0" id="may20"> </p></th>
@@ -138,7 +138,7 @@
 						<th><p class="font-weight-normal text-dark mb-0">24</p><p class="font-weight-normal text-info mx-4 my-0" id="may24"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">25</p><p class="font-weight-normal text-info mx-4 my-0" id="may25"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0">26</p><p class="font-weight-normal text-info mx-4 my-0" id="may26"> </p></th>
-						<th><br><p class="text-info font-weight-normal p-0" id="mayfourth"></p></th>
+						<th bgcolor="F8F8F8"><br><p class="text-info font-weight-normal p-0" id="mayfourth"></p></th>
 					</tr>
 					<tr style="height:70px;">
 						<th><p class="font-weight-normal text-dark mb-0">27</p><p class="font-weight-normal text-info mx-4 my-0" id="may27"> </p></th>
@@ -148,9 +148,13 @@
 						<th><p class="font-weight-normal text-dark mb-0">31</p><p class="font-weight-normal text-info mx-4 my-0" id="may31"> </p></th>
 						<th><p class="font-weight-normal text-dark mb-0"></p></th>
 						<th><p class="font-weight-normal text-dark mb-0"></p></th>
-						<th><br><p class="text-info font-weight-normal p-0" id="mayfifth"></p></th>
+						<th bgcolor="F8F8F8"><br><p class="text-info font-weight-normal p-0" id="mayfifth"></p></th>
 					</tr>
-
+					<tr style="height: 40px;">
+						<th colspan="5"></th>
+						<th bgcolor="F8F8F8" colspan="2"><p class="font-weight-bold text-dark mb-0">TOTAL WAGE</p></th>
+						<th bgcolor="F8F8F8" ><p class="font-weight-normal text-info mb-0" id = "total-wage"></p></th>
+					</tr>
 				</table>
 			</div>
 			<div class="col-sm-2"></div>
@@ -159,7 +163,7 @@
 
 	<br>
 
-	<div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid;">
+	<!--div class="col-md-12 col-sm-12 well pull-right-lg small text-dark mb-0" style="border:0px solid;">
 		<div class="row">
 			<div class="col-md-8"></div>
 			<div class="col-md-2 h5" id="total-wage">
@@ -167,7 +171,7 @@
 			<div class="col-md-2"></div>
 		</div>
 
-	</div>
+	</div-->
 
 	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>

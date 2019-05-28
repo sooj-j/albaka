@@ -146,7 +146,7 @@ $(document).ready(function () {
 
                 sum += total;
         }
-            $("#total-wage").html("Total Wage : " + sum + "$");
+            $("#total-wage").html("$"+ sum );
 
 	});
 

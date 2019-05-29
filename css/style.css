@@ -97,27 +97,18 @@
     margin: 20px;
 }
 /*inbox => reward, request box*/
-.time_warning {
-	font-size: 12px;
-	font-weight: bold;
-	color: var(--warning-color);
-	display: block;
-	margin-left: 1.2em;
-	margin-bottom: -6px;
-	text-align: left;
-}
 #inbox_count {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	position: absolute;
-	left: 458px;
-	top: 20px;
-	background-color: dimgray;
-	border-radius: 30%;
-	width: 12px;
-	text-align: center;
-	color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    left: 458px;
+    top: 20px;
+    background-color: dimgray;
+    border-radius: 30%;
+    width: 12px;
+    text-align: center;
+    color: white;
 }
 #inbox {
     position: fixed;

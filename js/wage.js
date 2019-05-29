@@ -108,8 +108,8 @@ $(document).ready(function () {
 	database.ref('userpool/' + user_id+'/wage/may/').once('value').then(function (snapshot) {
 		goal = snapshot.val()['goal'];
 		if (goal == "") {
-			//$("#set-zone").show();
-			//$("#set-zone-1").show();
+			$("#set-zone").show();
+			$("#set-zone-1").show();
 		} else {
 			$("#goal-zone").show();
 		}

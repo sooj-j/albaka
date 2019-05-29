@@ -1,6 +1,70 @@
 // JavaScript source code
 // Your web app's Firebase configuration
-
+var wage_history =
+{
+	"may": {
+		"goal": "",
+		"sum": 100,
+		"weeks": {
+			"mayfifth": {
+				"days": {
+					"may27": 0,
+					"may28": 0,
+					"may29": 0,
+					"may30": 0,
+					"may31": 0
+				},
+				"total": 0
+			},
+			"mayfirst": {
+				"days": {
+					"may1": 0,
+					"may2": 10,
+					"may3": 0,
+					"may4": 20,
+					"may5": 10
+				},
+				"total": 0
+			},
+			"mayfourth": {
+				"days": {
+					"may20": 0,
+					"may21": 0,
+					"may22": 0,
+					"may23": 0,
+					"may24": 0,
+					"may25": 0,
+					"may26": 0
+				},
+				"total": 0
+			},
+			"maysecond": {
+				"days": {
+					"may10": 20,
+					"may11": 0,
+					"may12": 0,
+					"may6": 30,
+					"may7": 10,
+					"may8": 0,
+					"may9": 0
+				},
+				"total": 0
+			},
+			"maythird": {
+				"days": {
+					"may13": 0,
+					"may14": 0,
+					"may15": 0,
+					"may16": 0,
+					"may17": 0,
+					"may18": 0,
+					"may19": 0
+				},
+				"total": 0
+			}
+		}
+	}
+}
 
 
 function putuser(user) {
@@ -59,7 +123,8 @@ function register() {
 			"workplace": wp,
 			"img": uimg,
 		 // "thisweek": "null",
-			"nextweek": "null"
+		"nextweek": "null",
+			"wage": wage_history
 	};
 
 	firebase.database().ref("userpool").child(id).once("value", function (snap) {

@@ -6,7 +6,7 @@
 function putuser(user) {
 	firebase.database().ref("userpool/test1").once("value", function (snap) {
 		var global_test = snap.val();
-		user.thisweek = [[[6, 11], [20, 23]], "null", [[0, 3], [5, 8], [12, 16]], [[5, 9], [15, 18]], "null", [[3, 9]], "null"];
+		user.thisweek = [[[0, 4], [20, 23]], "null", [[0, 3], [5, 8], [12, 16]], [[5, 9], [15, 18]], "null", [[3, 9]], "null"];
 		user.wage = global_test.wage;
 		user.wage.may.goal = "";
 		user.nextweek = global_test.nextweek;

@@ -46,6 +46,8 @@ const dayToDateString = {
 	5: 'SAT 5/18',
 	6: 'SUN 5/19'
 };
+
+//	base	user.thisweek = [[[0, 4], [20, 23]], "null", [[0, 3], [5, 8], [12, 16]], [[5, 9], [15, 18]], "null", [[3, 9]], "null"];
 const requestQueueDefault = [{
 	0: 0,
 	1: 3,
@@ -65,8 +67,8 @@ const requestQueueDefault = [{
 	sender: "Dayeon",
 	reward: "beer"
 }, {
-	0: 0,
-	1: 2,
+	0: 9,
+	1: 13,
 	day: 0,
 	sender: "Hyunjoo",
 	reward: "coffee"

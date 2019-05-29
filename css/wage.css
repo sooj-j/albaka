@@ -16,6 +16,9 @@
 .topmargin{
 	margin-top: 4rem !important;
 }
+.p-0{
+	text-align: center;
+}
 .danger {
 	z-index: 100;
 	font-family: 'Open Sans', sans-serif;

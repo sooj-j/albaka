@@ -418,6 +418,19 @@
     font-weight: bold;
     color:black;
 }
+#today {
+	background-color: var(--warning-color);
+	color: white;
+	width: 60px;
+	margin-left: 1.8em;
+	border-radius: 60px;
+}
+#wage_today {
+	background-color: var(--warning-color);
+	color: white !important;
+	width: 27px;
+	border-radius: 10px;
+}
 
 .timetable-row {
     height: 25px;

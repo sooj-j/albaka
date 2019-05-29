@@ -604,8 +604,13 @@ function initializeTimeTableHeader() {
 	for (var i = 0; i < 7; i++) {
 		newCell = newRow.insertCell(i + 1);
 		newCell.className = "timetable-header";
-		newCell.innerHTML = dates[i] + "<br/><span class='timetable-header-dates'>" + days[i] + "</span>";
+		if (i == 0) {
+			newCell.innerHTML = dates[i] + "<br/><div class='timetable-header-dates' id='today'>" + days[i] + "</div>";
+		} else {
+			newCell.innerHTML = dates[i] + "<br/><span class='timetable-header-dates'>" + days[i] + "</span>";
+		}
 	}
+
 }
 
 function findCurrentRequestReceived(element) {

@@ -91,7 +91,7 @@ function init_req() {
 function init_rew() {
     var reward_idx = 0;
     firebase.database().ref("userpool/" + id).child('rewardReceived').once('value', function (snapshot) {
-        clearRewardReceived();
+        //clearRewardReceived();
         snapshot.forEach((snap) => {
             var req = snap.val();
             firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
@@ -114,7 +114,7 @@ function init_rew() {
     });
 
     firebase.database().ref("userpool/" + id).child('rewardReceived').on('child_changed', function (snapshot) {
-        clearRewardReceived();
+        //clearRewardReceived();
         snapshot.forEach((snap) => {
             var req = snap.val();
             firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
@@ -135,7 +135,7 @@ function init_rew() {
         });
     });
     firebase.database().ref("userpool/" + id).child('rewardSent').once('value', function (snapshot) {
-        clearRewardReceived();
+        //clearRewardReceived();
         snapshot.forEach((snap) => {
             var req = snap.val();
             firebase.database().ref("userpool/" + req.sender).once("value", function (s) {
@@ -158,7 +158,7 @@ function init_rew() {
 
     firebase.database().ref("userpool/" + id).child('rewardSent').on('child_changed', function (snapshot) {
         console.log("on", snapshot.val());//whole array
-        clearRewardReceived();
+        //clearRewardReceived();
         snapshot.forEach((snap) => {
             console.log("Req01on", snap.key);//one req
             var req = snap.val();
@@ -182,8 +182,7 @@ function init_rew() {
 }
 
 function clearRewardReceived() {
-
-    $('#reward_to_receive').text('');
+	$('#reward_to_receive').css('display', 'block');
 }
 function clearNoReward() {
     $('#empty_reward').css('display', 'none');
@@ -246,6 +245,7 @@ function del_sent_reward(idx) {
 	if (rew_s_cnt == 0) {
 		$("#no_reward_tosend").css("display", "block");
 	}
+
 	$("#reward_count").html(rew_r_cnt + rew_s_cnt);
 }
 
@@ -335,30 +335,39 @@ function draw_one_req(req) {
     req_cnt++;
     $(i).appendTo($(cap));
     $(cap).append("<b> " + req.name + " </b>");
-    $(cap).appendTo($(temp));
+	$(cap).appendTo($(temp));
+	var warning = document.createElement('div');
+	$(warning).attr("class", "time_warning");
+	
+
+	var current_time = 8;
+	console.log("req day::", req.day);
+
+	if (req.day == 'MON') {
+		var start = Number(req.start_time.split(':')[0]);
+		var time_left = start - current_time;
+		$(warning).html( time_left + " hours LEFT !");
+		$(txt).append(warning);
+	}
+	if (req.day == 'TUE') {
+		$(warning).html("[ D-1 ]");
+		$(txt).append(warning);
+	}
+	$(txt).append(" Can you work at" + "<b> " + req.day + " " + req.date + " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
+	$(txt).append(acpt);
+	$(txt).append(del);
+	$(temp).append($(txt));
 
 	if (!req.reward) {
-        $(txt).append("Can you to work at" + "<b> " + req.day +" "+ req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
-        $(txt).append(acpt);
-        $(txt).append(del);
-        $(temp).append($(txt));
         $(temp).appendTo($("#no_reward"));
     } else {
-        $(txt).append(" Can you to work at" + "<b> " + req.day+" "+req.date+ " " + req.start_time + "~" + req.end_time + " </b> ?<br>");
-        //$(txt).append("you can get " + "<b> " + req.reward + " </b>");
-        //$(acpt).html();
-        $(txt).append(acpt);
-        $(txt).append(del);
-        $(temp).append($(txt));
         $(temp).appendTo($("#has_reward"));
-
     }
 	$("#inbox_count").html(req_cnt);
 	$('#no_request').css("display", "none");
 };
 
 function draw_one_rewReceived(req) {
-	console.log("draw", req);
    
     var del = $('<input>', {
         type: "button",
@@ -374,19 +383,23 @@ function draw_one_rewReceived(req) {
         onclick: "noti_reward(" + req.index + ")", //implement to notify alarm
         style: "margin: 3px; font-size:10px",
     });
-    var icon = rewardToBigIconHTML[req.reward];
+	var icon = rewardToBigIconHTML[req.reward];
+
+	
     var temp = document.createElement('div');
     var txt = document.createElement('div');
     $(temp).attr("class", "reward_content_row");
     $(txt).attr("class", "gift_text");
     $(temp).attr("id", "gid_" + req.index);
 
-    rew_r_cnt++;
-    $(txt).append(icon);
-    $(txt).append("Receive " + "<b>" + req.reward + "</b>"+" from "+"<b>" + req.name +" </b>");
+	rew_r_cnt++;
 
-    //$(txt).append(del);
-    //$(txt).append(give);
+	// for user-typed reward
+	if (!(typeof icon === 'undefined')) {
+		$(txt).append(icon);
+	}
+    $(txt).append("Receive " + "<b>" + req.reward + "</b>"+" from "+"<b>" + req.name +" </b>");
+	
     $(temp).append($(txt));
     $(temp).append(del);
     $(temp).appendTo($("#reward_to_receive"));

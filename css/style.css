@@ -121,12 +121,12 @@
 }
 #inbox {
     position: fixed;
-    width: 340px;
+    width: 320px;
     right: 5px;
 }
 #reward {
     position: fixed;
-    width: 300px;
+    width: 330px;
     right: 5px;
 }
 #reward_count {
@@ -227,7 +227,7 @@
 }
 .gift_text {
     font-family: 'Open Sans', sans-serif;
-    width:200px;
+    width:230px;
     display: inline-block;
     margin-top: 1px;
     margin-left:5px;

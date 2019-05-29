@@ -111,20 +111,29 @@ function register() {
 	var wp = $('#workplace').val();
 	var uimg = $("#pre_img").attr('src');
 
-	if (id == null || name == null || pw == null || wp == null || uimg == null) {
+	if (id == null || name == null || pw == null || wp == null ) {
 		alert("You have to fill out all of the forms. Please fill in them all.");
 	};
-
-
-	var newuser = {
+	var newuser;
+	if (typeof uimg === 'undefined') {
+		newuser = {
+			"id": id,
+			"name": name,
+			"pw": pw,
+			"workplace": wp,
+			"nextweek": "null",
+			"wage": wage_history
+		};
+	} else {
+		newuser = {
 			"id": id,
 			"name": name,
 			"pw": pw,
 			"workplace": wp,
 			"img": uimg,
-		 // "thisweek": "null",
-		"nextweek": "null",
+			"nextweek": "null",
 			"wage": wage_history
+		};
 	};
 
 	firebase.database().ref("userpool").child(id).once("value", function (snap) {

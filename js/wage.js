@@ -61,6 +61,13 @@ var weeks = {
 
 }
 */
+function open_helper_ex(id) {
+    $(id).css("display", "block");
+}
+
+function close_helper_ex(id) {
+    $(id).css("display", "none");
+}
 
 var goal;
 var database = firebase.database();
@@ -94,13 +101,15 @@ function findUser() {
 
 var weeks;
 var may_sum;
+var sum;
 
 $(document).ready(function () {
 	findUser();
 	//var user_id = global_params.split('uid=')[1];
     //$("#set-zone").hide();
     //$("#set-zone-1").hide();
-
+    $("#goal-input").val("");
+    
     $("#nav-placeholder").load("nav.html", function () {
         $(".nav-item")[2].classList.add("nav-item-active");
     });
@@ -121,7 +130,7 @@ $(document).ready(function () {
 
 
         var weeks = snapshot.val()['weeks'];
-        var sum = 0;
+        sum = 0;
             var i;
             for(i = 0; i<5; i++){
                 var total = 0;
@@ -150,33 +159,41 @@ $(document).ready(function () {
 
 	});
 
-	$(document).on("click", "#change-button", function () {
-		$("#set-zone").show();
-		$("#set-zone-1").show();
-		$("#goal-zone").hide();
-	});
+$(document).on("click", "#change-button", function () {
+    $("#set-zone").show();
+    $("#set-zone-1").show();
+    $("#goal-zone").hide();
+});
 
 	$(document).on("click", "#set-button", function () {
 		$("#set-zone").hide();
 		$("#set-zone-1").hide();
 		$("#goal-zone").show();
 
-		goal = document.getElementById("goal-input").value;
+
+        goal = document.getElementById("goal-input").value;
 
 		if (goal != "") {
-			database.ref('userpool/' + user_id + '/wage/may/goal').set(goal);
-			$("#goal-input").val("");
+		    if(parseInt(goal) < 100){
+		        $("#goal-input").val("");
+		    }
+		    else{
+                database.ref('userpool/' + user_id + '/wage/may/goal').set(goal);
+                $("#goal-input").val("");
+			}
+			$("#expect_wage_helper").css("display", "none");
+
 		}
 
 		if (parseInt(goal) > 400) {
 			$("#error").html("The goal seems too high");
-			setTimeout(function () { $("#error").html(""); }, 5000);
+			setTimeout(function () { $("#error").html(""); }, 3000);
 		}
 
 		else {
 			$("#error").html("");
 		}
-		
+
 		database.ref('userpool/' + user_id + '/wage/may/').once('value').then(function (snapshot) {
 			may_sum = snapshot.val()['sum'];
 			goal = snapshot.val()['goal'];
@@ -187,7 +204,10 @@ $(document).ready(function () {
 		});
 
 
+
+
 	});
+
         /*
     var may_sum = 0;
     var i;

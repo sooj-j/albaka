@@ -414,7 +414,7 @@ function readFromDatabase(){
                   timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time;
                 }
                 else{
-                  timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +" "+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
+                  timeTable.rows[row].cells[day].innerHTML = s_time + " ~ "+ e_time +"&nbsp;&nbsp;"+'<i class="fas fa-times" float:"right" onclick="deleteBlock(this)"></i>';
                 }
 
                 if (t_time > 0.5 ) {timeTable.rows[row+1].cells[day].innerHTML = Number(t_time)+"H"+" ";}

@@ -380,7 +380,7 @@
 }
 /* view page */
 .container-view {
-    padding-top: 91px;
+    padding-top: 98px;
 }
 
 
@@ -399,7 +399,7 @@
 
 .table td {
     border-top: none;
-    font-size: 11px;
+    font-size: 13px;
     padding: 5px;
     color:white;
 }
@@ -414,7 +414,7 @@
 }
 
 .timetable-header-dates {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     color:black;
 }

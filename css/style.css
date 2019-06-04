@@ -67,13 +67,18 @@
     font-size: 13px !important;
     cursor: pointer;
 }
-	.nav-link: hover{
+
+.nav-link: hover{
 		font-weight: bold;
 	}
 
 .nav-item-active {
+  /* padding: 0px; */
     font-weight: bold;
     color: var(--darker-grey-4);
+    /* text-decoration: underline; */
+    /* text-underline-position: 10px; */
+    /* border-bottom: 0.1px solid var(--darker-grey-4); */
     /* text-decoration: underline; */
 }
 

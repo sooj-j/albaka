@@ -18,7 +18,12 @@ $(document).ready(function () {
         goal = snapshot.val()['goal'];
         may_sum = snapshot.val()['sum'];
         //remain = parsedInt((goal - may_sum)*7/19);
-        remain = ((goal - may_sum)*7/19).toFixed(0);//
+			remain = ((goal - may_sum) * 7 / 19).toFixed(0);//
+			if (remain < 0) {
+				$("#progress_hidden").css("display", "none");
+			}else {
+				$("#progress_hidden").css("display", "block");
+			}
         console.log("remain = goal - may_sum, ",remain," = ",goal," - ",may_sum);
     });
 
@@ -134,9 +139,15 @@ function progress_change() {
       }
       });
       */
-
-      division.innerHTML = "$"+sum*10 + " / $"+remain;
-      division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+			if (remain < 0) {
+				division.innerHTML = '<span style="font-size: 10px;">SET THE GOAL ^0^</span>';
+				division.title = "Total time: " + sum + " H \nTotal wage: $" + sum * 10 + "\nGoal wage: NO GOAL";
+			} else {
+				division.innerHTML = "$" + sum * 10 + " / $" + remain;
+				division.title = "Total time: " + sum + " H \nTotal wage: $" + sum * 10 + "\nGoal wage: $" + remain;
+			};
+      
+      
 
       var percentage = ((sum*10)/remain *100);
       if (percentage < 100){

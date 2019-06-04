@@ -135,12 +135,14 @@ function progress_change() {
       });
       */
 			if (remain < 0) {
-				division.innerHTML = "THE GOAL ISN'T SET"
+				division.innerHTML = '<span style="font-size: 10px;">SET THE GOAL ^0^</span>';
+				division.title = "Total time: " + sum + " H \nTotal wage: $" + sum * 10 + "\nGoal wage: NO GOAL";
 			} else {
 				division.innerHTML = "$" + sum * 10 + " / $" + remain;
-			}
+				division.title = "Total time: " + sum + " H \nTotal wage: $" + sum * 10 + "\nGoal wage: $" + remain;
+			};
       
-      division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
+      
 
       var percentage = ((sum*10)/remain *100);
       if (percentage < 100){

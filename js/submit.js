@@ -134,8 +134,12 @@ function progress_change() {
       }
       });
       */
-
-      division.innerHTML = "$"+sum*10 + " / $"+remain;
+			if (remain < 0) {
+				division.innerHTML = "THE GOAL ISN'T SET"
+			} else {
+				division.innerHTML = "$" + sum * 10 + " / $" + remain;
+			}
+      
       division.title = "Total time: "+sum+" H \nTotal wage: $"+sum*10+"\nGoal wage: $"+remain;
 
       var percentage = ((sum*10)/remain *100);

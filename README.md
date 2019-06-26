@@ -1,11 +1,14 @@
-﻿# albaka
+> 2019Spring CS374: Intro to HCI
+# Albaka
 
-> CS374: Intro to HCI
-> Dayeon Kim, Sujin Jang, Heeju Wi, Hyunjoo Paik
+**Albaka** is a weekly scheduling system for part-timers
 
-albaka is a weekly scheduling system for part-timers
+**Video URL**: https://youtu.be/GjgfWao66Ys
 
-### directory layout and simple descriptions
+**Members**: Dayeon Kim, Sujin Jang, Heeju Wi, Hyunjoo Paik
+
+
+### Directory layout and simple descriptions
 
         js
         │

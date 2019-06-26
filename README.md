@@ -3,9 +3,12 @@
 
 **Albaka** is a weekly scheduling system for part-timers
 
+**Members**: Dayeon Kim, Sujin Jang, Heeju Wi, Hyunjoo Paik
+
 **Video URL**: https://youtu.be/GjgfWao66Ys
 
-**Members**: Dayeon Kim, Sujin Jang, Heeju Wi, Hyunjoo Paik
+**Course Website**: https://www.kixlab.org/courses/cs374-spring-2019/gallery.html
+
 
 
 ### Directory layout and simple descriptions
